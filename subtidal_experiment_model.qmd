@@ -1,5 +1,5 @@
 ---
-title: "subtidal_experiment_model"
+title: "subtidal experiment"
 format: html
 editor: visual
 ---
@@ -19,11 +19,9 @@ setwd("\~/Box/Sarah and Molly's Box/FHL data/Lisa data")
 ```{r}
 #| error: false
 growth <- read.csv(here::here("data/subtidal_data/Lisa_growth.csv"), stringsAsFactors = FALSE)
-growth
 
-plot(growth$Init_operc, growth$Final_operc-growth$Init_operc, xlim = c(0,2), ylim = c(0,2.5))
+#plot(growth$Init_operc, growth$Final_operc-growth$Init_operc, xlim = c(0,2), ylim = c(0,2.5))
 
-growth$Final_date
 Timepoint_1 <- as.POSIXct( "7/19/11", format="%m/%d/%y", tz = "GMT")
 Timepoint_2 <- as.POSIXct( "8/25/11", format="%m/%d/%y", tz = "GMT")
 
@@ -174,6 +172,9 @@ IJ <- 1
 Read in chl data
 
 ```{r}
+library(lubridate)
+library(dplyr)
+library(tidyr)
 PB <- read.csv(here::here("data/environmental_data/PDBGSWQ_dataonly.csv"), stringsAsFactors = FALSE)
 
 PB$datetime <-as.POSIXct(PB$m.d.y.hh.mm, format = "%m/%d/%y %H:%M")
@@ -184,16 +185,15 @@ PB$datetime <-as.POSIXct(PB$m.d.y.hh.mm, format = "%m/%d/%y %H:%M")
 PB_subset <- PB[PB$datetime > as.Date("2017-01-01") & PB$datetime < as.Date("2020-01-01"),]
 PB <- PB_subset
 
-plot(PB$datetime, PB$ug.l, pch = ".")
-# plot(PB$datetime, PB$psu, pch = ".")
+#plot(PB$datetime, PB$ug.l, pch = ".")
 
 vars <-"m.d.y.hh.mm"
 dat <- PB %>% 
   drop_na(ug.l, any_of(vars))%>%
   dplyr::group_by(time = week(datetime)) %>% 
   dplyr::summarise(value = mean(ug.l, na.rm = TRUE), .groups = 'keep')
-dat
-plot(dat, type = 'b', ylab = "fluorescence (ug/L)", xlab = "week")
+#dat
+#plot(dat, type = 'b', ylab = "fluorescence (ug/L)", xlab = "week")
 ```
 
 The week this subtidal experiment performed in was Wk 30 - 35,
@@ -204,8 +204,8 @@ We used a 2 week lag between food availability and growth, so we took the averag
 
 ```{r}
 # Just averaging of this full timeperiod, including a 2 week lag.
-plot(dat[28:35,], ylim = c(0,10))
-abline(h = mean(dat$value[28:33]))
+#plot(dat[28:35,], ylim = c(0,10))
+#abline(h = mean(dat$value[28:33]))
 
 # Food value ####
 (FoodLevel_ug_L <- mean(dat$value[28:33]))
