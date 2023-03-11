@@ -15,7 +15,7 @@ book:
   chapters: 
     - index.qmd
     - model_setup.qmd
-    #- part: subtidal_experiment_model.qmd
+    - subtidal_experiment_model.qmd
     #  chapters: 
     #    - subtidal_environmental_data.qmd
     #    - subtidal_growth_data.qmd

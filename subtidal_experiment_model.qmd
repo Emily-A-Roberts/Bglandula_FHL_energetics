@@ -1,0 +1,230 @@
+---
+title: "subtidal_experiment_model"
+format: html
+editor: visual
+---
+
+# Original file
+
+/Users/mollylime/Library/CloudStorage/Box-Box/Sarah and Molly's Box/FHL data/code_archive/All_togetherOperculum growth data/Model_LisaData_20201202_FR_changes_exp_1.88.R
+
+The last edit was from 12/11/2020
+
+### Read in growth data
+
+Original location:
+
+setwd("\~/Box/Sarah and Molly's Box/FHL data/Lisa data")
+
+```{r}
+#| error: false
+growth <- read.csv(here::here("data/subtidal_data/Lisa_growth.csv"), stringsAsFactors = FALSE)
+growth
+
+plot(growth$Init_operc, growth$Final_operc-growth$Init_operc, xlim = c(0,2), ylim = c(0,2.5))
+
+growth$Final_date
+Timepoint_1 <- as.POSIXct( "7/19/11", format="%m/%d/%y", tz = "GMT")
+Timepoint_2 <- as.POSIXct( "8/25/11", format="%m/%d/%y", tz = "GMT")
+
+growth$len_1 <- growth$Init_operc
+growth$len_2 <- growth$Final_operc
+```
+
+This file also includes the tissue mass, but this isn't used in this model. This is a size-based model.
+
+```{r}
+#| echo: false
+#| include: false
+#| error: false
+# growth$AFDWg <- (growth$Final_gon_mass+growth$Final_som_mass)
+# #plot(growth$Final_operc, growth$AFDWg)
+# growth$AFDWmg <- 1000*growth$AFDWg
+# # mm to g, same as in Gilman et al., 2013
+# # But here we expect the conversion coefficient
+
+# nlm1 <- nls(AFDWmg ~ c*Final_operc^(2.8322), data = growth, start = c(c = .2)) #Note that this exponent is in relation to g not mg. 
+# (s1 <- summary(nlm1))
+# s1$coefficients[[1]]
+
+# growth$DW_1 <- s1$coefficients[[1]]*growth$len_1^(2.8322) #mm to mg
+# growth$DW_2 <- growth$AFDWg*1000 #mg
+# 
+# growth$growthDW_1 <- growth$DW_2 - growth$DW_1
+
+# Plots from this
+# plot(growth$growthDW_1 ~ growth$len_1)
+# abline(lm(growth$growthDW_1 ~ growth$len_1), col = "black")
+# 
+# plot(growth$growthDW_1 ~ growth$Temp)
+# abline(lm(growth$growthDW_1 ~ growth$Temp), col = "black")
+```
+
+### Read in food data
+
+No chlorophyll in 2011 dataset.
+
+We are using a 3-year average to estimate approximate chlorophyll at the time that this growth study was performed.
+
+There is POM data, but we don't have POM data for the full intertidal experiment to compare it to. We tried a few methods. I'm including the commented out code below.
+
+```{r}
+#| echo: false
+
+# Here is the old way that we did this. 
+
+# 1. 
+# setwd("~/Box/Sarah and Molly's Box/FHL data/Lisa data")
+# POM <- read.csv("Lisa_POM.csv", stringsAsFactors = FALSE)
+# 
+# setwd("~/Box/Sarah and Molly's Box/FHL data/Lisa data/2011_PadillaBay")
+# Padilla <- read.csv("PDBGSWQ_forR.csv", stringsAsFactors = FALSE)
+# 
+# str(Padilla)
+# 
+# plot(POM$POM_g_p_L)
+# plot(Padilla.day$Turb)
+# 
+# Padilla$datetime <- as.POSIXct(Padilla$DateTimeStamp, format="%m/%d/%y %H:%M", tz = "America/Los_Angeles")
+# POM$datetime <- as.POSIXct( POM$Date, format="%m/%d/%y", tz = "GMT")
+# 
+# 
+# # even older way of doing this
+# 
+# Padilla$agg <- as.Date(Padilla$datetime)
+# Padilla.day <- aggregate(Turb ~ datetime,data = Padilla, mean, na.rm = TRUE)
+# Padilla.day <- aggregate(Turb ~ datetime,data = Padilla, mean, na.rm = TRUE)
+# 
+# plot(Padilla.day$Turb ~ Padilla.day$datetime)
+# str(Padilla.day)
+# str(POM)
+# 
+# Padilla.day$datetime <- as.Date(Padilla.day$datetime)
+# POM$datetime <- as.Date(POM$datetime)
+# 
+# library(plyr)
+# food_comb <- join(POM, Padilla.day, by = "datetime")
+# 
+# plot(food_comb$POM_g_p_L, food_comb$Turb)
+
+
+
+# 2. 
+# ===========================#
+# alternative way of looking at POM and turbidity - on a weekly basis
+# ===========================#
+# POM$wk <- week(POM$datetime)
+# Padilla$wk <- week(Padilla$datetime)
+# 
+# 
+# POM.wk <- aggregate(POM_g_p_L ~ wk,data = POM, mean, na.rm = TRUE)
+# Padilla$l.Turb <- log(Padilla$Turb+1) #Turbidity is logged
+# 
+# Padilla.wk1 <- aggregate(l.Turb ~ wk,data = Padilla, mean, na.rm = TRUE)
+# Padilla.wk1 <- aggregate(l.Turb ~ wk,data = Padilla, mean, na.rm = TRUE)
+# Padilla.wk2 <- aggregate(Temp ~ wk,data = Padilla, mean, na.rm = TRUE)
+# 
+# Padilla.wk <- join(Padilla.wk1, Padilla.wk2, by = "wk")
+
+
+# ===========================#
+# Import relationship between Padilla Bay POM and FHL POM
+# ===========================#
+# setwd("~/Box/Sarah and Molly's Box/FHL data/SONDE data")
+# Turb.Pad.FHL <- read.csv("Turb.model.input.csv", stringsAsFactors = FALSE)
+# str(Turb.Pad.FHL)
+# log(PB$Turb+1)
+# full.model <- lm(Turb.FHL ~ Temp.PB + Turb.PB + Sal.PB , data = Turb.Pad.FHL)
+# # Padilla bay chlorophyll doesn't seem to be available in the earlier timeperiod. 
+# # Stepwise regression model
+# step.model <- stepAIC(full.model, direction = "both", 
+#                       trace = FALSE)
+# summary(step.model)
+# data.frame(Padilla.wk$Turb)
+# Padilla.wk$Temp.PB <- Padilla.wk$Temp
+# Padilla.wk$Turb.PB <- Padilla.wk$l.Turb
+# Padilla.wk$prediction <- predict(step.model, new = Padilla.wk)
+# 
+# 
+# #Padilla.wk <- aggregate(l.Turb  ~ wk,data = Padilla, mean, na.rm = TRUE) #Average the log
+# food_comb <- join(POM.wk, Padilla.wk, by = "wk")
+# 
+# str(food_comb)
+# 
+# #plot(food_comb$POM_g_p_L, food_comb$Turb)
+# plot(food_comb$POM_g_p_L, food_comb$prediction) #Logged turbidity before averaging. Not much of a difference. 
+# m2 <- lm(food_comb$POM_g_p_L ~ food_comb$prediction)
+# abline(lm(food_comb$POM_g_p_L ~ food_comb$prediction))
+# 
+# food_comb_trunc <- food_comb[food_comb$wk>=29 & food_comb$wk<=34,]
+# plot(log(food_comb_trunc$POM_g_p_L+1), food_comb_trunc$prediction) #Logged turbidity before averaging. Not much of a difference. 
+# abline(food_comb_trunc$prediction~log(food_comb_trunc$POM_g_p_L))
+# mod1 <- lm(food_comb_trunc$prediction~log(food_comb_trunc$POM_g_p_L))
+# summary(mod1)
+
+```
+
+Set parameters
+
+```{r}
+FH <- 1
+IJ <- 1
+```
+
+Read in chl data
+
+```{r}
+PB <- read.csv(here::here("data/environmental_data/PDBGSWQ_dataonly.csv"), stringsAsFactors = FALSE)
+
+PB$datetime <-as.POSIXct(PB$m.d.y.hh.mm, format = "%m/%d/%y %H:%M")
+
+#subset to only include the past 3 years...
+
+# plot(PB$datetime, PB$ug.l, pch = ".")
+PB_subset <- PB[PB$datetime > as.Date("2017-01-01") & PB$datetime < as.Date("2020-01-01"),]
+PB <- PB_subset
+
+plot(PB$datetime, PB$ug.l, pch = ".")
+# plot(PB$datetime, PB$psu, pch = ".")
+
+vars <-"m.d.y.hh.mm"
+dat <- PB %>% 
+  drop_na(ug.l, any_of(vars))%>%
+  dplyr::group_by(time = week(datetime)) %>% 
+  dplyr::summarise(value = mean(ug.l, na.rm = TRUE), .groups = 'keep')
+dat
+plot(dat, type = 'b', ylab = "fluorescence (ug/L)", xlab = "week")
+```
+
+The week this subtidal experiment performed in was Wk 30 - 35,
+
+Note: \~5ug/L (would be considered above saturating for mussels), and the mean is 6.9.
+
+We used a 2 week lag between food availability and growth, so we took the average of weeks 28 to 33. (Weeks 28-35 are plotted below).
+
+```{r}
+# Just averaging of this full timeperiod, including a 2 week lag.
+plot(dat[28:35,], ylim = c(0,10))
+abline(h = mean(dat$value[28:33]))
+
+# Food value ####
+(FoodLevel_ug_L <- mean(dat$value[28:33]))
+```
+
+### Temperature
+
+Create a dataframe for predictions
+
+```{r}
+temp.num <- length(growth$Temp)
+pred.dat.aqua <- data.frame(
+  Temp.n = growth$Temp,
+  Food.n = FoodLevel_ug_L,
+  OperculumLength = growth$len_1,
+  sizeclass = as.factor(rep(c("all"),each = temp.num))
+)
+```
+
+Model Run
+
+There are more code in the original file, but it says elsewhere that this is outdated code and the model setup code to be used is from the model_setup file.
