@@ -1,5 +1,42 @@
 project:
+  type: book
+  output-dir: _Bglandula_FHL_energetics
+  
+book: 
   title: "Bglandula_FHL_energetics"
+  
+  page-footer: 
+    right: |
+      Built with <a href="https://quarto.org/">Quarto</a>
+      
+      
+  repo-url: https://github.com/Emily-A-Roberts/Bglandula_FHL_energetics
+  repo-branch: main
+  chapters: 
+    - index.qmd
+    - model_setup.qmd
+    #- part: subtidal_experiment_model.qmd
+    #  chapters: 
+    #    - subtidal_environmental_data.qmd
+    #    - subtidal_growth_data.qmd
+    #    - subtidal_model_optimization.qmd
+    #- part: intertidal_experiment_model.qmd
+    #  chapters: 
+    #    - intertidal_environmental_data.qmd
+     #   - intertidal_growth_data.qmd
+     #   - intertidal_model_optimization.qmd
+   # - additional_figures.qmd
+   # - sensitivity_analysis.qmd
+   # - climate_change_predictions.qmd
+    
+format:
+  html: 
+    theme: 
+      - cosmo
+    
+editor: visual
+    
+    
 
 
 

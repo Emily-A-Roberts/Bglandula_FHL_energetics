@@ -1,14 +1,8 @@
 ---
-title: "FHL_Bglandula_model_setup"
+title: "model setup"
 format: html
 editor: visual
 ---
-
-## Quarto information
-
-Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see <https://quarto.org>.
-
-When you click the **Render** button a document will be generated that includes both content and the output of embedded code.
 
 ## Aim: Read in environmental data and physiology functions
 
@@ -26,7 +20,7 @@ This model uses lengths rather than tissue mass samples. Go back to previous mod
 
 # Datasets used are within the following directories:
 
-If the file is opened within the .Rproj file, then the function here::here() will find the correct data file regardless of where this is being run. An alternative option is to set the root drive using knitr, but this does not need to be done if running the scripts within the Bglandula_FHL_energetics.Rproj project.
+If the file is opened within the .Rproj file, then the function here::here() will find the correct data file regardless of where this is being run. An alternative option is to set the root drive using knitr, but I'm having trouble doing this with quarto. Quarto seems to require that all the .qmd files live within the root directory.
 
 ```{r}
 #| include: false
@@ -36,8 +30,8 @@ If the file is opened within the .Rproj file, then the function here::here() wil
 
 #knitr::opts_knit$set(root.dir = '~/Library/CloudStorage/Box-Box/') #specifies the box drive
 
-knitr::opts_knit$set(root.dir = '~/Documents/GitHub/Bglandula_FHL_energetics')
-setwd(gsub(pattern = '/code/set_up_workspace', replacement = '', x = getwd()))
+#knitr::opts_knit$set(root.dir = '~/Documents/GitHub/Bglandula_FHL_energetics')
+#setwd(gsub(pattern = '/code/set_up_workspace', replacement = '', x = getwd()))
 
 
 

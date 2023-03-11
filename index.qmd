@@ -1,0 +1,15 @@
+---
+title: "index"
+format: html
+editor: visual
+---
+
+## Welcome
+
+This is the intertidal barnacle energetics project built for the Friday Harbor Laboratories field experiments.
+
+## Quarto information
+
+This project uses quarto. Quarto is similar to Rmarkdown and enables you to weave together content and executable code into a finished document. To learn more about Quarto see <https://quarto.org>.
+
+When you click the **Render** button a document will be generated that includes both content and the output of embedded code.
