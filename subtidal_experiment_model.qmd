@@ -20,7 +20,7 @@ setwd("\~/Box/Sarah and Molly's Box/FHL data/Lisa data")
 #| error: false
 growth <- read.csv(here::here("data/subtidal_data/Lisa_growth.csv"), stringsAsFactors = FALSE)
 
-#plot(growth$Init_operc, growth$Final_operc-growth$Init_operc, xlim = c(0,2), ylim = c(0,2.5))
+plot(growth$Init_operc, growth$Final_operc-growth$Init_operc, xlim = c(0,2), ylim = c(0,2.5))
 
 Timepoint_1 <- as.POSIXct( "7/19/11", format="%m/%d/%y", tz = "GMT")
 Timepoint_2 <- as.POSIXct( "8/25/11", format="%m/%d/%y", tz = "GMT")
@@ -193,7 +193,7 @@ dat <- PB %>%
   dplyr::group_by(time = week(datetime)) %>% 
   dplyr::summarise(value = mean(ug.l, na.rm = TRUE), .groups = 'keep')
 #dat
-#plot(dat, type = 'b', ylab = "fluorescence (ug/L)", xlab = "week")
+plot(dat, type = 'b', ylab = "fluorescence (ug/L)", xlab = "week")
 ```
 
 The week this subtidal experiment performed in was Wk 30 - 35,
@@ -204,8 +204,8 @@ We used a 2 week lag between food availability and growth, so we took the averag
 
 ```{r}
 # Just averaging of this full timeperiod, including a 2 week lag.
-#plot(dat[28:35,], ylim = c(0,10))
-#abline(h = mean(dat$value[28:33]))
+plot(dat[28:35,], ylim = c(0,10))
+abline(h = mean(dat$value[28:33]))
 
 # Food value ####
 (FoodLevel_ug_L <- mean(dat$value[28:33]))
