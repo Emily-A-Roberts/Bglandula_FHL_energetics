@@ -1,17 +1,24 @@
 [
   {
+    "objectID": "index.html#welcome",
+    "href": "index.html#welcome",
+    "title": "Bglandula_FHL_energetics",
+    "section": "0.1 Welcome",
+    "text": "0.1 Welcome\nThis is the intertidal barnacle energetics project built for the Friday Harbor Laboratories field experiments."
+  },
+  {
+    "objectID": "index.html#quarto-information",
+    "href": "index.html#quarto-information",
+    "title": "Bglandula_FHL_energetics",
+    "section": "0.2 Quarto information",
+    "text": "0.2 Quarto information\nThis project uses quarto. Quarto is similar to Rmarkdown and enables you to weave together content and executable code into a finished document. To learn more about Quarto see https://quarto.org.\nWhen you click the Render button a document will be generated that includes both content and the output of embedded code."
+  },
+  {
     "objectID": "model_setup.html",
     "href": "model_setup.html",
     "title": "2  model setup",
     "section": "",
     "text": "3 File information\n~/Library/CloudStorage/Box-Box/Sarah and Molly’s Box/FHL data/code/set_up_workspace/Model_20210409_iter_small_barnacles_food.2.R\nThis is now set up to work with the desktop computer (different working directory) -1/20/21\nThis sets up all of the data and functions for the model predictions\nThis model is calibrated with Lisa’s data, and includes padilla bay chlorophyll seasonal data. To go back to Lisa’s dataset and check the calibration, please use this model setup.\nThis model uses lengths rather than tissue mass samples. Go back to previous models, e.g. Model_202006.._iter… for tissue mass\nIf the file is opened within the .Rproj file, then the function here::here() will find the correct data file regardless of where this is being run. An alternative option is to set the root drive using knitr, but I’m having trouble doing this with quarto. Quarto seems to require that all the .qmd files live within the root directory.\nClear the global environment\nLoad libraries and set graphics theme:\nToggle the period of interest (which 6 month period - the first or second?)\nToggle the subset of barnacles used (specify only small baracles will be used for calculations)\nToggle plots on and off (turning plotting off will speed up the code)\nMore toggles\nSet up dataframes to be used in plotting functional responses\nSet up climate change calculator\nPrevious directories included: setwd(“C:/Users/eroberts/Box/PhotoAnalysis_Sp2020/datasheets_org/20201007_data”) setwd(“~/Box/PhotoAnalysis_Sp2020/datasheets_org/20201007_data”) setwd(“~/Box/PhotoAnalysis_Sp2020/FHL/datasheets_org/20201007_data”)\nand setwd(“~/Box/Sarah and Molly’s Box/FHL data/growth_individual/ForSam_20201007”)\nand setwd(“~/Library/CloudStorage/Box-Box/PhotoAnalysis_Sp2020/FHL/datasheets_org/20201007_data/probably final data set”)\nMore growth plots and table\nThis information is not used in this model. It was used for the previous analysis of the larger barnacles.\nLarger barnacles did not change in opercular length much, but their tissue mass and condition index varied. We were not able to quantify reproductive ouput, and reproductive timing confounded tissue gain and loss of larger barnacles. Given this issue, we chose to focus on the growth rates of small barnacles.\nVisually, this looks like: High – 1.97 m = 6.46 ft Mid – 1.55 m = 5.08 ft Low – 1.20 m = 3.93 ft Bars denote plus or minus 0.05 m (= 0.16 ft)\nIn email January 8, 2020, Gordon got: High = 1.98m Mid = 1.58m Low = 1.18m\nFrom diagrams I know that the whole setup is about 3.5 ft from bottom to top, with 1 ft in between each layer of tiles. More like 2.5 bc not at edge\nData found in:\n#setwd(“~/Box/Sarah and Molly’s Box/FHL data/SONDE data/Padilla Bay/909184_all_data_2003topresent”)\nsetwd(“C:/Users/eroberts/Box/Sarah and Molly’s Box/FHL data/SONDE data/Padilla Bay/909184_all_data_2003topresent”)\nsetwd(“~/Library/CloudStorage/Box-Box/Sarah and Molly’s Box/FHL data/SONDE data/Padilla Bay/909184_all_data_2003topresent/”)\nRead in data\nPlots of chlorophyll\nRead in feeding, respiration relationships\nFeeding ~ Temp, Aquatic Respiration ~ Temp, Aerial Respiration ~ Temp Feeding shrimp per min ~ Temp C, Upslope to 20 degrees\nUse a subset of the data, up to 20 degrees to interpolate feeding rate upslope,\nWu and Levings equation with random component, assuming allometric scaling factor"
-  },
-  {
-    "objectID": "model_setup.html#quarto-information",
-    "href": "model_setup.html#quarto-information",
-    "title": "2  model_setup",
-    "section": "2.1 Quarto information",
-    "text": "2.1 Quarto information\nQuarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see https://quarto.org.\nWhen you click the Render button a document will be generated that includes both content and the output of embedded code."
   },
   {
     "objectID": "model_setup.html#aim-read-in-environmental-data-and-physiology-functions",
@@ -47,20 +54,6 @@
     "title": "2  model setup",
     "section": "10.4 ",
     "text": "10.4"
-  },
-  {
-    "objectID": "index.html#welcome",
-    "href": "index.html#welcome",
-    "title": "Bglandula_FHL_energetics",
-    "section": "0.1 Welcome",
-    "text": "0.1 Welcome\nThis is the intertidal barnacle energetics project built for the Friday Harbor Laboratories field experiments."
-  },
-  {
-    "objectID": "index.html#quarto-information",
-    "href": "index.html#quarto-information",
-    "title": "Bglandula_FHL_energetics",
-    "section": "0.2 Quarto information",
-    "text": "0.2 Quarto information\nThis project uses quarto. Quarto is similar to Rmarkdown and enables you to weave together content and executable code into a finished document. To learn more about Quarto see https://quarto.org.\nWhen you click the Render button a document will be generated that includes both content and the output of embedded code."
   },
   {
     "objectID": "subtidal_experiment_model.html",
