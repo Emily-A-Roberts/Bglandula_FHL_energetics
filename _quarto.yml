@@ -35,7 +35,10 @@ format:
       - cosmo
     
 editor: visual
-    
+
+
+execute:
+  freeze: auto    
     
 
 
