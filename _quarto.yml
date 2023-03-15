@@ -1,6 +1,6 @@
 project:
   type: book
-  output-dir: _Bglandula_FHL_energetics
+  output-dir: _docs
   
 book: 
   title: "Bglandula_FHL_energetics"
