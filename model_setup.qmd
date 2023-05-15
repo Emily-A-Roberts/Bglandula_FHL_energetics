@@ -249,8 +249,9 @@ More growth plots and table
 ```{r}
 par(mfrow = c(1,2))
 
-plot(as.factor(growth.2$Elevation), growth.2$growth.Mar.Aug, ylim = c(-.08, 0.25), ylab = "Growth (mm)", xlab = "Elevation")
 plot(as.factor(growth.1$Elevation), growth.1$growth.Aug.Feb, ylim = c(-.08, 0.25), ylab = "", xlab = "Elevation")
+plot(as.factor(growth.2$Elevation), growth.2$growth.Mar.Aug, ylim = c(-.08, 0.25), ylab = "Growth (mm)", xlab = "Elevation")
+
 
 
 
@@ -259,6 +260,7 @@ par(mfrow = c(1,2))
 # summary(lm(growth.1$growth.Aug.Feb~as.factor(growth.1$Elevation)+as.numeric(growth.1$Feb.Length)))
 
 # Time 1
+mean(growth.1$Feb.Length)
 mod1 <- lm(growth.Aug.Feb~Elevation*Feb.Length, data = growth.1)
 kbl(coef(summary(mod1)))%>%
   kable_classic_2(full_width = F)
@@ -277,6 +279,7 @@ arrows(x0=mid, y0=dat1.emm.df$lower.CL, x1=mid,
        length=0.1)
 (0.08126638 - 0.05801888) / 0.05801888
 
+mean(growth.2$Aug.Length)
 # Time 2
 mod1 <- lm(data = growth.2, growth.Mar.Aug~Elevation*Aug.Length)
 kbl(coef(summary(mod1)))%>%

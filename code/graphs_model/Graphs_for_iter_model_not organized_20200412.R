@@ -409,19 +409,29 @@ plot(new_intake$date, time.submerged$Mid[2:189],type = "l", ylim = c(0,1), yaxs 
 plot(new_intake$date, time.submerged$Upper[2:189],type = "l", ylim = c(0,1), yaxs = "i",
      col = "black", xlab = "", ylab = "Physiological rate (J / day)", bty = "n")
 
-
+library(tidyr)
+library(ggplot2)
 data_long <- gather(time.submerged[2:190,], condition, proportion, Upper:Low, factor_key=TRUE)
 
-ggplot(data = data_long, aes(x=condition, y=proportion, fill = condition)) + 
+time.submerged[time.submerged$Upper==0,] #Note on the 41st day, there is 0 time submerged in the upper elevation
+
+data_long$condition = factor(data_long$condition, levels = c("Low","Mid","Upper"))
+
+pdf(file = "Time emerged.pdf", width=6, height=5)
+ggplot(data = data_long, aes(x=condition, y=100-proportion*100, fill = condition)) + 
   geom_violin(trim = TRUE, width = 1,  position = position_dodge(0.8))+
-  scale_fill_manual(values=c("grey", "purple", "orange"))  + 
-  theme_classic()
-+ 
-  geom_boxplot(width = 0.1, position = position_dodge(0.8)) +
+  scale_fill_manual(values=c("grey", "grey","grey"))  + 
+  theme_classic()+
+  stat_summary(fun = "mean",
+                              geom = "point",
+                              color = "black")+
+  ylab(label = "Time per day exposed to low tide conditions (%)")+
+  ylim(0,100)
   #   stat_summary(fun = means,
   #mult=1, 
   # geom="pointrange", 
   #   position_dodge(0.8))
+dev.off()
 
 head(data_long)
 
