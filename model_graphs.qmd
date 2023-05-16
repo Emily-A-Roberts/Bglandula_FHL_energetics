@@ -9,6 +9,29 @@ editor: visual
 ```{r}
 #| include: false
 #| warnings: false
+
+
+library(rmarkdown)
+library(quarto)
+library(stats)
+library(bbmle)
+library(OneR)
+library(lme4)
+library(ggplot2)
+library(minpack.lm)
+library(effects)
+library(nlme)
+library(viridis)
+library(emmeans)
+library(lubridate)
+library(dplyr)
+library(tidyr)
+library(zoo)
+library(gridExtra)
+library(ggpubr)
+library(kableExtra)
+
+
 library(reshape2)
 library(dplyr)
 library(lubridate)
@@ -552,36 +575,59 @@ head(new_intake)
 dim(new_intake)
 ```
 
-Plot physiological rates
+Plot physiological rates over time
+
+Set axes
+
+```{r}
+  df_round<-new_intake %>% 
+    mutate(modified_df = round_date(date, unit="month"))
+  df_round <- df_round$modified_df
+  
+
+```
 
 ```{r}
 #| label: Physio-timeseries
 #| fig-width: 6.5
 #| fig-height: 1.5
+
+ n_len <- length(new_intake$Low)
+
 if(timing == 1){
   #pdf("daily_physiological_rates_int1.pdf", width=6.5, height=1.5)
   par(mfrow = c(1,3))
   par(mar = c(1,1,1,1)+.1)
   par(oma = c(1,4,1,1))
   
-  plot(new_intake$date, new_intake$Low, type = "l", ylim = c(0,4.5),yaxs = "i",
+
+  
+  
+  
+  plot(new_intake$date[1:n_len-1], new_intake$Low[1:n_len-1], type = "l", ylim = c(0,4.5),yaxs = "i", xaxt="n",
        col = "darkslategray", xlab = "", ylab = "Physiological rate (J / day)", bty = "n", lty = 1)
-  points(new_intake$date, new_aq_cost$Low, type = "l", col = "blue", lty = 1)
-  points(new_intake$date, new_expose$Low, type = "l", col = "darkorchid4", lty = 1, lwd = 1.5)
+  points(new_intake$date[1:n_len-1], new_aq_cost$Low[1:n_len-1], type = "l", col = "blue", lty = 1)
+  points(new_intake$date[1:n_len-1], new_expose$Low[1:n_len-1], type = "l", col = "darkorchid4", lty = 1, lwd = 1.5)
+   axis.Date(1, at=seq(min(df_round), max(df_round), by="2 mon"), format="%b")
+
   
   legend(x = "topleft",
          legend = c("Intake", "Aquatic cost", "Aerial cost"),
          col =c("darkslategray", "blue", "darkorchid4"), lty=1:1, box.lty=0, bg="transparent", bty = "n")
   
-  plot(new_intake$date, new_intake$Mid, type = "l", ylim = c(0,4.5),yaxs = "i",
-       col = "darkslategray", xlab = "", ylab = "Physiological rate\n (J / day)", bty = "n")
-  points(new_intake$date, new_aq_cost$Mid, type = "l", col = "blue")
-  points(new_intake$date, new_expose$Mid, type = "l", col = "darkorchid4", lwd = 1.5)
+  plot(new_intake$date[1:n_len-1], new_intake$Mid[1:n_len-1], type = "l", ylim = c(0,4.5),yaxs = "i",
+       col = "darkslategray", xlab = "", ylab = "Physiological rate\n (J / day)", bty = "n", xaxt="n")
+  points(new_intake$date[1:n_len-1], new_aq_cost$Mid[1:n_len-1], type = "l", col = "blue")
+  points(new_intake$date[1:n_len-1], new_expose$Mid[1:n_len-1], type = "l", col = "darkorchid4", lwd = 1.5)
+   axis.Date(1, at=seq(min(df_round), max(df_round), by="2 mon"), format="%b")
+
   
-  plot(new_intake$date, new_intake$Upper, type = "l", ylim = c(0,4.5), yaxs = "i",
-       col = "darkslategray", xlab = "", ylab = "Physiological rate (J / day)", bty = "n")
-  points(new_intake$date, new_aq_cost$Upper, type = "l", col = "blue")
-  points(new_intake$date, new_expose$Upper, type = "l", col = "darkorchid4", lwd = 1.5)
+  plot(new_intake$date[1:n_len-1], new_intake$Upper[1:n_len-1], type = "l", ylim = c(0,4.5), yaxs = "i",
+       col = "darkslategray", xlab = "", ylab = "Physiological rate (J / day)", bty = "n", xaxt="n")
+  points(new_intake$date[1:n_len-1], new_aq_cost$Upper[1:n_len-1], type = "l", col = "blue")
+  points(new_intake$date[1:n_len-1], new_expose$Upper[1:n_len-1], type = "l", col = "darkorchid4", lwd = 1.5)
+   axis.Date(1, at=seq(min(df_round), max(df_round), by="2 mon"), format="%b")
+
   #dev.off()
 }
 if(timing == 2){
@@ -590,24 +636,32 @@ if(timing == 2){
   par(mar = c(1,1,1,1)+.1)
   par(oma = c(1,4,1,1))
   
-  plot(new_intake$date, new_intake$Low, type = "l", ylim = c(0,4.5),yaxs = "i",
-       col = "darkslategray", xlab = "", ylab = "Physiological rate (J / day)", bty = "n", lty = 1)
-  points(new_intake$date, new_aq_cost$Low, type = "l", col = "blue", lty = 1)
-  points(new_intake$date, new_expose$Low, type = "l", col = "darkorchid4", lty = 1, lwd = 1.5)
+
+  
+  plot(new_intake$date[1:n_len-1], new_intake$Low[1:n_len-1], type = "l", ylim = c(0,4.5),yaxs = "i",
+       col = "darkslategray", xlab = "", ylab = "Physiological rate (J / day)", bty = "n", lty = 1, xaxt="n")
+  points(new_intake$date[1:n_len-1], new_aq_cost$Low[1:n_len-1], type = "l", col = "blue", lty = 1)
+  points(new_intake$date[1:n_len-1], new_expose$Low[1:n_len-1], type = "l", col = "darkorchid4", lty = 1, lwd = 1.5)
+   axis.Date(1, at=seq(min(df_round), max(df_round), by="2 mon"), format="%b")
+
   
   legend(x = "topleft",
          legend = c("Intake", "Aquatic cost", "Aerial cost"),
          col =c("darkslategray", "blue", "darkorchid4"), lty=1:1, box.lty=0, bg="transparent", bty = "n")
   
-  plot(new_intake$date, new_intake$Mid, type = "l", ylim = c(0,4.5),yaxs = "i",
-       col = "darkslategray", xlab = "", ylab = "Physiological rate\n (J / day)", bty = "n")
-  points(new_intake$date, new_aq_cost$Mid, type = "l", col = "blue")
-  points(new_intake$date, new_expose$Mid, type = "l", col = "darkorchid4", lwd = 1.5)
+  plot(new_intake$date[1:n_len-1], new_intake$Mid[1:n_len-1], type = "l", ylim = c(0,4.5),yaxs = "i",
+       col = "darkslategray", xlab = "", ylab = "Physiological rate\n (J / day)", bty = "n", xaxt="n")
+  points(new_intake$date[1:n_len-1], new_aq_cost$Mid[1:n_len-1], type = "l", col = "blue")
+  points(new_intake$date[1:n_len-1], new_expose$Mid[1:n_len-1], type = "l", col = "darkorchid4", lwd = 1.5)
+   axis.Date(1, at=seq(min(df_round), max(df_round), by="2 mon"), format="%b")
+
   
-  plot(new_intake$date, new_intake$Upper, type = "l", ylim = c(0,4.5), yaxs = "i",
-       col = "darkslategray", xlab = "", ylab = "Physiological rate (J / day)", bty = "n")
-  points(new_intake$date, new_aq_cost$Upper, type = "l", col = "blue")
-  points(new_intake$date, new_expose$Upper, type = "l", col = "darkorchid4", lwd = 1.5)
+  plot(new_intake$date[1:n_len-1], new_intake$Upper[1:n_len-1], type = "l", ylim = c(0,4.5), yaxs = "i",
+       col = "darkslategray", xlab = "", ylab = "Physiological rate (J / day)", bty = "n", xaxt="n")
+  points(new_intake$date[1:n_len-1], new_aq_cost$Upper[1:n_len-1], type = "l", col = "blue")
+  points(new_intake$date[1:n_len-1], new_expose$Upper[1:n_len-1], type = "l", col = "darkorchid4", lwd = 1.5)
+   axis.Date(1, at=seq(min(df_round), max(df_round), by="2 mon"), format="%b")
+
   #dev.off()
 }
 ```
@@ -625,19 +679,28 @@ if(timing == 1){
   par(oma = c(1,4,1,1))
   par(mfrow = c(1,3))
   
+  
   dim(daily_SFG)
   plot(new_intake$date, daily_SFG$Low,type = "l", ylim = c(-.9,4.5), yaxs = "i",
-       col = "orange", xlab = "", ylab = "Physiological rate (J / day)", bty = "n")
+       col = "orange", xlab = "", ylab = "Physiological rate (J / day)", bty = "n",xaxt="n")
+ axis.Date(1, at=seq(min(df_round), max(df_round), by="2 mon"), format="%b")
+
   
   legend(x = "topleft",
          legend = c("Scope for Growth"),
          col =c("orange"), lty=1:1, box.lty=0, bg="transparent", bty = "n")
   
   plot(new_intake$date, daily_SFG$Mid,type = "l", ylim = c(-.9,4.5), yaxs = "i",
-       col = "orange", xlab = "", ylab = "Physiological rate (J / day)", bty = "n")
+       col = "orange", xlab = "", ylab = "Physiological rate (J / day)", bty = "n", xaxt="n")
+ axis.Date(1, at=seq(min(df_round), max(df_round), by="2 mon"), format="%b")
+
   plot(new_intake$date, daily_SFG$Upper,type = "l", ylim = c(-.9,4.5), yaxs = "i",
-       col = "orange", xlab = "", ylab = "Physiological rate (J / day)", bty = "n")
+       col = "orange", xlab = "", ylab = "Physiological rate (J / day)", bty = "n",xaxt="n")
+ axis.Date(1, at=seq(min(df_round), max(df_round), by="2 mon"), format="%b")
+
+  
   #dev.off()
+ # scale_x_date(date_breaks="1 month", date_labels="%m")
 }
 if(timing == 2){
   #pdf("daily_SFG_int2.pdf", width=6.5, height=1.5)
@@ -648,16 +711,22 @@ if(timing == 2){
   
   dim(daily_SFG)
   plot(new_intake$date, daily_SFG$Low,type = "l", ylim = c(-.9,4.5), yaxs = "i",
-       col = "orange", xlab = "", ylab = "Physiological rate (J / day)", bty = "n")
+       col = "orange", xlab = "", ylab = "Physiological rate (J / day)", bty = "n", xaxt="n")
+   axis.Date(1, at=seq(min(df_round), max(df_round), by="2 mon"), format="%b")
+
   
   legend(x = "topleft",
          legend = c("Scope for Growth"),
          col =c("orange"), lty=1:1, box.lty=0, bg="transparent", bty = "n")
   
   plot(new_intake$date, daily_SFG$Mid,type = "l", ylim = c(-.9,4.5), yaxs = "i",
-       col = "orange", xlab = "", ylab = "Physiological rate (J / day)", bty = "n")
+       col = "orange", xlab = "", ylab = "Physiological rate (J / day)", bty = "n",xaxt="n")
+   axis.Date(1, at=seq(min(df_round), max(df_round), by="2 mon"), format="%b")
+
   plot(new_intake$date, daily_SFG$Upper,type = "l", ylim = c(-.9,4.5), yaxs = "i",
-       col = "orange", xlab = "", ylab = "Physiological rate (J / day)", bty = "n")
+       col = "orange", xlab = "", ylab = "Physiological rate (J / day)", bty = "n",xaxt="n")
+   axis.Date(1, at=seq(min(df_round), max(df_round), by="2 mon"), format="%b")
+
   #dev.off()
 }
 ```
@@ -680,9 +749,11 @@ str(joule_mass)
 new.joule_mass <- as.data.frame(lapply(joule_mass, function(x) c(x[1], x[-1] - x[1])))
 new.joule_mass[2:189,]
 plot(new_intake$date, daily_SFG$Low,type = "l", ylim = c(-1,4), yaxs = "i",
-       col = "orange", xlab = "", ylab = "Physiological rate (J / day)", bty = "n")
+       col = "orange", xlab = "", ylab = "Physiological rate (J / day)", bty = "n",xaxt="n")
 par(new=TRUE)  
 plot(new_intake$date,new.joule_mass[2:189,3], col = "black",type = "l", ylim = c(-13,60),axes=FALSE,bty = "n") #Low
+ axis.Date(1, at=seq(min(df_round), max(df_round), by="2 mon"), format="%b")
+
   #axis(side = 4) 
   
 legend(x = "topleft",
@@ -690,16 +761,20 @@ legend(x = "topleft",
          col =c("orange","black"), lty=1:1, box.lty=0, bg="transparent", bty = "n")
 
 plot(new_intake$date, daily_SFG$Mid,type = "l", ylim = c(-1,4), yaxs = "i",
-       col = "orange", xlab = "", ylab = "Physiological rate (J / day)", bty = "n")
+       col = "orange", xlab = "", ylab = "Physiological rate (J / day)", bty = "n",xaxt="n")
 par(new=TRUE)  
-plot(new_intake$date,new.joule_mass[2:189,2], col = "black",type = "l", ylim = c(-13,60),axes=FALSE,bty = "n") #Low
+plot(new_intake$date,new.joule_mass[2:189,2], col = "black",type = "l", ylim = c(-13,60),axes=FALSE,bty = "n",xaxt="n") #Low
   #axis(side = 4) 
+ axis.Date(1, at=seq(min(df_round), max(df_round), by="2 mon"), format="%b")
+
   
 plot(new_intake$date, daily_SFG$Upper,type = "l", ylim = c(-1,4), yaxs = "i",
-       col = "orange", xlab = "", ylab = "Physiological rate (J / day)", bty = "n")
+       col = "orange", xlab = "", ylab = "Physiological rate (J / day)", bty = "n",xaxt="n")
 par(new=TRUE)  
-plot(new_intake$date,new.joule_mass[2:189,1], col = "black",type = "l", ylim = c(-13,60),axes=FALSE,bty = "n") #Low
+plot(new_intake$date,new.joule_mass[2:189,1], col = "black",type = "l", ylim = c(-13,60),axes=FALSE,bty = "n",xaxt="n") #Low
   axis(side = 4) 
+   axis.Date(1, at=seq(min(df_round), max(df_round), by="2 mon"), format="%b")
+
 }
 # dev.off()
    # pdf("daily_SFG_int2.pdf", width=6.5, height=1.5)
@@ -723,27 +798,33 @@ str(joule_mass)
 new.joule_mass <- as.data.frame(lapply(joule_mass, function(x) c(x[1], x[-1] - x[1])))
 new.joule_mass[2:189,]
 plot(new_intake$date, daily_SFG$Low,type = "l", ylim = c(-1,4), yaxs = "i",
-       col = "orange", xlab = "", ylab = "Physiological rate (J / day)", bty = "n")
+       col = "orange", xlab = "", ylab = "Physiological rate (J / day)", bty = "n",xaxt="n")
 par(new=TRUE)  
-plot(new_intake$date,new.joule_mass[2:189,3], col = "black",type = "l", ylim = c(-13,60),axes=FALSE,bty = "n") #Low
+plot(new_intake$date,new.joule_mass[2:189,3], col = "black",type = "l", ylim = c(-13,60),axes=FALSE,bty = "n",xaxt="n") #Low
   #axis(side = 4) 
+ axis.Date(1, at=seq(min(df_round), max(df_round), by="2 mon"), format="%b")
+
   
 legend(x = "topleft",
          legend = c("Daily SFG", "Cumulative SFG"),
          col =c("orange","black"), lty=1:1, box.lty=0, bg="transparent", bty = "n")
 
 plot(new_intake$date, daily_SFG$Mid,type = "l", ylim = c(-1,4), yaxs = "i",
-       col = "orange", xlab = "", ylab = "Physiological rate (J / day)", bty = "n")
+       col = "orange", xlab = "", ylab = "Physiological rate (J / day)", bty = "n",xaxt="n")
 par(new=TRUE)  
-plot(new_intake$date,new.joule_mass[2:189,2], col = "black",type = "l", ylim = c(-13,60),axes=FALSE,bty = "n") #Low
+plot(new_intake$date,new.joule_mass[2:189,2], col = "black",type = "l", ylim = c(-13,60),axes=FALSE,bty = "n",xaxt="n") #Low
   #axis(side = 4) 
+ axis.Date(1, at=seq(min(df_round), max(df_round), by="2 mon"), format="%b")
+
   
 plot(new_intake$date, daily_SFG$Upper,type = "l", ylim = c(-1,4), yaxs = "i",
-       col = "orange", xlab = "", ylab = "Physiological rate (J / day)", bty = "n")
+       col = "orange", xlab = "", ylab = "Physiological rate (J / day)", bty = "n",xaxt="n")
 par(new=TRUE)  
-plot(new_intake$date,new.joule_mass[2:189,1], col = "black",type = "l", ylim = c(-13,60),axes=FALSE,bty = "n") #Low
+plot(new_intake$date,new.joule_mass[2:189,1], col = "black",type = "l", ylim = c(-13,60),axes=FALSE,bty = "n",xaxt="n") #Low
   axis(side = 4) 
   #dev.off()
+   axis.Date(1, at=seq(min(df_round), max(df_round), by="2 mon"), format="%b")
+
 }
 ```
 
@@ -806,55 +887,73 @@ daily_air_temp_quant_low <- daily_air_temp_quant_low[2:cutoff,]
 ```
 
 ```{r}
+#| label: timeseries_temp_quantile
+#| fig-width: 6.5
+#| fig-height: 1.5
 #pdf("temp_incl_3Q.pdf", width=6.5, height=1.5)
 par(mfrow = c(1,3))
 par(mar = c(1,1,1,1)+.1)
 par(oma = c(1,4,1,1))
 min(daily_air_temp$Mid, na.rm = TRUE)
 plot(daily_air_temp$date, daily_air_temp$Low, type = "l", ylim = c(0,32),yaxs = "i",
-     col = "darkorchid4", xlab = "", ylab = expression(paste("Temp (",degree,"C)")), bty = "n", lty = 1)
+     col = "darkorchid4", xlab = "", ylab = expression(paste("Temp (",degree,"C)")), bty = "n", lty = 1, xaxt="n")
 points(daily_water_temp$date, daily_water_temp$Low, type = "l", col = "blue", lty = 1)
 points(daily_air_temp_quant$date, daily_air_temp_quant$Low, type = "l", yaxs = "i",
        col = "darkred", xlab = "", ylab = "Physiological rate (J / day)", bty = "n", lty = 3)
+ axis.Date(1, at=seq(min(df_round), max(df_round), by="2 mon"), format="%b")
+
 
 plot(daily_air_temp$date, daily_air_temp$Mid, type = "l", ylim = c(0,32),yaxs = "i",
-     col = "darkorchid4", xlab = "", ylab = "", bty = "n")
+     col = "darkorchid4", xlab = "", ylab = "", bty = "n", xaxt="n")
 points(daily_water_temp$date, daily_water_temp$Mid, type = "l", col = "blue")
 points(daily_air_temp_quant$date, daily_air_temp_quant$Mid, type = "l", yaxs = "i",
        col = "darkred", xlab = "", ylab = "Physiological rate (J / day)", bty = "n", lty = 3)
+ axis.Date(1, at=seq(min(df_round), max(df_round), by="2 mon"), format="%b")
+
 
 plot(daily_air_temp$date, daily_air_temp$Upper, type = "l", ylim = c(0,32), yaxs = "i",
-     col = "darkorchid4", xlab = "", ylab = "", bty = "n")
+     col = "darkorchid4", xlab = "", ylab = "", bty = "n", xaxt="n")
 points(daily_water_temp$date, daily_water_temp$Upper, type = "l", col = "blue")
 points(daily_air_temp_quant$date, daily_air_temp_quant$Upper, type = "l", yaxs = "i",
        col = "darkred", xlab = "", ylab = "Physiological rate (J / day)", bty = "n", lty = 3)
+ axis.Date(1, at=seq(min(df_round), max(df_round), by="2 mon"), format="%b")
+
 #dev.off()
 
 ```
 
 ```{r}
+#| label: timeseries_temp_quantile2
+#| fig-width: 6.5
+#| fig-height: 1.5
 #pdf("temp_incl_3Q.pdf", width=6.5, height=1.5)
 par(mfrow = c(1,3))
 par(mar = c(1,1,1,1)+.1)
 par(oma = c(1,4,1,1))
 min(daily_air_temp$Mid, na.rm = TRUE)
 plot(daily_air_temp$date, daily_air_temp$Low, type = "l", ylim = c(0,32),yaxs = "i",
-     col = "darkorchid4", xlab = "", ylab = expression(paste("Temp (",degree,"C)")), bty = "n", lty = 1)
+     col = "darkorchid4", xlab = "", ylab = expression(paste("Temp (",degree,"C)"), xaxt="n"), bty = "n", lty = 1, xaxt="n")
 points(daily_water_temp$date, daily_water_temp$Low, type = "l", col = "blue", lty = 1)
 points(daily_air_temp_quant$date, daily_air_temp_quant$Low, type = "l", yaxs = "i",
        col = "darkred", xlab = "", ylab = "Physiological rate (J / day)", bty = "n", lty = 3)
+ axis.Date(1, at=seq(min(df_round), max(df_round), by="2 mon"), format="%b")
+
 
 plot(daily_air_temp$date, daily_air_temp$Mid, type = "l", ylim = c(0,32),yaxs = "i",
-     col = "darkorchid4", xlab = "", ylab = "", bty = "n")
+     col = "darkorchid4", xlab = "", ylab = "", bty = "n", xaxt="n")
 points(daily_water_temp$date, daily_water_temp$Mid, type = "l", col = "blue")
 points(daily_air_temp_quant$date, daily_air_temp_quant$Mid, type = "l", yaxs = "i",
        col = "darkred", xlab = "", ylab = "Physiological rate (J / day)", bty = "n", lty = 3)
+ axis.Date(1, at=seq(min(df_round), max(df_round), by="2 mon"), format="%b")
+
 
 plot(daily_air_temp$date, daily_air_temp$Upper, type = "l", ylim = c(0,32), yaxs = "i",
-     col = "darkorchid4", xlab = "", ylab = "", bty = "n")
+     col = "darkorchid4", xlab = "", ylab = "", bty = "n", xaxt="n")
 points(daily_water_temp$date, daily_water_temp$Upper, type = "l", col = "blue")
 points(daily_air_temp_quant$date, daily_air_temp_quant$Upper, type = "l", yaxs = "i",
        col = "darkred", xlab = "", ylab = "Physiological rate (J / day)", bty = "n", lty = 3)
+ axis.Date(1, at=seq(min(df_round), max(df_round), by="2 mon"), format="%b")
+
 #dev.off()
 ```
 
@@ -934,6 +1033,9 @@ plot(air.temp.count$Upper+water.temp.count$Upper, xlim = c(195,200), ylim = c(0,
 ```
 
 ```{r}
+#| label: timeseries_food_submergence_time
+#| fig-width: 6.5
+#| fig-height: 1.5
 # Plot time submerged, pretty version LMU, 6.5X1.5 dim ####
 #setwd("~/Documents/GitHub/Bglandula_FHL_energetics/plots")
 #pdf("submergence_time2.pdf", width=6.5, height=1.5)
@@ -943,27 +1045,32 @@ par(oma = c(1,4,1,1))
 par(mfrow = c(1,3))
 
 plot(new_intake$date, time.submerged$Low[2:cutoff],type = "l", ylim = c(0,1), yaxs = "i",
-     col = "black", xlab = "", ylab = "Physiological rate (J / day)", bty = "n")
+     col = "black", xlab = "", ylab = "Physiological rate (J / day)", bty = "n", xaxt="n")
 lines(as.Date(water.temp.int$datetime), food.int/(food.int+par[3]), cex = .5,
-     xlab = "", ylim = c(0,1),  yaxs = "i", type = "l", lty = 3, bty = "n", ylab = "Food availability")
+     xlab = "", ylim = c(0,1),  yaxs = "i", type = "l", lty = 3, bty = "n", ylab = "Food availability", col = "green")
 #axis(side = 4, at = pretty(range(c(0,1))))      # Add second axis
+ axis.Date(1, at=seq(min(df_round), max(df_round), by="2 mon"), format="%b")
+
 
 legend(x = "bottomleft",
        legend = c("Food availability","Time submerged"),
-       col =c("black","black"), lty=c(3,1), box.lty=0, bg="transparent", bty = "n")
+       col =c("green","black"), lty=c(3,1), box.lty=0, bg="transparent", bty = "n")
 
 plot(new_intake$date, time.submerged$Mid[2:cutoff],type = "l", ylim = c(0,1), yaxs = "i",
-     col = "black", xlab = "", ylab = "Physiological rate (J / day)", bty = "n")
+     col = "black", xlab = "", ylab = "Physiological rate (J / day)", bty = "n", xaxt="n")
 lines(as.Date(water.temp.int$datetime), food.int/(food.int+par[3]), cex = .5,
-      xlab = "", ylim = c(0,1),  yaxs = "i", type = "l", lty = 3, bty = "n", ylab = "Food availability")
+      xlab = "", ylim = c(0,1),  yaxs = "i", type = "l", lty = 3, bty = "n", ylab = "Food availability", col = "green")
 #axis(side = 4, at = pretty(range(c(0,1))))      # Add second axis
+ axis.Date(1, at=seq(min(df_round), max(df_round), by="2 mon"), format="%b")
+
 
 plot(new_intake$date, time.submerged$Upper[2:cutoff],type = "l", ylim = c(0,1), yaxs = "i",
-     col = "black", xlab = "", ylab = "Physiological rate (J / day)", bty = "n")
+     col = "black", xlab = "", ylab = "Physiological rate (J / day)", bty = "n", xaxt="n")
 lines(as.Date(water.temp.int$datetime), food.int/(food.int+par[3]), cex = .5,
-      xlab = "", ylim = c(0,1),  yaxs = "i", type = "l", lty = 3, bty = "n", ylab = "Food availability")
-axis(side = 4, at = pretty(range(c(0,1))))      # Add second axis
+      xlab = "", ylim = c(0,1),  yaxs = "i", type = "l", lty = 3, bty = "n", ylab = "Food availability", col = "green")
+#axis(side = 4, at = pretty(range(c(0,1))))      # Add second axis
 mtext("Food availability (unitless)", side = 4, line = 3)  
+ axis.Date(1, at=seq(min(df_round), max(df_round), by="2 mon"), format="%b")
 
 #dev.off()
 ```
@@ -988,22 +1095,32 @@ par(oma = c(1,2,1,2))
 par(new = FALSE)
 par(mfrow = c(1,2))
 plot(water.temp.1$datetime, food.list[[1]]/(food.list[[1]]+par[3]), cex = .5,
-     ylim = c(0,1), yaxs = "i",type = "l",bty = "n", ylab = "Food availability", xlab = "")
+     ylim = c(0,1), yaxs = "i",type = "l",lty = 3, bty = "n", ylab = "Food availability", xlab = "", col = "green")
+
 par(new = TRUE)
 plot(water.temp.1$datetime, food.list[[1]], ylim = c(0,20), axes = FALSE,  cex = .5,
      ylab = "", yaxs = "i", type = "l",lty = 2, bty = "n", xlab = "")                           # Add new plot
 axis(side = 4, at = pretty(range(food.list[[1]])))      # Add second axis
 mtext("ug / L Chl", side = 4, line = 3)  
+ axis.Date(1, at=seq(min(df_round), max(df_round), by="2 mon"), format="%b")
+
 
 par(new = FALSE)
 
+  df_round.2<-water.temp.2 %>% 
+    mutate(modified_df = round_date(datetime, unit="month"))
+  df_round.2 <- df_round.2$modified_df
+
 plot(water.temp.2$datetime, food.list[[2]]/(food.list[[2]]+par[3]), cex = .5,
-     xlab = "", ylim = c(0,1),  yaxs = "i", type = "l", lty = 1, bty = "n", ylab = "Food availability")
+     xlab = "", ylim = c(0,1),  yaxs = "i", type = "l", lty = 3, bty = "n", ylab = "Food availability", col = "green")
+
 par(new = TRUE)
 plot(water.temp.2$datetime, food.list[[2]], ylim = c(0,20),  axes = FALSE,cex = .5,
      ylab = "", yaxs = "i", type = "l", lty = 2, bty = "n", xlab = "")
 axis(side = 4, at = pretty(range(food.list[[1]])))      # Add second axis
 mtext("ug / L Chl", side = 4, line = 3)  
+ axis.Date(1, at=seq(min(df_round.2), max(df_round.2), by="2 mon"), format="%b")
+
 par(new = FALSE)
 #dev.off()
 
