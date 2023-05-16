@@ -842,11 +842,13 @@ names(data_long) <- c("Elevation", "condition", "measurement")
 head(data_long)
 str(data_long)
 
+df_means <- data_long %>% group_by(Elevation,condition) %>% summarise(measurement=mean(measurement))
+
 # I think this plots a summation and aerial cost is a sum of oxygen debt and exposure cost ####   
 ggplot(data = data_long, aes(x=Elevation, y=measurement, fill = condition)) + 
   geom_violin(trim = FALSE, width = 3,  position = position_dodge(0.8))+
   scale_fill_manual(values=c("light green", "lightblue", "purple"))+ 
-   geom_boxplot(width = 0.1, position = position_dodge(0.8)) +
+  geom_point(data = df_means, width = 0.1, position = position_dodge(0.8)) +
 #   stat_summary(fun = means,
                 #mult=1, 
                  # geom="pointrange", 
