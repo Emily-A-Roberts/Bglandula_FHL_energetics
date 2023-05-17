@@ -2,6 +2,8 @@
 title: "model setup"
 format: html
 editor: visual
+params: 
+  time_interval: 1
 ---
 
 ## Aim: Read in environmental data and physiology functions
@@ -46,7 +48,7 @@ If the file is opened within the .Rproj file, then the function here::here() wil
 Clear the global environment
 
 ```{r}
-rm(list = ls())
+#rm(list = ls())
 ```
 
 Load libraries and set graphics theme:
@@ -86,7 +88,7 @@ Toggle the period of interest (which 6 month period - the first or second?)
 
 ```{r}
 #Time period 1 or 2
-timing <- 1
+timing <- params$time_interval
 ```
 
 Toggle the subset of barnacles used (specify only small baracles will be used for calculations)

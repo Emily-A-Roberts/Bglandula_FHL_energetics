@@ -1,0 +1,530 @@
+---
+title: "model_graphs_physio2"
+format: html
+editor: visual
+params:
+  time_interval: 1
+---
+
+## Quarto
+
+Note - this isn't working. I need to figure out what calculations are missing from Graphs for iter_model files (there are two files to look through). It was working for time 1... not sure what's going on now. -5.3.23
+
+## Running Code
+
+```{r}
+#| include: false
+#| warnings: false
+library(reshape2)
+library(dplyr)
+library(lubridate)
+library(tsibble) #Can use function yearweek()
+library(ggplot2)
+#https://cran.r-project.org/web/packages/egg/vignettes/Ecosystem.html
+library(gridExtra)
+library(tidyr)
+  require(plyr)
+library(dplyr)
+#setwd("~/Documents/GitHub/Bglandula_FHL_energetics/plots")
+  # plots will be output to the folder for model_graphs. 
+```
+
+You can add options to executable code like this
+
+```{r}
+#| include: false
+timing <- params$time_interval
+setwd("~/Documents/GitHub/Bglandula_FHL_energetics/code/save_workspace")
+
+if(timing == 1){
+load("my_work_space_time1_20210409.RData")
+  timing <- 1}
+
+if(timing == 2){
+load("my_work_space_time2_20210409.RData")
+  timing <- 2}
+```
+
+```{r}
+#| include: false
+ elev <- c(4,110,147)
+  elev.1 <- elev
+  elev <- c(36,100,121)
+  elev.2 <- elev
+
+if(timing == 1){
+  elev <- elev.1
+  datetime_int <- datetimes[[1]]
+  Iter.len.1[1,elev] #0.21, 0.22, 0.20
+  cutoff <- 189 #This should be 188 or 189 but maybe I'm cutting off points twice? 
+  length(Iter.len.1[,elev[1]])/96
+}
+
+if(timing ==2){
+  elev <- elev.2
+  datetime_int <- datetimes[[2]]
+  length(Iter.len.2[,elev[1]])/96
+  cutoff <- 186 #This should be 198 - we are missing 8 days?
+  #cutoff <- 196
+  head(Iter.len.2[,elev]) #V95 (mid) was a little small, but changed rep barnacles in beginning of April
+}
+
+Elev.abbrev.list <- list(elev.1, elev.2) #Need to run timing 1 and 2
+```
+
+```{r}
+#| include: false
+conv <- 17105
+ts
+#i_seq <- 100
+dim(Iter.air)
+#And then again last day (repeat)
+end
+i_seq <- 2
+i <- ts*(i_seq-1)+1
+j <- i+ts-1
+f <- j+1
+temp_i.w <- Iter.water[(i+conv):(j+conv),]
+temp_i.a <- Iter.air[(i+conv):(j+conv),]
+food_i <- Iter.food[(i+conv):(j+conv)]
+
+cost_15min_dat <- as.data.frame(cost_15min[(i+conv):(j+conv),])
+intake_15min_scaled_dat <- as.data.frame(intake_15min_scaled[(i+conv):(j+conv),])
+pred_expose_30_dat <- as.data.frame(pred_expose_30[(i+conv):(j+conv),])
+Hour <- seq(1, to = 96*15, by = 15)/60
+
+length(datetime_int)/96
+pred_expose_30_dat2 <- cbind(as.data.frame(pred_expose_30)[,elev], datetime = datetime_int[1:nrow(pred_expose_30)])
+intake_dat2 <- cbind(as.data.frame(intake_15min_scaled)[elev], datetime = datetime_int[1:nrow(intake_15min_scaled)])
+cost_15min_dat2 <- cbind(as.data.frame(cost_15min)[elev], datetime = datetime_int[1:nrow(cost_15min)])
+head(pred_expose_30_dat2)
+
+# Note 5.2023 - had to swap time 1 vs. time 2
+if(timing ==1){
+new_expose <- pred_expose_30_dat2 %>%
+  group_by(date = as.Date(ymd_hms(datetime))) %>%
+  dplyr::summarise(V1 = sum(V4),
+                   V2 = sum(V110),
+                   V3 = sum(V147))
+
+new_intake <- intake_dat2 %>%
+  group_by(date = as.Date(ymd_hms(datetime))) %>%
+  dplyr::summarise(V1 = sum(V4),
+                   V2 = sum(V110),
+                   V3 = sum(V147))
+
+new_aq_cost <- cost_15min_dat2 %>%
+  group_by(date = as.Date(ymd_hms(datetime))) %>%
+  dplyr::summarise(V1 = sum(V4),
+                   V2 = sum(V110),
+                   V3 = sum(V147))
+}
+if(timing == 2){
+  new_expose <- pred_expose_30_dat2 %>%
+    group_by(date = as.Date(ymd_hms(datetime))) %>%
+    dplyr::summarise(V1 = sum(V36),
+                     V2 = sum(V100),
+                     V3 = sum(V121))
+  
+  new_intake <- intake_dat2 %>%
+    group_by(date = as.Date(ymd_hms(datetime))) %>%
+    dplyr::summarise(V1 = sum(V36),
+                     V2 = sum(V100),
+                     V3 = sum(V121))
+  
+  new_aq_cost <- cost_15min_dat2 %>%
+    group_by(date = as.Date(ymd_hms(datetime))) %>%
+    dplyr::summarise(V1 = sum(V36),
+                     V2 = sum(V100),
+                     V3 = sum(V121))
+}
+daily_SFG <- new_intake[,2:4] - new_expose[,2:4] - new_aq_cost[,2:4]
+
+names(new_intake) <- c("date","Upper", "Mid", "Low")
+names(new_expose) <- c("date","Upper", "Mid", "Low")
+names(new_aq_cost) <- c("date","Upper", "Mid", "Low")
+names(daily_SFG) <- c("Upper", "Mid", "Low")
+
+
+#Don't plot initial and final timepoint, because not a complete timepoint
+new_intake <- new_intake[2:cutoff,]
+new_expose <- new_expose[2:cutoff,]
+new_aq_cost <- new_aq_cost[2:cutoff,]
+daily_SFG <- daily_SFG[2:cutoff,]
+tail(new_intake)
+head(new_intake)
+dim(new_intake)
+```
+
+```{r}
+#| include: false
+#5.3.23 changed datetimes to datetime_int 
+
+pred_expose_30<- as.data.frame(pred_expose_30)
+head(pred_expose_30)
+str(datetime_int)
+pred_expose_30_dat2 <- cbind(as.data.frame(pred_expose_30)[,elev], datetime = datetime_int[1:nrow(pred_expose_30)])
+intake_dat2 <- cbind(as.data.frame(intake_15min_scaled)[elev], datetime = datetime_int[1:nrow(intake_15min_scaled)])
+cost_15min_dat2 <- cbind(as.data.frame(cost_15min)[elev], datetime = datetime_int[1:nrow(cost_15min)])
+```
+
+```{r}
+#| include: false
+# Manipulating datetimes in dplyr
+#https://www.neonscience.org/resources/learning-hub/tutorials/dc-time-series-subset-dplyr-r
+intake_count <- intake_dat2 %>%
+  group_by(year = year(ymd_hms(datetime)),week = week(ymd_hms(datetime))) %>%
+  dplyr::summarise(count=n()) %>%
+  arrange(desc(count))
+
+plot(intake_count[,3])
+
+str(new_aq_cost)
+dim(cost_15min_dat2)
+18240/29
+628*21
+628*23
+dim(air.temp.1)
+plot(air.temp.1$datetime[13188:14444],air.temp.1$Upper[13188:14444], type = "l")
+plot(water.temp.1$datetime[13188:14444],water.temp.1$Upper[13188:14444], type = "l")
+plot(air.temp.1$datetime[13188:14444],air.temp.1$Upper[13188:14444], type = "l")
+plot(water.temp.1$datetime[13188:14444],water.temp.1$Upper[13188:14444], type = "l")
+plot(cost_15min_dat2[13188:14444,1]~ as.Date(cost_15min_dat2[13188:14444,4]))
+
+
+plot(intake_dat2$datetime, intake_dat2$V110)
+#plot(new_aq_cost$V1~new_aq_cost$week)
+#plot(new_aq_cost$V1)
+
+```
+
+```{r}
+#| include: false
+str(new_intake)
+names(new_intake) <- c("Year","Upper", "Mid", "Low")
+names(new_expose) <- c("Year","Upper", "Mid", "Low")
+names(new_aq_cost) <- c("Year","Upper", "Mid", "Low")
+```
+
+```{r}
+#| include: false
+# Plot all rates
+par(mfrow = c(1,3))
+plot(new_intake$Upper, type = "b", ylim = c(0,20),
+     col = "darkgreen", xlab = "week", ylab = "Physiological rate (J / week)")
+points(new_aq_cost$Upper, type = "b", col = "blue")
+points(new_expose$Upper, type = "b", col = "purple")
+
+
+#---
+plot(new_intake$Mid, ylim = c(0,20), type = "b", col = "darkgreen", xlab = "week", ylab = "Physiological rate (J / week)")
+points(new_aq_cost$Mid, type = "b", col = "blue")
+points(new_expose$Mid, type = "b", col = "purple")
+
+#---
+plot(new_intake$Low, ylim = c(0,20), type = "b", col = "darkgreen", xlab = "week", ylab = "Physiological rate (J / week)")
+points(new_aq_cost$Low, type = "b", col = "blue")
+points(new_expose$Low, type = "b", col = "purple")
+
+points(new_intake$Low[1:28], pch = 20, ylim = c(0,20), type = "b", col = "darkgreen", xlab = "week", ylab = "Physiological rate (J / week)")
+points(new_aq_cost$Low[1:28], pch = 20, type = "b", col = "blue")
+points(new_expose$Low[1:28], pch = 20, type = "b", col = "purple")
+```
+
+```{r}
+
+# Plot all rates except for the last ones
+par(mfrow = c(1,3))
+plot(new_intake$Upper[1:28], type = "b", ylim = c(0,20),
+     col = "darkgreen", xlab = "week", ylab = "Physiological rate (J / week)")
+points(new_aq_cost$Upper[1:28], type = "b", col = "blue")
+points(new_expose$Upper[1:28], type = "b", col = "purple")
+
+points(new_intake$Upper[1:28], pch = 20, ylim = c(0,20), col = "darkgreen", xlab = "week", ylab = "Physiological rate (J / week)")
+points(new_aq_cost$Upper[1:28], pch = 20, type = "b", col = "blue")
+points(new_expose$Upper[1:28], pch = 20, type = "b", col = "purple")
+
+#---
+plot(new_intake$Mid[1:28], ylim = c(0,20), type = "b", col = "darkgreen", xlab = "week", ylab = "Physiological rate (J / week)")
+points(new_aq_cost$Mid[1:28], type = "b", col = "blue")
+points(new_expose$Mid[1:28], type = "b", col = "purple")
+
+points(new_intake$Mid[1:28], pch = 20, ylim = c(0,20), type = "b", col = "darkgreen", xlab = "week", ylab = "Physiological rate (J / week)")
+points(new_aq_cost$Mid[1:28], pch = 20, type = "b", col = "blue")
+points(new_expose$Mid[1:28], pch = 20, type = "b", col = "purple")
+
+#---
+plot(new_intake$Low[1:28], ylim = c(0,20), type = "b", col = "darkgreen", xlab = "week", ylab = "Physiological rate (J / week)")
+points(new_aq_cost$Low[1:28], type = "b", col = "blue")
+points(new_expose$Low[1:28], type = "b", col = "purple")
+
+points(new_intake$Low[1:28], pch = 20, ylim = c(0,20), type = "b", col = "darkgreen", xlab = "week", ylab = "Physiological rate (J / week)")
+points(new_aq_cost$Low[1:28], pch = 20, type = "b", col = "blue")
+points(new_expose$Low[1:28], pch = 20, type = "b", col = "purple")
+
+
+new_expose$Upper[20:22]
+
+
+# weekly sums, first 8 weeks
+par(mfrow = c(3,3))
+nrow(new_intake)
+names(new_intake) <- c("week","Upper", "Mid", "Low")
+boxplot(new_intake[1:8,2:4], col = "green", ylim = c(0,35), 
+        ylab = "Physiological rate (J per week)")
+title("intake")
+names(new_aq_cost) <- c("week","Upper", "Mid", "Low")
+
+boxplot(new_aq_cost[1:8,2:4], col = "grey", ylim = c(0,35))
+title("aquatic cost")
+names(new_expose) <- c("week","Upper", "Mid", "Low")
+boxplot(new_expose[1:8,2:4], col = "blue", ylim = c(0,35))
+title("aerial cost")
+
+# weekly sums, second 8 weeks
+#par(mfrow = c(1,3))
+nrow(new_intake)
+names(new_intake) <- c("week","Upper", "Mid", "Low")
+boxplot(new_intake[9:16,2:4], col = "green", ylim = c(0,35), 
+        ylab = "Physiological rate (J per week)")
+title("intake")
+names(new_aq_cost) <- c("week","Upper", "Mid", "Low")
+
+boxplot(new_aq_cost[1:16,2:4], col = "grey", ylim = c(0,35))
+title("aquatic cost")
+names(new_expose) <- c("week","Upper", "Mid", "Low")
+boxplot(new_expose[1:16,2:4], col = "blue", ylim = c(0,35))
+title("aerial cost")
+
+nrow(new_intake)/3 # Last row is just zeros
+# weekly sums, third 8 weeks
+#par(mfrow = c(1,3))
+nrow(new_intake)
+names(new_intake) <- c("week","Upper", "Mid", "Low")
+boxplot(new_intake[19:27,2:4], col = "green", ylim = c(0,35), 
+        ylab = "Physiological rate (J per week)")
+title("intake")
+names(new_aq_cost) <- c("week","Upper", "Mid", "Low")
+
+boxplot(new_aq_cost[19:27,2:4], col = "grey", ylim = c(0,35))
+title("aquatic cost")
+names(new_expose) <- c("week","Upper", "Mid", "Low")
+boxplot(new_expose[19:27,2:4], col = "blue", ylim = c(0,35))
+title("aerial cost")
+```
+
+```{r}
+
+
+# in tibble format
+pred_expose_30_dat3 <- as_tibble(pred_expose_30)
+
+head(pred_expose_30_dat3)
+
+if(timing == 1){
+data_long <- gather(data = pred_expose_30_dat3, sample, measurement, V1:V153, factor_key=TRUE)
+}
+if(timing == 2){
+  data_long <- gather(data = pred_expose_30_dat3, sample, measurement, V1:V138, factor_key=TRUE)
+}
+
+
+new_expose2 <- data.frame(
+  value = colSums(as.data.frame(pred_expose_30)),
+  Elevation = as.factor(Elevation))
+new_intake2 <- data.frame(
+  value = colSums(as.data.frame(intake_15min_scaled)),
+  Elevation = as.factor(Elevation))
+new_aq_cost2 <- data.frame(
+  value = colSums(as.data.frame(cost_15min)),
+  Elevation = as.factor(Elevation))
+time <- seq(1,nrow(new_aq_cost2), by =1)  
+```
+
+```{r}
+
+# Back-calculate withat intake would be without the coefficient
+backcalc_intake <- as.numeric(new_intake2[,1]) / as.numeric(y1)
+backcalc_intake2 <- data.frame(value =backcalc_intake, Elevation = as.factor(Elevation))
+
+```
+
+```{r}
+
+comb <- cbind(new_intake2[,1],new_aq_cost2[,1],new_expose2)
+names(comb) <- c("intake","aquatic_cost", "aerial_cost")
+comb <- comb[1:(length(new_intake2[,1])-1),] #Remove last incomplete week
+
+
+data_long <- gather(comb, condition, measurement, intake:aerial_cost, factor_key=TRUE)
+names(data_long) <- c("Elevation", "condition", "measurement")
+
+
+df_means <- data_long %>% group_by(Elevation,condition) %>% summarise(measurement=mean(measurement))
+```
+
+Physiology violin plots
+
+```{r}
+#|label: physiological rates
+# ggplot(data = data_long, aes(x=Elevation, y=measurement, fill = condition)) + 
+#   geom_violin(trim = FALSE, width = 3,  position = position_dodge(0.8))+
+#   scale_fill_manual(values=c("light green", "lightblue", "purple"))+ 
+#   geom_point(data = df_means,  position = position_dodge(0.8)) +
+#   theme_classic() + 
+#   ylim(0,500)
+
+#Color blind palette for reference
+#cbPalette <- c("#999999", "#E69F00",  "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7")
+
+cbPalette2 <- c("#009E73",   "#56B4E9", "#E69F00", "#D55E00", 
+               "#F0E442" )
+
+cbPalette2 <- c("#009E73",   "#56B4E9", "darkorchid4", "#D55E00", 
+               "#F0E442" )
+
+```
+
+```{r}
+#| label: phyiological_rate_T1
+#| fig-width: 6
+#| fig-height: 4
+if(timing==1){
+ggplot(data = data_long, aes(x=Elevation, y=measurement, fill = condition)) +
+ geom_violin(alpha=.25, color="gray", trim = FALSE, width = 3, position = position_dodge(0.8))+
+ geom_point(aes(color = condition),position=position_jitterdodge(dodge.width=0.8)) +
+ scale_fill_manual(values=cbPalette2) + scale_colour_manual(values=cbPalette2) +
+  ylim(0,500)+
+ # scale_fill_brewer(palette="Paired") +
+ # scale_colour_grey() + scale_fill_grey() +
+ # coord_flip() +
+ xlab("Elevation") + ylab("Physiological rate (J / week)") +
+ggtitle("") +
+ theme_minimal() +theme(plot.title = element_text(size=10, face = "bold", hjust = 1))
+ }
+```
+
+```{r}
+#| label: physiological_rate_T2
+#| fig-width: 6
+#| fig-height: 4
+if(timing==2){
+ggplot(data = data_long, aes(x=Elevation, y=measurement, fill = condition)) +
+ geom_violin(alpha=.25, color="gray", trim = FALSE, width = 3, position = position_dodge(0.8))+
+ geom_point(aes(color = condition),position=position_jitterdodge(dodge.width=0.8)) +
+ scale_fill_manual(values=cbPalette2) + scale_colour_manual(values=cbPalette2) +
+ ylim(0,500) +
+ # scale_fill_brewer(palette="Paired") +
+ # scale_colour_grey() + scale_fill_grey() +
+ # coord_flip() +
+ xlab("Elevation") + ylab("Physiological rate (J / week)") +
+ggtitle("") +
+ theme_minimal() +theme(plot.title = element_text(size=10, face = "bold", hjust = 1))
+ }
+
+```
+
+```{r}
+#| eval: false
+par(mfrow = c(1,2))
+head(backcalc_intake2)
+p1 <- ggplot(data = backcalc_intake2, aes(x=Elevation, y=value, fill = "lightgreen")) + 
+  #geom_violin(trim = FALSE, width = 1,  position = position_dodge(0.8))+
+  scale_fill_manual(values=c("light green"))+ 
+  geom_boxplot(width = 0.1, position = position_dodge(0.8)) +
+  #   stat_summary(fun = means,
+  #mult=1, 
+  # geom="pointrange", 
+  #   position_dodge(0.8))+ 
+  theme_classic()+
+  theme(legend.position = "none") + #https://www.datanovia.com/en/blog/how-to-remove-legend-from-a-ggplot/
+  scale_y_continuous(name="Total intake (J)", limits=c(0, 600))
+  
+p2 <- ggplot(data = new_intake2, aes(x=Elevation, y=value, fill = "lightgreen")) + 
+  #geom_violin(trim = FALSE, width = 1,  position = position_dodge(0.8))+
+  scale_fill_manual(values=c("light green"))+ 
+  geom_boxplot(width = 0.1, position = position_dodge(0.8)) +
+  #   stat_summary(fun = means,
+  #mult=1, 
+  # geom="pointrange", 
+  #   position_dodge(0.8))+ 
+  theme_classic()+
+  theme(legend.position = "none") + 
+  scale_y_continuous(name="Total intake (J)", limits=c(0, 600))
+
+
+grid.arrange(p1, p2, nrow = 1)
+```
+
+```{r}
+#| eval: false
+data_summary <- function(data, varname, groupnames){
+
+  summary_func <- function(x, col){
+    c(mean = mean(x[[col]], na.rm=TRUE),
+      sd = sd(x[[col]], na.rm=TRUE))
+  }
+  data_sum<-ddply(data, groupnames, .fun=summary_func,
+                  varname)
+  data_sum <- rename(data_sum, c("mean" = varname))
+  return(data_sum)}
+
+backcalc_summary <- data_summary(backcalc_intake2, varname = "value", 
+                                 groupname =c("Elevation"))
+```
+
+```{r}
+#| eval: false
+# Backcalc intake but with bar plots instead 3 X 6 landscape####
+p1 <- ggplot(data = backcalc_summary, aes(x=Elevation, y=value)) + 
+  geom_bar(stat = "identity",  width = .75, position = position_dodge(),color="black", fill="white") + 
+  geom_errorbar(aes(ymin=value-sd, ymax=value+sd), width=.2,
+                position=position_dodge(.9))+  
+  theme_classic() +
+  scale_fill_manual(values="green") +
+  scale_y_continuous(name="Total intake (J)", limits=c(0, 500), expand = c(0,0))
+
+p1
+mod <- aov(backcalc_intake2$value~backcalc_intake2$Elevation)
+summary(mod)
+TukeyHSD(mod)
+
+new_intake2_summary <- data_summary(new_intake2, varname = "value", 
+                                    groupname =c("Elevation"))
+
+```
+
+```{r}
+#| eval: false
+p2 <- ggplot(data = new_intake2_summary, aes(x=Elevation, y=value)) + 
+  geom_bar(stat = "identity", width = .75,  position = position_dodge(),color="black", fill="white") + 
+  geom_errorbar(aes(ymin=value-sd, ymax=value+sd), width=.2,
+                position=position_dodge(.9))+  
+  theme_classic() +
+  scale_fill_manual(values="green") +
+  scale_y_continuous(name="Total intake (J)", limits=c(0, 500), expand = c(0,0))
+
+p2
+mod <- aov(new_intake2$value~new_intake2$Elevation)
+summary(mod)
+TukeyHSD(mod)
+
+grid.arrange(p1, p2, nrow = 1)
+```
+
+```{r}
+#| eval: false
+par(mfrow = c(1,3))
+plot(new_aq_cost2[,1]~time, xlab = "index", col = as.factor(Elevation)) #plots each sample - time is mislabeled - it should be index. 
+mod <- aov(new_aq_cost2$value~new_aq_cost2$Elevation)
+summary(mod)
+TukeyHSD(mod)
+
+plot(new_intake2[,1]~time, xlab = "index", col = as.factor(Elevation)) #plots each sample - time is mislabeled - it should be index. 
+plot(new_expose2[,1]~time, xlab = "index", col = as.factor(Elevation)) #plots each sample - time is mislabeled - it should be index. 
+mod2 <- aov(new_expose2$value~new_expose2$Elevation)
+summary(mod2)
+TukeyHSD(mod2)
+
+
+```

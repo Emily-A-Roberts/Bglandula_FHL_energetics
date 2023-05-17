@@ -1,0 +1,1660 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.335">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>model setup</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="model_setup_files/libs/clipboard/clipboard.min.js"></script>
+<script src="model_setup_files/libs/quarto-html/quarto.js"></script>
+<script src="model_setup_files/libs/quarto-html/popper.min.js"></script>
+<script src="model_setup_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="model_setup_files/libs/quarto-html/anchor.min.js"></script>
+<link href="model_setup_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="model_setup_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="model_setup_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="model_setup_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="model_setup_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+
+<script src="model_setup_files/libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="model_setup_files/libs/lightable-0.0.1/lightable.css" rel="stylesheet">
+
+
+</head>
+
+<body class="fullcontent">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">model setup</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<section id="aim-read-in-environmental-data-and-physiology-functions" class="level2">
+<h2 class="anchored" data-anchor-id="aim-read-in-environmental-data-and-physiology-functions">Aim: Read in environmental data and physiology functions</h2>
+</section>
+<section id="file-information" class="level1">
+<h1>File information</h1>
+<p>~/Library/CloudStorage/Box-Box/Sarah and Molly’s Box/FHL data/code/set_up_workspace/Model_20210409_iter_small_barnacles_food.2.R</p>
+<p>This is now set up to work with the desktop computer (different working directory) -1/20/21</p>
+<p>This sets up all of the data and functions for the model predictions</p>
+<p>This model is calibrated with Lisa’s data, and includes padilla bay chlorophyll seasonal data. To go back to Lisa’s dataset and check the calibration, please use this model setup.</p>
+<p>This model uses lengths rather than tissue mass samples. Go back to previous models, e.g.&nbsp;Model_202006.._iter… for tissue mass</p>
+</section>
+<section id="datasets-used-are-within-the-following-directories" class="level1">
+<h1>Datasets used are within the following directories:</h1>
+<p>If the file is opened within the .Rproj file, then the function here::here() will find the correct data file regardless of where this is being run. An alternative option is to set the root drive using knitr, but I’m having trouble doing this with quarto. Quarto seems to require that all the .qmd files live within the root directory.</p>
+</section>
+<section id="set-up-environment" class="level1">
+<h1>Set up environment</h1>
+<p>Clear the global environment</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">#rm(list = ls())</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Load libraries and set graphics theme:</p>
+<div class="cell">
+<div class="cell-output cell-output-stderr">
+<pre><code>Loading required package: stats4</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Loading required package: Matrix</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Loading required package: carData</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>lattice theme set by effectsTheme()
+See ?effectsTheme for details.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'nlme'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following object is masked from 'package:lme4':
+
+    lmList</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Loading required package: viridisLite</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'lubridate'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:base':
+
+    date, intersect, setdiff, union</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'dplyr'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following object is masked from 'package:nlme':
+
+    collapse</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following object is masked from 'package:bbmle':
+
+    slice</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:stats':
+
+    filter, lag</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:base':
+
+    intersect, setdiff, setequal, union</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'tidyr'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:Matrix':
+
+    expand, pack, unpack</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'zoo'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:base':
+
+    as.Date, as.Date.numeric</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'gridExtra'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following object is masked from 'package:dplyr':
+
+    combine</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'kableExtra'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following object is masked from 'package:dplyr':
+
+    group_rows</code></pre>
+</div>
+</div>
+<p>Toggle the period of interest (which 6 month period - the first or second?)</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Time period 1 or 2</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>timing <span class="ot">&lt;-</span> params<span class="sc">$</span>time_interval</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Toggle the subset of barnacles used (specify only small baracles will be used for calculations)</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Which subset of barnacles</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>small_only<span class="ot">&lt;-</span><span class="st">"Y"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Toggle plots on and off (turning plotting off will speed up the code)</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Turn plotting on and off (for the sake of speeding up the iterations)</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>figs <span class="ot">&lt;-</span> <span class="st">"Y"</span> <span class="co">#(Y or N)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>More toggles</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Food dynamics hypothesis</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>PadillaBay <span class="ot">=</span> <span class="st">"Y"</span></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a><span class="co">#Test run?</span></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>baby_model <span class="ot">&lt;-</span> <span class="st">"Y"</span> <span class="co">#Test run</span></span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>baby_model <span class="ot">&lt;-</span> <span class="st">"N"</span> <span class="co">#All data</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Set up dataframes to be used in plotting functional responses</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: false</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Plotting values for functional responses</span></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>pred.dat <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">Temp.n =</span> <span class="fu">rep</span>(<span class="fu">seq</span>(<span class="at">from =</span> <span class="dv">5</span>, <span class="at">to =</span> <span class="dv">40</span>, <span class="at">length.out =</span> <span class="dv">20</span>), <span class="at">times =</span> <span class="dv">3</span>),</span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">OperculumLength =</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="fl">4.5</span>, <span class="fl">5.5</span>, <span class="fl">6.5</span>),<span class="at">times =</span> <span class="dv">3</span>,<span class="at">each =</span> <span class="dv">20</span>),</span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">sizeclass =</span> <span class="fu">as.factor</span>(<span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">"small"</span>,<span class="st">"medium"</span>, <span class="st">"large"</span>),<span class="at">times =</span> <span class="dv">3</span>,<span class="at">each =</span> <span class="dv">20</span>))</span>
+<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a>pred.dat.aqua <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb28-12"><a href="#cb28-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">Temp.n =</span> <span class="fu">rep</span>(<span class="fu">seq</span>(<span class="at">from =</span> <span class="dv">5</span>, <span class="at">to =</span> <span class="dv">20</span>, <span class="at">length.out =</span> <span class="dv">20</span>), <span class="at">times =</span> <span class="dv">3</span>),</span>
+<span id="cb28-13"><a href="#cb28-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">OperculumLength =</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="fl">4.5</span>, <span class="fl">5.5</span>, <span class="fl">6.5</span>),<span class="at">times =</span> <span class="dv">3</span>,<span class="at">each =</span> <span class="dv">20</span>),</span>
+<span id="cb28-14"><a href="#cb28-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">sizeclass =</span> <span class="fu">as.factor</span>(<span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">"small"</span>,<span class="st">"medium"</span>, <span class="st">"large"</span>),<span class="at">times =</span> <span class="dv">3</span>,<span class="at">each =</span> <span class="dv">20</span>))</span>
+<span id="cb28-15"><a href="#cb28-15" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb28-16"><a href="#cb28-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-17"><a href="#cb28-17" aria-hidden="true" tabindex="-1"></a>pred.dat.air <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb28-18"><a href="#cb28-18" aria-hidden="true" tabindex="-1"></a>  <span class="at">Temp.n =</span> <span class="fu">rep</span>(<span class="fu">seq</span>(<span class="at">from =</span> <span class="dv">5</span>, <span class="at">to =</span> <span class="dv">40</span>, <span class="at">length.out =</span> <span class="dv">20</span>), <span class="at">times =</span> <span class="dv">3</span>),</span>
+<span id="cb28-19"><a href="#cb28-19" aria-hidden="true" tabindex="-1"></a>  <span class="at">OperculumLength =</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="fl">4.5</span>, <span class="fl">5.5</span>, <span class="fl">6.5</span>),<span class="at">times =</span> <span class="dv">3</span>,<span class="at">each =</span> <span class="dv">20</span>),</span>
+<span id="cb28-20"><a href="#cb28-20" aria-hidden="true" tabindex="-1"></a>  <span class="at">sizeclass =</span> <span class="fu">as.factor</span>(<span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">"small"</span>,<span class="st">"medium"</span>, <span class="st">"large"</span>),<span class="at">times =</span> <span class="dv">3</span>,<span class="at">each =</span> <span class="dv">20</span>))</span>
+<span id="cb28-21"><a href="#cb28-21" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Set up climate change calculator</p>
+<div class="cell">
+
+</div>
+</section>
+<section id="read-in-opercular-length-growth-data" class="level1">
+<h1>Read in opercular length growth data</h1>
+<p>Previous directories included: setwd(“C:/Users/eroberts/Box/PhotoAnalysis_Sp2020/datasheets_org/20201007_data”) setwd(“~/Box/PhotoAnalysis_Sp2020/datasheets_org/20201007_data”) setwd(“~/Box/PhotoAnalysis_Sp2020/FHL/datasheets_org/20201007_data”)</p>
+<p>and setwd(“~/Box/Sarah and Molly’s Box/FHL data/growth_individual/ForSam_20201007”)</p>
+<p>and setwd(“~/Library/CloudStorage/Box-Box/PhotoAnalysis_Sp2020/FHL/datasheets_org/20201007_data/probably final data set”)</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Note the here() function finds the file from the root directory. The root directory is set from running through the project in github. </span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>growth<span class="fl">.1</span> <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"data/growth_data/Scaled_data_Feb_Aug.csv"</span>))</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>growth<span class="fl">.2</span> <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"data/growth_data/Scaled_data_Aug_Mar.csv"</span>))</span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Quality control</span></span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>growth<span class="fl">.2</span> <span class="ot">&lt;-</span> growth<span class="fl">.2</span>[growth<span class="fl">.2</span><span class="sc">$</span>Elevation<span class="sc">!=</span><span class="st">""</span>,] <span class="co">#one line of NA's</span></span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>growth<span class="fl">.1</span> <span class="ot">&lt;-</span> growth<span class="fl">.1</span>[growth<span class="fl">.1</span><span class="sc">$</span>growth.Aug.Feb<span class="sc">&gt;=-</span>.<span class="dv">1</span>,] <span class="co">#one line of an outlier with a growth of &gt;-0.1</span></span>
+<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Structure dataframe</span></span>
+<span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a>growth<span class="fl">.1</span><span class="sc">$</span>Elevation <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(growth<span class="fl">.1</span><span class="sc">$</span>Elevation)</span>
+<span id="cb29-11"><a href="#cb29-11" aria-hidden="true" tabindex="-1"></a>growth<span class="fl">.2</span><span class="sc">$</span>Elevation <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(growth<span class="fl">.2</span><span class="sc">$</span>Elevation)</span>
+<span id="cb29-12"><a href="#cb29-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-13"><a href="#cb29-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Subset by size</span></span>
+<span id="cb29-14"><a href="#cb29-14" aria-hidden="true" tabindex="-1"></a>small_only <span class="ot">&lt;-</span> <span class="st">"Y"</span></span>
+<span id="cb29-15"><a href="#cb29-15" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(small_only<span class="sc">==</span><span class="st">"Y"</span>){</span>
+<span id="cb29-16"><a href="#cb29-16" aria-hidden="true" tabindex="-1"></a>  small<span class="fl">.1</span> <span class="ot">&lt;-</span> growth<span class="fl">.1</span>[growth<span class="fl">.1</span><span class="sc">$</span>Feb.Length <span class="sc">&gt;=</span> <span class="fl">0.15</span> <span class="sc">&amp;</span> growth<span class="fl">.1</span><span class="sc">$</span>Feb.Length <span class="sc">&lt;=</span> <span class="fl">0.30</span>,]</span>
+<span id="cb29-17"><a href="#cb29-17" aria-hidden="true" tabindex="-1"></a>  small<span class="fl">.2</span> <span class="ot">&lt;-</span> growth<span class="fl">.2</span>[growth<span class="fl">.2</span><span class="sc">$</span>Aug.Length <span class="sc">&gt;=</span> <span class="fl">0.15</span> <span class="sc">&amp;</span> growth<span class="fl">.2</span><span class="sc">$</span>Aug.Length <span class="sc">&lt;=</span> <span class="fl">0.30</span>,]</span>
+<span id="cb29-18"><a href="#cb29-18" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb29-19"><a href="#cb29-19" aria-hidden="true" tabindex="-1"></a>  growth<span class="fl">.1</span> <span class="ot">&lt;-</span> small<span class="fl">.1</span></span>
+<span id="cb29-20"><a href="#cb29-20" aria-hidden="true" tabindex="-1"></a>  growth<span class="fl">.2</span> <span class="ot">&lt;-</span> small<span class="fl">.2</span></span>
+<span id="cb29-21"><a href="#cb29-21" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb29-22"><a href="#cb29-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-23"><a href="#cb29-23" aria-hidden="true" tabindex="-1"></a><span class="co"># Subset the data for test run if flagged</span></span>
+<span id="cb29-24"><a href="#cb29-24" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(baby_model<span class="sc">==</span><span class="st">"Y"</span>){</span>
+<span id="cb29-25"><a href="#cb29-25" aria-hidden="true" tabindex="-1"></a>  growth.<span class="fl">1.</span>ave <span class="ot">&lt;-</span> growth<span class="fl">.1</span> <span class="sc">%&gt;%</span></span>
+<span id="cb29-26"><a href="#cb29-26" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(Elevation)<span class="sc">%&gt;%</span></span>
+<span id="cb29-27"><a href="#cb29-27" aria-hidden="true" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">summarise</span>(</span>
+<span id="cb29-28"><a href="#cb29-28" aria-hidden="true" tabindex="-1"></a>      <span class="at">n =</span> <span class="fu">n</span>(),</span>
+<span id="cb29-29"><a href="#cb29-29" aria-hidden="true" tabindex="-1"></a>      <span class="at">growth.Aug.Feb =</span> <span class="fu">mean</span>(growth.Aug.Feb, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb29-30"><a href="#cb29-30" aria-hidden="true" tabindex="-1"></a>      <span class="at">Feb.Length =</span> <span class="fu">mean</span>(Feb.Length, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb29-31"><a href="#cb29-31" aria-hidden="true" tabindex="-1"></a>      <span class="at">Aug.Length =</span> <span class="fu">mean</span>(Aug.Length, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb29-32"><a href="#cb29-32" aria-hidden="true" tabindex="-1"></a>    ) </span>
+<span id="cb29-33"><a href="#cb29-33" aria-hidden="true" tabindex="-1"></a>  growth.<span class="fl">2.</span>ave <span class="ot">&lt;-</span> growth<span class="fl">.2</span> <span class="sc">%&gt;%</span></span>
+<span id="cb29-34"><a href="#cb29-34" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(Elevation)<span class="sc">%&gt;%</span></span>
+<span id="cb29-35"><a href="#cb29-35" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarise</span>(</span>
+<span id="cb29-36"><a href="#cb29-36" aria-hidden="true" tabindex="-1"></a>      <span class="at">n =</span> <span class="fu">n</span>(),</span>
+<span id="cb29-37"><a href="#cb29-37" aria-hidden="true" tabindex="-1"></a>      <span class="at">growth.Mar.Aug =</span> <span class="fu">mean</span>(growth.Mar.Aug, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb29-38"><a href="#cb29-38" aria-hidden="true" tabindex="-1"></a>      <span class="at">Aug.Length =</span> <span class="fu">mean</span>(Aug.Length, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb29-39"><a href="#cb29-39" aria-hidden="true" tabindex="-1"></a>      <span class="at">Mar.Length =</span> <span class="fu">mean</span>(Mar.Length, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb29-40"><a href="#cb29-40" aria-hidden="true" tabindex="-1"></a>    ) </span>
+<span id="cb29-41"><a href="#cb29-41" aria-hidden="true" tabindex="-1"></a>  growth<span class="fl">.1</span> <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(growth.<span class="fl">1.</span>ave)</span>
+<span id="cb29-42"><a href="#cb29-42" aria-hidden="true" tabindex="-1"></a>  growth<span class="fl">.2</span> <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(growth.<span class="fl">2.</span>ave)</span>
+<span id="cb29-43"><a href="#cb29-43" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb29-44"><a href="#cb29-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-45"><a href="#cb29-45" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(figs <span class="sc">==</span> <span class="st">"Y"</span>){</span>
+<span id="cb29-46"><a href="#cb29-46" aria-hidden="true" tabindex="-1"></a>  <span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
+<span id="cb29-47"><a href="#cb29-47" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot</span>(growth<span class="fl">.1</span><span class="sc">$</span>Feb.Length, growth<span class="fl">.1</span><span class="sc">$</span>growth.Aug.Feb, </span>
+<span id="cb29-48"><a href="#cb29-48" aria-hidden="true" tabindex="-1"></a>       <span class="at">col =</span> <span class="fu">as.factor</span>(growth<span class="fl">.1</span><span class="sc">$</span>Elevation),  </span>
+<span id="cb29-49"><a href="#cb29-49" aria-hidden="true" tabindex="-1"></a>       <span class="at">ylim =</span> <span class="fu">c</span>(<span class="sc">-</span>.<span class="dv">1</span>,.<span class="dv">5</span>), <span class="at">xlim =</span> <span class="fu">c</span>(.<span class="dv">15</span>,.<span class="dv">3</span>),</span>
+<span id="cb29-50"><a href="#cb29-50" aria-hidden="true" tabindex="-1"></a>       <span class="at">ylab =</span> <span class="st">"Growth Feb to Aug (cm)"</span>,</span>
+<span id="cb29-51"><a href="#cb29-51" aria-hidden="true" tabindex="-1"></a>       <span class="at">xlab =</span> <span class="st">"Initial length (cm)"</span></span>
+<span id="cb29-52"><a href="#cb29-52" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb29-53"><a href="#cb29-53" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot</span>(growth<span class="fl">.2</span><span class="sc">$</span>Aug.Length, growth<span class="fl">.2</span><span class="sc">$</span>growth.Mar.Aug, </span>
+<span id="cb29-54"><a href="#cb29-54" aria-hidden="true" tabindex="-1"></a>       <span class="at">col =</span> <span class="fu">as.factor</span>(growth<span class="fl">.2</span><span class="sc">$</span>Elevation), </span>
+<span id="cb29-55"><a href="#cb29-55" aria-hidden="true" tabindex="-1"></a>       <span class="at">ylim =</span> <span class="fu">c</span>(<span class="sc">-</span>.<span class="dv">1</span>,.<span class="dv">25</span>), <span class="at">xlim =</span> <span class="fu">c</span>(.<span class="dv">15</span>,.<span class="dv">3</span>), </span>
+<span id="cb29-56"><a href="#cb29-56" aria-hidden="true" tabindex="-1"></a>       <span class="at">ylab =</span> <span class="st">"Growth Aug to Mar (cm)"</span>,</span>
+<span id="cb29-57"><a href="#cb29-57" aria-hidden="true" tabindex="-1"></a>       <span class="at">xlab =</span> <span class="st">"Initial length (cm)"</span></span>
+<span id="cb29-58"><a href="#cb29-58" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb29-59"><a href="#cb29-59" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-60"><a href="#cb29-60" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">3</span>))</span>
+<span id="cb29-61"><a href="#cb29-61" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(growth<span class="fl">.2</span><span class="sc">$</span>growth.Mar.Aug[growth<span class="fl">.2</span><span class="sc">$</span>Elevation<span class="sc">==</span><span class="st">"Upper"</span>], </span>
+<span id="cb29-62"><a href="#cb29-62" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">"Upper Mar - Aug"</span>, <span class="at">xlab =</span> <span class="st">"Change in operculum length (cm)"</span>)</span>
+<span id="cb29-63"><a href="#cb29-63" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(growth<span class="fl">.2</span><span class="sc">$</span>growth.Mar.Aug[growth<span class="fl">.2</span><span class="sc">$</span>Elevation<span class="sc">==</span><span class="st">"Mid"</span>], </span>
+<span id="cb29-64"><a href="#cb29-64" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">"Mid Mar - Aug"</span>, <span class="at">xlab =</span> <span class="st">"Change in operculum length (cm)"</span>)</span>
+<span id="cb29-65"><a href="#cb29-65" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(growth<span class="fl">.2</span><span class="sc">$</span>growth.Mar.Aug[growth<span class="fl">.2</span><span class="sc">$</span>Elevation<span class="sc">==</span><span class="st">"Low"</span>], </span>
+<span id="cb29-66"><a href="#cb29-66" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">"Low Mar - Aug"</span>, <span class="at">xlab =</span> <span class="st">"Change in operculum length (cm)"</span>)</span>
+<span id="cb29-67"><a href="#cb29-67" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="model_setup_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="cell-output-display">
+<p><img src="model_setup_files/figure-html/unnamed-chunk-10-2.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>More growth plots and table</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">as.factor</span>(growth<span class="fl">.1</span><span class="sc">$</span>Elevation), growth<span class="fl">.1</span><span class="sc">$</span>growth.Aug.Feb, <span class="at">ylim =</span> <span class="fu">c</span>(<span class="sc">-</span>.<span class="dv">08</span>, <span class="fl">0.25</span>), <span class="at">ylab =</span> <span class="st">""</span>, <span class="at">xlab =</span> <span class="st">"Elevation"</span>)</span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">as.factor</span>(growth<span class="fl">.2</span><span class="sc">$</span>Elevation), growth<span class="fl">.2</span><span class="sc">$</span>growth.Mar.Aug, <span class="at">ylim =</span> <span class="fu">c</span>(<span class="sc">-</span>.<span class="dv">08</span>, <span class="fl">0.25</span>), <span class="at">ylab =</span> <span class="st">"Growth (mm)"</span>, <span class="at">xlab =</span> <span class="st">"Elevation"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="model_setup_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="co"># No interactions:</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a><span class="co"># summary(lm(growth.1$growth.Aug.Feb~as.factor(growth.1$Elevation)+as.numeric(growth.1$Feb.Length)))</span></span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Time 1</span></span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(growth<span class="fl">.1</span><span class="sc">$</span>Feb.Length)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.2171867</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>mod1 <span class="ot">&lt;-</span> <span class="fu">lm</span>(growth.Aug.Feb<span class="sc">~</span>Elevation<span class="sc">*</span>Feb.Length, <span class="at">data =</span> growth<span class="fl">.1</span>)</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="fu">kbl</span>(<span class="fu">coef</span>(<span class="fu">summary</span>(mod1)))<span class="sc">%&gt;%</span></span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable_classic_2</span>(<span class="at">full_width =</span> F)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+
+<table class=" lightable-classic-2" style="font-family: &quot;Arial Narrow&quot;, &quot;Source Sans Pro&quot;, sans-serif; width: auto !important; margin-left: auto; margin-right: auto;">
+ <thead>
+  <tr>
+   <th style="text-align:left;">   </th>
+   <th style="text-align:right;"> Estimate </th>
+   <th style="text-align:right;"> Std. Error </th>
+   <th style="text-align:right;"> t value </th>
+   <th style="text-align:right;"> Pr(&gt;|t|) </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> (Intercept) </td>
+   <td style="text-align:right;"> 0.1506457 </td>
+   <td style="text-align:right;"> 0.0910366 </td>
+   <td style="text-align:right;"> 1.6547820 </td>
+   <td style="text-align:right;"> 0.1001023 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> ElevationMid </td>
+   <td style="text-align:right;"> -0.1066055 </td>
+   <td style="text-align:right;"> 0.0999380 </td>
+   <td style="text-align:right;"> -1.0667167 </td>
+   <td style="text-align:right;"> 0.2878486 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> ElevationUpper </td>
+   <td style="text-align:right;"> -0.0981680 </td>
+   <td style="text-align:right;"> 0.0941666 </td>
+   <td style="text-align:right;"> -1.0424921 </td>
+   <td style="text-align:right;"> 0.2988950 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Feb.Length </td>
+   <td style="text-align:right;"> -0.2727793 </td>
+   <td style="text-align:right;"> 0.3539495 </td>
+   <td style="text-align:right;"> -0.7706730 </td>
+   <td style="text-align:right;"> 0.4421377 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> ElevationMid:Feb.Length </td>
+   <td style="text-align:right;"> 0.2927743 </td>
+   <td style="text-align:right;"> 0.3934002 </td>
+   <td style="text-align:right;"> 0.7442148 </td>
+   <td style="text-align:right;"> 0.4579346 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> ElevationUpper:Feb.Length </td>
+   <td style="text-align:right;"> 0.2992674 </td>
+   <td style="text-align:right;"> 0.3718298 </td>
+   <td style="text-align:right;"> 0.8048505 </td>
+   <td style="text-align:right;"> 0.4222058 </td>
+  </tr>
+</tbody>
+</table>
+
+</div>
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>  <span class="co"># No interactions</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>mod1 <span class="ot">&lt;-</span> <span class="fu">lm</span>(growth.Aug.Feb<span class="sc">~</span>Elevation<span class="sc">+</span>Feb.Length, <span class="at">data =</span> growth<span class="fl">.1</span>)</span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a><span class="fu">kbl</span>(<span class="fu">coef</span>(<span class="fu">summary</span>(mod1)))<span class="sc">%&gt;%</span></span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable_classic_2</span>(<span class="at">full_width =</span> F)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+
+<table class=" lightable-classic-2" style="font-family: &quot;Arial Narrow&quot;, &quot;Source Sans Pro&quot;, sans-serif; width: auto !important; margin-left: auto; margin-right: auto;">
+ <thead>
+  <tr>
+   <th style="text-align:left;">   </th>
+   <th style="text-align:right;"> Estimate </th>
+   <th style="text-align:right;"> Std. Error </th>
+   <th style="text-align:right;"> t value </th>
+   <th style="text-align:right;"> Pr(&gt;|t|) </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> (Intercept) </td>
+   <td style="text-align:right;"> 0.0802769 </td>
+   <td style="text-align:right;"> 0.0275039 </td>
+   <td style="text-align:right;"> 2.9187498 </td>
+   <td style="text-align:right;"> 0.0040599 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> ElevationMid </td>
+   <td style="text-align:right;"> -0.0325974 </td>
+   <td style="text-align:right;"> 0.0168518 </td>
+   <td style="text-align:right;"> -1.9343539 </td>
+   <td style="text-align:right;"> 0.0549646 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> ElevationUpper </td>
+   <td style="text-align:right;"> -0.0232475 </td>
+   <td style="text-align:right;"> 0.0160775 </td>
+   <td style="text-align:right;"> -1.4459641 </td>
+   <td style="text-align:right;"> 0.1502874 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Feb.Length </td>
+   <td style="text-align:right;"> 0.0045558 </td>
+   <td style="text-align:right;"> 0.0912726 </td>
+   <td style="text-align:right;"> 0.0499146 </td>
+   <td style="text-align:right;"> 0.9602573 </td>
+  </tr>
+</tbody>
+</table>
+
+</div>
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>dat1.emm <span class="ot">&lt;-</span> <span class="fu">emmeans</span>(mod1, <span class="st">"Elevation"</span>)</span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a><span class="co"># plot(dat1.emm)</span></span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a><span class="co">#emmeans::emmip(mod1, growth.Mar.Aug ~ Elevation , CIs = TRUE)</span></span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>dat1.emm.df <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(dat1.emm)</span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a>mid <span class="ot">&lt;-</span> <span class="fu">barplot</span>(<span class="at">data =</span> dat1.emm.df, emmean<span class="sc">~</span>Elevation, </span>
+<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a>               <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>,.<span class="dv">15</span>), <span class="at">ylab =</span> <span class="st">"Size-corrected growth (cm per 6-months)"</span>)</span>
+<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a><span class="fu">arrows</span>(<span class="at">x0=</span>mid, <span class="at">y0=</span>dat1.emm.df<span class="sc">$</span>lower.CL, <span class="at">x1=</span>mid, </span>
+<span id="cb35-8"><a href="#cb35-8" aria-hidden="true" tabindex="-1"></a>       <span class="at">y1=</span>dat1.emm.df<span class="sc">$</span>upper.CL, <span class="at">code =</span> <span class="dv">3</span>, <span class="at">angle=</span><span class="dv">90</span>, </span>
+<span id="cb35-9"><a href="#cb35-9" aria-hidden="true" tabindex="-1"></a>       <span class="at">length=</span><span class="fl">0.1</span>)</span>
+<span id="cb35-10"><a href="#cb35-10" aria-hidden="true" tabindex="-1"></a>(<span class="fl">0.08126638</span> <span class="sc">-</span> <span class="fl">0.05801888</span>) <span class="sc">/</span> <span class="fl">0.05801888</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.4006885</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(growth<span class="fl">.2</span><span class="sc">$</span>Aug.Length)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.2319636</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Time 2</span></span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>mod1 <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="at">data =</span> growth<span class="fl">.2</span>, growth.Mar.Aug<span class="sc">~</span>Elevation<span class="sc">*</span>Aug.Length)</span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a><span class="fu">kbl</span>(<span class="fu">coef</span>(<span class="fu">summary</span>(mod1)))<span class="sc">%&gt;%</span></span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable_classic_2</span>(<span class="at">full_width =</span> F)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+
+<table class=" lightable-classic-2" style="font-family: &quot;Arial Narrow&quot;, &quot;Source Sans Pro&quot;, sans-serif; width: auto !important; margin-left: auto; margin-right: auto;">
+ <thead>
+  <tr>
+   <th style="text-align:left;">   </th>
+   <th style="text-align:right;"> Estimate </th>
+   <th style="text-align:right;"> Std. Error </th>
+   <th style="text-align:right;"> t value </th>
+   <th style="text-align:right;"> Pr(&gt;|t|) </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> (Intercept) </td>
+   <td style="text-align:right;"> 0.0927026 </td>
+   <td style="text-align:right;"> 0.0558446 </td>
+   <td style="text-align:right;"> 1.6600097 </td>
+   <td style="text-align:right;"> 0.0992863 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> ElevationMid </td>
+   <td style="text-align:right;"> 0.0459385 </td>
+   <td style="text-align:right;"> 0.0940378 </td>
+   <td style="text-align:right;"> 0.4885109 </td>
+   <td style="text-align:right;"> 0.6259986 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> ElevationUpper </td>
+   <td style="text-align:right;"> 0.0819102 </td>
+   <td style="text-align:right;"> 0.0633740 </td>
+   <td style="text-align:right;"> 1.2924890 </td>
+   <td style="text-align:right;"> 0.1984458 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Aug.Length </td>
+   <td style="text-align:right;"> -0.0510427 </td>
+   <td style="text-align:right;"> 0.2420486 </td>
+   <td style="text-align:right;"> -0.2108778 </td>
+   <td style="text-align:right;"> 0.8333078 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> ElevationMid:Aug.Length </td>
+   <td style="text-align:right;"> -0.2535982 </td>
+   <td style="text-align:right;"> 0.3842576 </td>
+   <td style="text-align:right;"> -0.6599694 </td>
+   <td style="text-align:right;"> 0.5104234 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> ElevationUpper:Aug.Length </td>
+   <td style="text-align:right;"> -0.4437342 </td>
+   <td style="text-align:right;"> 0.2742084 </td>
+   <td style="text-align:right;"> -1.6182370 </td>
+   <td style="text-align:right;"> 0.1079986 </td>
+  </tr>
+</tbody>
+</table>
+
+</div>
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>  <span class="co"># No interactions</span></span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>mod1 <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="at">data =</span> growth<span class="fl">.2</span>, growth.Mar.Aug<span class="sc">~</span>Elevation<span class="sc">+</span>Aug.Length)</span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a><span class="fu">kbl</span>(<span class="fu">coef</span>(<span class="fu">summary</span>(mod1)))<span class="sc">%&gt;%</span></span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable_classic_2</span>(<span class="at">full_width =</span> F)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+
+<table class=" lightable-classic-2" style="font-family: &quot;Arial Narrow&quot;, &quot;Source Sans Pro&quot;, sans-serif; width: auto !important; margin-left: auto; margin-right: auto;">
+ <thead>
+  <tr>
+   <th style="text-align:left;">   </th>
+   <th style="text-align:right;"> Estimate </th>
+   <th style="text-align:right;"> Std. Error </th>
+   <th style="text-align:right;"> t value </th>
+   <th style="text-align:right;"> Pr(&gt;|t|) </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> (Intercept) </td>
+   <td style="text-align:right;"> 0.1689942 </td>
+   <td style="text-align:right;"> 0.0256045 </td>
+   <td style="text-align:right;"> 6.6001825 </td>
+   <td style="text-align:right;"> 0.0000000 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> ElevationMid </td>
+   <td style="text-align:right;"> -0.0101646 </td>
+   <td style="text-align:right;"> 0.0137095 </td>
+   <td style="text-align:right;"> -0.7414298 </td>
+   <td style="text-align:right;"> 0.4597303 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> ElevationUpper </td>
+   <td style="text-align:right;"> -0.0195878 </td>
+   <td style="text-align:right;"> 0.0091685 </td>
+   <td style="text-align:right;"> -2.1364360 </td>
+   <td style="text-align:right;"> 0.0344612 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Aug.Length </td>
+   <td style="text-align:right;"> -0.3851085 </td>
+   <td style="text-align:right;"> 0.1065605 </td>
+   <td style="text-align:right;"> -3.6139895 </td>
+   <td style="text-align:right;"> 0.0004255 </td>
+  </tr>
+</tbody>
+</table>
+
+</div>
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>dat1.emm <span class="ot">&lt;-</span> <span class="fu">emmeans</span>(mod1, <span class="st">"Elevation"</span>)</span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a><span class="co"># plot(dat1.emm)</span></span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a><span class="co">#emmeans::emmip(mod1, growth.Mar.Aug ~ Elevation , CIs = TRUE)</span></span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>dat1.emm.df <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(dat1.emm)</span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a>mid <span class="ot">&lt;-</span> <span class="fu">barplot</span>(<span class="at">data =</span> dat1.emm.df, emmean<span class="sc">~</span>Elevation, </span>
+<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a>               <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>,.<span class="dv">15</span>), <span class="at">ylab =</span> <span class="st">""</span>)</span>
+<span id="cb41-7"><a href="#cb41-7" aria-hidden="true" tabindex="-1"></a><span class="fu">arrows</span>(<span class="at">x0=</span>mid, <span class="at">y0=</span>dat1.emm.df<span class="sc">$</span>lower.CL, <span class="at">x1=</span>mid, </span>
+<span id="cb41-8"><a href="#cb41-8" aria-hidden="true" tabindex="-1"></a>       <span class="at">y1=</span>dat1.emm.df<span class="sc">$</span>upper.CL, <span class="at">code =</span> <span class="dv">3</span>, <span class="at">angle=</span><span class="dv">90</span>, </span>
+<span id="cb41-9"><a href="#cb41-9" aria-hidden="true" tabindex="-1"></a>       <span class="at">length=</span><span class="fl">0.1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="model_setup_files/figure-html/unnamed-chunk-11-2.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>(<span class="fl">0.08086259</span> <span class="sc">-</span> <span class="fl">0.05984264</span>) <span class="sc">/</span> <span class="fl">0.05984264</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.3512537</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>Timepoint_1 <span class="ot">&lt;-</span> <span class="fu">as.POSIXct</span>( <span class="st">"2018-02-04"</span>, <span class="at">format=</span><span class="st">"%Y-%m-%d"</span>, <span class="at">tz =</span> <span class="st">"GMT"</span>)</span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Timepoint_2 &lt;- as.POSIXct( "2018-08-13", format="%Y-%m-%d", tz = "GMT") #Changed 20210405 to avoid 1 day gap in data as loggers were switched out and photos were taken</span></span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>Timepoint_1_end <span class="ot">&lt;-</span> <span class="fu">as.POSIXct</span>( <span class="st">"2018-08-12"</span>, <span class="at">format=</span><span class="st">"%Y-%m-%d"</span>, <span class="at">tz =</span> <span class="st">"GMT"</span>)</span>
+<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a>Timepoint_2_start <span class="ot">&lt;-</span> <span class="fu">as.POSIXct</span>( <span class="st">"2018-08-15"</span>, <span class="at">format=</span><span class="st">"%Y-%m-%d"</span>, <span class="at">tz =</span> <span class="st">"GMT"</span>)</span>
+<span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a>Timepoint_3 <span class="ot">&lt;-</span> <span class="fu">as.POSIXct</span>( <span class="st">"2019-03-01"</span>, <span class="at">format=</span><span class="st">"%Y-%m-%d"</span>, <span class="at">tz =</span> <span class="st">"GMT"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="relationship-between-operculum-and-tissue-mass" class="level1">
+<h1>Relationship between operculum and tissue mass</h1>
+<p>This information is not used in this model. It was used for the previous analysis of the larger barnacles.</p>
+<p>Larger barnacles did not change in opercular length much, but their tissue mass and condition index varied. We were not able to quantify reproductive ouput, and reproductive timing confounded tissue gain and loss of larger barnacles. Given this issue, we chose to focus on the growth rates of small barnacles.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ============================#</span></span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Read in tissue mass data ####</span></span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a><span class="co"># ============================#</span></span>
+<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a><span class="co">#setwd("C:/Users/eroberts/Box/Sarah and Molly's Box/FHL data/length mass relationship/FHL Collected Barnacles")</span></span>
+<span id="cb45-5"><a href="#cb45-5" aria-hidden="true" tabindex="-1"></a><span class="co">#setwd("~/Box/Sarah and Molly's Box/FHL data/length mass relationship/FHL Collected Barnacles")</span></span>
+<span id="cb45-6"><a href="#cb45-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-7"><a href="#cb45-7" aria-hidden="true" tabindex="-1"></a><span class="fu">setwd</span>(<span class="st">"~/Library/CloudStorage/Box-Box/Sarah and Molly's Box/FHL data/length mass relationship/FHL Collected Barnacles"</span>)</span>
+<span id="cb45-8"><a href="#cb45-8" aria-hidden="true" tabindex="-1"></a>len_mass_Feb18 <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="at">file =</span> <span class="st">"FHL 201803_Mar.csv"</span>, <span class="at">stringsAsFactors =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb45-9"><a href="#cb45-9" aria-hidden="true" tabindex="-1"></a>len_mass_Aug18 <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="at">file =</span> <span class="st">"FHL 201808_Aug.csv"</span>, <span class="at">stringsAsFactors =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb45-10"><a href="#cb45-10" aria-hidden="true" tabindex="-1"></a>len_mass_Mar19 <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="at">file =</span> <span class="st">"FHL 201903_Mar.csv"</span>, <span class="at">stringsAsFactors =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="read-in-temperature-data" class="level1">
+<h1>Read in temperature data</h1>
+<p>Visually, this looks like: High – 1.97 m = 6.46 ft Mid – 1.55 m = 5.08 ft Low – 1.20 m = 3.93 ft Bars denote plus or minus 0.05 m (= 0.16 ft)</p>
+<p>In email January 8, 2020, Gordon got: High = 1.98m Mid = 1.58m Low = 1.18m</p>
+<p>From diagrams I know that the whole setup is about 3.5 ft from bottom to top, with 1 ft in between each layer of tiles. More like 2.5 bc not at edge</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="co">#setwd("~/Box/Sarah and Molly's Box/FHL data/HOBO data/Tides")</span></span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a><span class="co">#setwd("C:/Users/eroberts/Box/Sarah and Molly's Box/FHL data/HOBO data/Tides")</span></span>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a><span class="co"># setwd("~/Library/CloudStorage/Box-Box/Sarah and Molly's Box/FHL data/HOBO data/Tides")</span></span>
+<span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a><span class="co"># setwd("~/Documents/GitHub/Bglandula_FHL_energetics/data/environmental_data")</span></span>
+<span id="cb46-5"><a href="#cb46-5" aria-hidden="true" tabindex="-1"></a><span class="co"># READING IN NEW TEMP DATASET ####</span></span>
+<span id="cb46-6"><a href="#cb46-6" aria-hidden="true" tabindex="-1"></a>tempdat <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"data/environmental_data/TempAndWaterLevel_QC.20210401.csv"</span>), <span class="at">stringsAsFactors =</span> <span class="cn">FALSE</span>) <span class="co">#This is saved in r code HoboCombineFHL...v4.R</span></span>
+<span id="cb46-7"><a href="#cb46-7" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(tempdat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>'data.frame':   54803 obs. of  7 variables:
+ $ X          : int  1 2 3 4 5 6 7 8 9 10 ...
+ $ datetime   : chr  "2017-08-07 00:45:00" "2017-08-07 01:00:00" "2017-08-07 01:15:00" "2017-08-07 01:30:00" ...
+ $ Upper      : num  13.7 14.2 14.1 14.1 14 ...
+ $ Mid        : num  13.3 14.2 14.1 14.1 14.1 ...
+ $ Low        : num  13.2 14.1 14 14 14 ...
+ $ Water.Level: num  NA 2.23 2.26 2.29 2.3 ...
+ $ Water.Temp : num  16.1 12.8 11.6 11.8 12.8 ...</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>tempdat<span class="sc">$</span>datetime <span class="ot">&lt;-</span> <span class="fu">as.POSIXct</span>(tempdat<span class="sc">$</span>datetime, <span class="at">tz =</span> <span class="st">"GMT"</span>)</span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>df.new <span class="ot">&lt;-</span> tempdat</span>
+<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a>tempdat <span class="ot">&lt;-</span> tempdat[<span class="sc">!</span><span class="fu">is.na</span>(tempdat<span class="sc">$</span>Water.Level),]</span>
+<span id="cb48-4"><a href="#cb48-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb48-5"><a href="#cb48-5" aria-hidden="true" tabindex="-1"></a>subsetcheck1 <span class="ot">&lt;-</span> <span class="fu">as.POSIXct</span>(<span class="st">"2018-08-20 00:00:00"</span>)</span>
+<span id="cb48-6"><a href="#cb48-6" aria-hidden="true" tabindex="-1"></a>subsetcheck2 <span class="ot">&lt;-</span> <span class="fu">as.POSIXct</span>(<span class="st">"2018-08-26 00:00:00"</span>)</span>
+<span id="cb48-7"><a href="#cb48-7" aria-hidden="true" tabindex="-1"></a>tempdat_subset <span class="ot">&lt;-</span> tempdat[tempdat<span class="sc">$</span>datetime <span class="sc">&gt;</span> subsetcheck1<span class="sc">&amp;</span>tempdat<span class="sc">$</span>datetime <span class="sc">&lt;</span> subsetcheck2,]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>tempdat<span class="sc">$</span>Upper_air <span class="ot">&lt;-</span> tempdat<span class="sc">$</span>Upper</span>
+<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>tempdat<span class="sc">$</span>Upper_water <span class="ot">&lt;-</span> tempdat<span class="sc">$</span>Upper</span>
+<span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a>tempdat<span class="sc">$</span>Upper_air[tempdat<span class="sc">$</span>Water.Level<span class="sc">&gt;=</span><span class="fl">1.97</span>] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
+<span id="cb49-4"><a href="#cb49-4" aria-hidden="true" tabindex="-1"></a>tempdat<span class="sc">$</span>Upper_water[tempdat<span class="sc">$</span>Water.Level<span class="sc">&lt;</span><span class="fl">1.97</span>] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
+<span id="cb49-5"><a href="#cb49-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb49-6"><a href="#cb49-6" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">3</span>))</span>
+<span id="cb49-7"><a href="#cb49-7" aria-hidden="true" tabindex="-1"></a><span class="co"># plot(tempdat$Upper_air ~ tempdat$datetime, col = "red")</span></span>
+<span id="cb49-8"><a href="#cb49-8" aria-hidden="true" tabindex="-1"></a><span class="co"># points(tempdat$Upper_water ~ tempdat$datetime, col = "blue")</span></span>
+<span id="cb49-9"><a href="#cb49-9" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(tempdat<span class="sc">$</span>Upper_air <span class="sc">~</span> tempdat<span class="sc">$</span>datetime, <span class="at">col =</span> <span class="st">"red"</span>)</span>
+<span id="cb49-10"><a href="#cb49-10" aria-hidden="true" tabindex="-1"></a><span class="fu">points</span>(tempdat<span class="sc">$</span>Upper_water <span class="sc">~</span> tempdat<span class="sc">$</span>datetime, <span class="at">col =</span> <span class="st">"blue"</span>)</span>
+<span id="cb49-11"><a href="#cb49-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb49-12"><a href="#cb49-12" aria-hidden="true" tabindex="-1"></a>tempdat<span class="sc">$</span>Mid_air <span class="ot">&lt;-</span> tempdat<span class="sc">$</span>Mid</span>
+<span id="cb49-13"><a href="#cb49-13" aria-hidden="true" tabindex="-1"></a>tempdat<span class="sc">$</span>Mid_water <span class="ot">&lt;-</span> tempdat<span class="sc">$</span>Mid</span>
+<span id="cb49-14"><a href="#cb49-14" aria-hidden="true" tabindex="-1"></a>tempdat<span class="sc">$</span>Mid_air[tempdat<span class="sc">$</span>Water.Level<span class="sc">&gt;=</span><span class="fl">1.55</span>] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
+<span id="cb49-15"><a href="#cb49-15" aria-hidden="true" tabindex="-1"></a>tempdat<span class="sc">$</span>Mid_water[tempdat<span class="sc">$</span>Water.Level<span class="sc">&lt;</span><span class="fl">1.55</span>] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
+<span id="cb49-16"><a href="#cb49-16" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(tempdat<span class="sc">$</span>Mid_air <span class="sc">~</span> tempdat<span class="sc">$</span>datetime, <span class="at">col =</span> <span class="st">"red"</span>)</span>
+<span id="cb49-17"><a href="#cb49-17" aria-hidden="true" tabindex="-1"></a><span class="fu">points</span>(tempdat<span class="sc">$</span>Mid_water <span class="sc">~</span> tempdat<span class="sc">$</span>datetime, <span class="at">col =</span> <span class="st">"blue"</span>)</span>
+<span id="cb49-18"><a href="#cb49-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb49-19"><a href="#cb49-19" aria-hidden="true" tabindex="-1"></a>tempdat<span class="sc">$</span>Low_air <span class="ot">&lt;-</span> tempdat<span class="sc">$</span>Low</span>
+<span id="cb49-20"><a href="#cb49-20" aria-hidden="true" tabindex="-1"></a>tempdat<span class="sc">$</span>Low_water <span class="ot">&lt;-</span> tempdat<span class="sc">$</span>Low</span>
+<span id="cb49-21"><a href="#cb49-21" aria-hidden="true" tabindex="-1"></a>tempdat<span class="sc">$</span>Low_air[tempdat<span class="sc">$</span>Water.Level<span class="sc">&gt;=</span><span class="fl">1.20</span>] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
+<span id="cb49-22"><a href="#cb49-22" aria-hidden="true" tabindex="-1"></a>tempdat<span class="sc">$</span>Low_water[tempdat<span class="sc">$</span>Water.Level<span class="sc">&lt;</span><span class="fl">1.20</span>] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
+<span id="cb49-23"><a href="#cb49-23" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(tempdat<span class="sc">$</span>Low_air <span class="sc">~</span> tempdat<span class="sc">$</span>datetime, <span class="at">col =</span> <span class="st">"red"</span>)</span>
+<span id="cb49-24"><a href="#cb49-24" aria-hidden="true" tabindex="-1"></a><span class="fu">points</span>(tempdat<span class="sc">$</span>Low_water <span class="sc">~</span> tempdat<span class="sc">$</span>datetime, <span class="at">col =</span> <span class="st">"blue"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="model_setup_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>water.temp <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">datetime =</span> tempdat<span class="sc">$</span>datetime,</span>
+<span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">Upper =</span> tempdat<span class="sc">$</span>Upper_water,</span>
+<span id="cb50-4"><a href="#cb50-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">Mid =</span> tempdat<span class="sc">$</span>Mid_water,</span>
+<span id="cb50-5"><a href="#cb50-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">Low =</span> tempdat<span class="sc">$</span>Low_water)</span>
+<span id="cb50-6"><a href="#cb50-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb50-7"><a href="#cb50-7" aria-hidden="true" tabindex="-1"></a>air.temp <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb50-8"><a href="#cb50-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">datetime =</span> tempdat<span class="sc">$</span>datetime,</span>
+<span id="cb50-9"><a href="#cb50-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">Upper =</span> tempdat<span class="sc">$</span>Upper_air,</span>
+<span id="cb50-10"><a href="#cb50-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">Mid =</span> tempdat<span class="sc">$</span>Mid_air,</span>
+<span id="cb50-11"><a href="#cb50-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">Low =</span> tempdat<span class="sc">$</span>Low_air)</span>
+<span id="cb50-12"><a href="#cb50-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb50-13"><a href="#cb50-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb50-14"><a href="#cb50-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb50-15"><a href="#cb50-15" aria-hidden="true" tabindex="-1"></a><span class="co">#if(timing == 1){ </span></span>
+<span id="cb50-16"><a href="#cb50-16" aria-hidden="true" tabindex="-1"></a>  starttime <span class="ot">&lt;-</span> Timepoint_1</span>
+<span id="cb50-17"><a href="#cb50-17" aria-hidden="true" tabindex="-1"></a>  endtime <span class="ot">&lt;-</span> Timepoint_1_end</span>
+<span id="cb50-18"><a href="#cb50-18" aria-hidden="true" tabindex="-1"></a>  air.temp<span class="fl">.1</span> <span class="ot">&lt;-</span> air.temp[air.temp<span class="sc">$</span>datetime<span class="sc">&gt;=</span>starttime <span class="sc">&amp;</span> air.temp<span class="sc">$</span>datetime<span class="sc">&lt;=</span> endtime <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(air.temp<span class="sc">$</span>datetime),]</span>
+<span id="cb50-19"><a href="#cb50-19" aria-hidden="true" tabindex="-1"></a>  water.temp<span class="fl">.1</span> <span class="ot">&lt;-</span> water.temp[water.temp<span class="sc">$</span>datetime<span class="sc">&gt;=</span>starttime <span class="sc">&amp;</span> water.temp<span class="sc">$</span>datetime<span class="sc">&lt;=</span> endtime <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(water.temp<span class="sc">$</span>datetime),]</span>
+<span id="cb50-20"><a href="#cb50-20" aria-hidden="true" tabindex="-1"></a><span class="co">#}</span></span>
+<span id="cb50-21"><a href="#cb50-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb50-22"><a href="#cb50-22" aria-hidden="true" tabindex="-1"></a><span class="co">#if(timing == 2){</span></span>
+<span id="cb50-23"><a href="#cb50-23" aria-hidden="true" tabindex="-1"></a>  starttime <span class="ot">&lt;-</span> Timepoint_2_start</span>
+<span id="cb50-24"><a href="#cb50-24" aria-hidden="true" tabindex="-1"></a>  endtime <span class="ot">&lt;-</span> Timepoint_3</span>
+<span id="cb50-25"><a href="#cb50-25" aria-hidden="true" tabindex="-1"></a>  air.temp<span class="fl">.2</span> <span class="ot">&lt;-</span> air.temp[air.temp<span class="sc">$</span>datetime<span class="sc">&gt;=</span>starttime <span class="sc">&amp;</span> air.temp<span class="sc">$</span>datetime<span class="sc">&lt;=</span> endtime <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(air.temp<span class="sc">$</span>datetime),]</span>
+<span id="cb50-26"><a href="#cb50-26" aria-hidden="true" tabindex="-1"></a>  water.temp<span class="fl">.2</span> <span class="ot">&lt;-</span> water.temp[water.temp<span class="sc">$</span>datetime<span class="sc">&gt;=</span>starttime <span class="sc">&amp;</span> water.temp<span class="sc">$</span>datetime<span class="sc">&lt;=</span> endtime <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(water.temp<span class="sc">$</span>datetime),]</span>
+<span id="cb50-27"><a href="#cb50-27" aria-hidden="true" tabindex="-1"></a><span class="co">#}</span></span>
+<span id="cb50-28"><a href="#cb50-28" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb50-29"><a href="#cb50-29" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb50-30"><a href="#cb50-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>))</span>
+<span id="cb50-31"><a href="#cb50-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb50-32"><a href="#cb50-32" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(tempdat<span class="sc">$</span>Upper, <span class="at">pch =</span> <span class="st">"."</span>)</span>
+<span id="cb50-33"><a href="#cb50-33" aria-hidden="true" tabindex="-1"></a><span class="fu">points</span>(tempdat<span class="sc">$</span>Mid, <span class="at">col =</span> <span class="st">"blue"</span>, <span class="at">pch=</span><span class="st">"."</span>)</span>
+<span id="cb50-34"><a href="#cb50-34" aria-hidden="true" tabindex="-1"></a><span class="fu">points</span>(tempdat<span class="sc">$</span>Low, <span class="at">col =</span> <span class="st">"orange"</span>, <span class="at">pch =</span> <span class="st">"."</span>)</span>
+<span id="cb50-35"><a href="#cb50-35" aria-hidden="true" tabindex="-1"></a><span class="fu">title</span>(<span class="st">"Temps at the 3 tidal elevations over 1 year"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="model_setup_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(tempdat_subset<span class="sc">$</span>Upper, <span class="at">pch =</span> <span class="st">"."</span>)</span>
+<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a><span class="fu">points</span>(tempdat_subset<span class="sc">$</span>Mid, <span class="at">col =</span> <span class="st">"blue"</span>, <span class="at">pch=</span><span class="st">"."</span>)</span>
+<span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a><span class="fu">points</span>(tempdat_subset<span class="sc">$</span>Low, <span class="at">col =</span> <span class="st">"orange"</span>, <span class="at">pch =</span> <span class="st">"."</span>)</span>
+<span id="cb51-4"><a href="#cb51-4" aria-hidden="true" tabindex="-1"></a><span class="fu">title</span>(<span class="st">"Temps of the 3 tidal elevations over one week"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="model_setup_files/figure-html/unnamed-chunk-16-2.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(air.temp<span class="fl">.1</span><span class="sc">$</span>Upper, <span class="at">pch =</span> <span class="st">"."</span>)</span>
+<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a><span class="fu">points</span>(air.temp<span class="fl">.1</span><span class="sc">$</span>Mid, <span class="at">col =</span> <span class="st">"blue"</span>, <span class="at">pch=</span><span class="st">"."</span>)</span>
+<span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a><span class="fu">points</span>(air.temp<span class="fl">.1</span><span class="sc">$</span>Low, <span class="at">col =</span> <span class="st">"orange"</span>, <span class="at">pch =</span> <span class="st">"."</span>)</span>
+<span id="cb52-4"><a href="#cb52-4" aria-hidden="true" tabindex="-1"></a><span class="fu">title</span>(<span class="st">"Temps of the 3 tidal elevations over the first 6-month experiment"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="model_setup_files/figure-html/unnamed-chunk-16-3.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(air.temp<span class="fl">.2</span><span class="sc">$</span>Upper, <span class="at">pch =</span> <span class="st">"."</span>)</span>
+<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a><span class="fu">points</span>(air.temp<span class="fl">.2</span><span class="sc">$</span>Mid, <span class="at">col =</span> <span class="st">"blue"</span>, <span class="at">pch=</span><span class="st">"."</span>)</span>
+<span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a><span class="fu">points</span>(air.temp<span class="fl">.2</span><span class="sc">$</span>Low, <span class="at">col =</span> <span class="st">"orange"</span>, <span class="at">pch =</span> <span class="st">"."</span>)</span>
+<span id="cb53-4"><a href="#cb53-4" aria-hidden="true" tabindex="-1"></a><span class="fu">title</span>(<span class="st">"Temps of the 3 tidal elevations over the second 6-month experiment"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="model_setup_files/figure-html/unnamed-chunk-16-4.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="food-data" class="level1">
+<h1>Food data</h1>
+<p>Data found in:</p>
+<p>#setwd(“~/Box/Sarah and Molly’s Box/FHL data/SONDE data/Padilla Bay/909184_all_data_2003topresent”)</p>
+<p>setwd(“C:/Users/eroberts/Box/Sarah and Molly’s Box/FHL data/SONDE data/Padilla Bay/909184_all_data_2003topresent”)</p>
+<p>setwd(“~/Library/CloudStorage/Box-Box/Sarah and Molly’s Box/FHL data/SONDE data/Padilla Bay/909184_all_data_2003topresent/”)</p>
+<p>Read in data</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a>PB <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"data/environmental_data/PDBGSWQ_dataonly.csv"</span>), <span class="at">stringsAsFactors =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb54-3"><a href="#cb54-3" aria-hidden="true" tabindex="-1"></a><span class="co">#Technically this should be in pdt, but this is being used to calculate weekly averages and lubridate is not working correctly</span></span>
+<span id="cb54-4"><a href="#cb54-4" aria-hidden="true" tabindex="-1"></a>PB<span class="sc">$</span>datetime <span class="ot">&lt;-</span><span class="fu">as.POSIXct</span>(PB<span class="sc">$</span>m.d.y.hh.mm, <span class="at">format =</span> <span class="st">"%m/%d/%y %H:%M"</span>, <span class="at">tz =</span> <span class="st">"UTC"</span>)</span>
+<span id="cb54-5"><a href="#cb54-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb54-6"><a href="#cb54-6" aria-hidden="true" tabindex="-1"></a><span class="co">#subset to only include the past 3 years...</span></span>
+<span id="cb54-7"><a href="#cb54-7" aria-hidden="true" tabindex="-1"></a>time_zone <span class="ot">&lt;-</span> <span class="st">"UTC"</span></span>
+<span id="cb54-8"><a href="#cb54-8" aria-hidden="true" tabindex="-1"></a>PB_subset <span class="ot">&lt;-</span> PB[PB<span class="sc">$</span>datetime <span class="sc">&gt;</span> <span class="fu">as.POSIXct</span>(<span class="st">"2017-01-01 00:00:00"</span>, <span class="at">tz =</span> <span class="st">"UTC"</span>) <span class="sc">&amp;</span> PB<span class="sc">$</span>datetime<span class="sc">&lt;</span> <span class="fu">as.POSIXct</span>(<span class="st">"2020-01-01 00:00:00"</span>, <span class="at">tz =</span> time_zone),]</span>
+<span id="cb54-9"><a href="#cb54-9" aria-hidden="true" tabindex="-1"></a>PB <span class="ot">&lt;-</span> PB_subset</span>
+<span id="cb54-10"><a href="#cb54-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb54-11"><a href="#cb54-11" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(PB<span class="sc">$</span>datetime, PB<span class="sc">$</span>ug.l, <span class="at">pch =</span> <span class="st">"."</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="model_setup_files/figure-html/unnamed-chunk-17-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="co"># plot(PB$datetime, PB$psu, pch = ".")</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a>vars <span class="ot">&lt;-</span><span class="st">"m.d.y.hh.mm"</span></span>
+<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> PB <span class="sc">%&gt;%</span> </span>
+<span id="cb56-3"><a href="#cb56-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>(ug.l, <span class="fu">any_of</span>(vars))<span class="sc">%&gt;%</span></span>
+<span id="cb56-4"><a href="#cb56-4" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">group_by</span>(<span class="at">time =</span> <span class="fu">week</span>(datetime)) <span class="sc">%&gt;%</span> </span>
+<span id="cb56-5"><a href="#cb56-5" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">summarise</span>(<span class="at">value =</span> <span class="fu">mean</span>(ug.l, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="at">.groups =</span> <span class="st">'keep'</span>)</span>
+<span id="cb56-6"><a href="#cb56-6" aria-hidden="true" tabindex="-1"></a>dat</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 53 × 2
+# Groups:   time [53]
+    time value
+   &lt;dbl&gt; &lt;dbl&gt;
+ 1     1 0.632
+ 2     2 0.632
+ 3     3 0.611
+ 4     4 0.577
+ 5     5 0.486
+ 6     6 0.731
+ 7     7 0.869
+ 8     8 0.927
+ 9     9 1.11 
+10    10 1.31 
+# ℹ 43 more rows</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(dat, <span class="at">type =</span> <span class="st">'b'</span>, <span class="at">ylab =</span> <span class="st">"fluorescence (ug/L)"</span>, <span class="at">xlab =</span> <span class="st">"week"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="model_setup_files/figure-html/unnamed-chunk-18-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb59"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a><span class="co">#dat$datetime.2017 &lt;- lubridate::ymd_hms( "2017-01-01 00:00:01" ) + lubridate::weeks( dat$time - 1 )</span></span>
+<span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a>dat<span class="sc">$</span>datetime<span class="fl">.2018</span> <span class="ot">&lt;-</span> lubridate<span class="sc">::</span><span class="fu">ymd_hms</span>( <span class="st">"2018-01-01 00:00:01"</span> ) <span class="sc">+</span> lubridate<span class="sc">::</span><span class="fu">weeks</span>( dat<span class="sc">$</span>time <span class="sc">-</span> <span class="dv">1</span> )</span>
+<span id="cb59-3"><a href="#cb59-3" aria-hidden="true" tabindex="-1"></a>dat<span class="sc">$</span>datetime<span class="fl">.2019</span> <span class="ot">&lt;-</span> lubridate<span class="sc">::</span><span class="fu">ymd_hms</span>( <span class="st">"2019-01-01 00:00:01"</span> ) <span class="sc">+</span> lubridate<span class="sc">::</span><span class="fu">weeks</span>( dat<span class="sc">$</span>time <span class="sc">-</span> <span class="dv">1</span> )</span>
+<span id="cb59-4"><a href="#cb59-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-5"><a href="#cb59-5" aria-hidden="true" tabindex="-1"></a>food <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb59-6"><a href="#cb59-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">datetime =</span> <span class="fu">as.POSIXct</span>(<span class="fu">c</span>(dat<span class="sc">$</span>datetime<span class="fl">.2018</span>, dat<span class="sc">$</span>datetime<span class="fl">.2019</span>)),</span>
+<span id="cb59-7"><a href="#cb59-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">food =</span> <span class="fu">c</span>(dat<span class="sc">$</span>value,dat<span class="sc">$</span>value)</span>
+<span id="cb59-8"><a href="#cb59-8" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb59-9"><a href="#cb59-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-10"><a href="#cb59-10" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(food)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="model_setup_files/figure-html/unnamed-chunk-18-2.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb60"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(zoo)</span>
+<span id="cb60-2"><a href="#cb60-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Create zoo library objects</span></span>
+<span id="cb60-3"><a href="#cb60-3" aria-hidden="true" tabindex="-1"></a>zf <span class="ot">&lt;-</span> <span class="fu">zoo</span>(food<span class="sc">$</span>food, food<span class="sc">$</span>datetime)   <span class="co"># low freq</span></span>
+<span id="cb60-4"><a href="#cb60-4" aria-hidden="true" tabindex="-1"></a>zt <span class="ot">&lt;-</span> <span class="fu">zoo</span>(water.temp<span class="fl">.1</span><span class="sc">$</span>Upper, water.temp<span class="fl">.1</span><span class="sc">$</span>datetime)  <span class="co"># high freq</span></span>
+<span id="cb60-5"><a href="#cb60-5" aria-hidden="true" tabindex="-1"></a>z <span class="ot">&lt;-</span> <span class="fu">merge</span>(zf,zt,<span class="at">all =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb60-6"><a href="#cb60-6" aria-hidden="true" tabindex="-1"></a>z<span class="sc">$</span>zf <span class="ot">&lt;-</span> <span class="fu">na.approx</span>(z<span class="sc">$</span>zf, <span class="at">rule=</span><span class="dv">2</span>)</span>
+<span id="cb60-7"><a href="#cb60-7" aria-hidden="true" tabindex="-1"></a>food.interp <span class="ot">&lt;-</span> <span class="fu">fortify.zoo</span>(z<span class="sc">$</span>zf)</span>
+<span id="cb60-8"><a href="#cb60-8" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(food.interp) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"datetime"</span>, <span class="st">"food"</span>)</span>
+<span id="cb60-9"><a href="#cb60-9" aria-hidden="true" tabindex="-1"></a>water.temp<span class="fl">.1</span> <span class="ot">&lt;-</span> <span class="fu">left_join</span>(water.temp<span class="fl">.1</span>, food.interp, <span class="at">by =</span> <span class="st">"datetime"</span>)</span>
+<span id="cb60-10"><a href="#cb60-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb60-11"><a href="#cb60-11" aria-hidden="true" tabindex="-1"></a>zf <span class="ot">&lt;-</span> <span class="fu">zoo</span>(food<span class="sc">$</span>food, food<span class="sc">$</span>datetime)   <span class="co"># low freq</span></span>
+<span id="cb60-12"><a href="#cb60-12" aria-hidden="true" tabindex="-1"></a>zt <span class="ot">&lt;-</span> <span class="fu">zoo</span>(water.temp<span class="fl">.2</span><span class="sc">$</span>Upper, water.temp<span class="fl">.2</span><span class="sc">$</span>datetime)  <span class="co"># high freq</span></span>
+<span id="cb60-13"><a href="#cb60-13" aria-hidden="true" tabindex="-1"></a>z <span class="ot">&lt;-</span> <span class="fu">merge</span>(zf,zt,<span class="at">all =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb60-14"><a href="#cb60-14" aria-hidden="true" tabindex="-1"></a>z<span class="sc">$</span>zf <span class="ot">&lt;-</span> <span class="fu">na.approx</span>(z<span class="sc">$</span>zf, <span class="at">rule=</span><span class="dv">2</span>)</span>
+<span id="cb60-15"><a href="#cb60-15" aria-hidden="true" tabindex="-1"></a>food.interp <span class="ot">&lt;-</span> <span class="fu">fortify.zoo</span>(z<span class="sc">$</span>zf)</span>
+<span id="cb60-16"><a href="#cb60-16" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(food.interp) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"datetime"</span>, <span class="st">"food"</span>)</span>
+<span id="cb60-17"><a href="#cb60-17" aria-hidden="true" tabindex="-1"></a>water.temp<span class="fl">.2</span> <span class="ot">&lt;-</span> <span class="fu">left_join</span>(water.temp<span class="fl">.2</span>, food.interp, <span class="at">by =</span> <span class="st">"datetime"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Plots of chlorophyll</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb61"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(figs <span class="sc">==</span> <span class="st">"Y"</span>){</span>
+<span id="cb61-2"><a href="#cb61-2" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
+<span id="cb61-3"><a href="#cb61-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(water.temp<span class="fl">.1</span><span class="sc">$</span>food<span class="sc">~</span> water.temp<span class="fl">.1</span><span class="sc">$</span>datetime,</span>
+<span id="cb61-4"><a href="#cb61-4" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">20</span>),</span>
+<span id="cb61-5"><a href="#cb61-5" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylab =</span> <span class="st">"Chlorophyll (ug/L)"</span>,</span>
+<span id="cb61-6"><a href="#cb61-6" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">"Date 2018"</span>,</span>
+<span id="cb61-7"><a href="#cb61-7" aria-hidden="true" tabindex="-1"></a>     <span class="at">pch =</span> <span class="st">"."</span>)</span>
+<span id="cb61-8"><a href="#cb61-8" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(water.temp<span class="fl">.2</span><span class="sc">$</span>food<span class="sc">~</span> water.temp<span class="fl">.2</span><span class="sc">$</span>datetime,</span>
+<span id="cb61-9"><a href="#cb61-9" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">20</span>),</span>
+<span id="cb61-10"><a href="#cb61-10" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylab =</span> <span class="st">""</span>,</span>
+<span id="cb61-11"><a href="#cb61-11" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">"Date 2018-2019"</span>,</span>
+<span id="cb61-12"><a href="#cb61-12" aria-hidden="true" tabindex="-1"></a>     <span class="at">pch =</span> <span class="st">"."</span>)</span>
+<span id="cb61-13"><a href="#cb61-13" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="model_setup_files/figure-html/unnamed-chunk-19-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb62"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a>Iter.len<span class="fl">.1</span> <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(<span class="fu">matrix</span>(<span class="at">data =</span> <span class="dv">0</span>, <span class="at">ncol =</span> <span class="fu">nrow</span>(growth<span class="fl">.1</span>), <span class="at">nrow =</span> <span class="fu">length</span>(water.temp<span class="fl">.1</span><span class="sc">$</span>datetime)))</span>
+<span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a>Iter.len<span class="fl">.1</span>[<span class="dv">1</span>,] <span class="ot">&lt;-</span> growth<span class="fl">.1</span><span class="sc">$</span>Feb.Length</span>
+<span id="cb62-3"><a href="#cb62-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb62-4"><a href="#cb62-4" aria-hidden="true" tabindex="-1"></a>Iter.len<span class="fl">.2</span> <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(<span class="fu">matrix</span>(<span class="at">data =</span> <span class="dv">0</span>, <span class="at">ncol =</span> <span class="fu">nrow</span>(growth<span class="fl">.2</span>), <span class="at">nrow =</span> <span class="fu">length</span>(water.temp<span class="fl">.2</span><span class="sc">$</span>datetime)))</span>
+<span id="cb62-5"><a href="#cb62-5" aria-hidden="true" tabindex="-1"></a>Iter.len<span class="fl">.2</span>[<span class="dv">1</span>,] <span class="ot">&lt;-</span> growth<span class="fl">.2</span><span class="sc">$</span>Aug.Length</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="physiology-thermal-performance-relationships" class="level1">
+<h1>Physiology: Thermal performance relationships</h1>
+<p>Read in feeding, respiration relationships</p>
+<p>Feeding ~ Temp, Aquatic Respiration ~ Temp, Aerial Respiration ~ Temp Feeding shrimp per min ~ Temp C, Upslope to 20 degrees</p>
+<p>Use a subset of the data, up to 20 degrees to interpolate feeding rate upslope,</p>
+<p>Wu and Levings equation with random component, assuming allometric scaling factor</p>
+<section id="feeding-rate" class="level3">
+<h3 class="anchored" data-anchor-id="feeding-rate">Feeding rate</h3>
+<p>Feeding shrimp per min ~ Temp C, Upslope to 20 degrees</p>
+<p>Using the operculum length allometric factor of 1.88.</p>
+<p>Data pulled from here:</p>
+<p>#setwd(“~/Box/Sarah and Molly’s Box/FHL data/aqua feeding and resp”) # setwd(“C:/Users/eroberts/Box/Sarah and Molly’s Box/FHL data/aqua feeding and resp”) setwd(“~/Documents/GitHub/Bglandula_FHL_energetics/data/physiology_data”)</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb63"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a><span class="co">#old version of datafile</span></span>
+<span id="cb63-2"><a href="#cb63-2" aria-hidden="true" tabindex="-1"></a><span class="co">#feed&lt;- read.table("aqfeedFHL.csv", header = T, sep = ",")</span></span>
+<span id="cb63-3"><a href="#cb63-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb63-4"><a href="#cb63-4" aria-hidden="true" tabindex="-1"></a>feed<span class="ot">&lt;-</span> <span class="fu">read.table</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"data/physiology_data/aqfeedFHL_log.csv"</span>), <span class="at">header =</span> T, <span class="at">sep =</span> <span class="st">","</span>)</span>
+<span id="cb63-5"><a href="#cb63-5" aria-hidden="true" tabindex="-1"></a>feed<span class="sc">$</span>Temp <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(feed<span class="sc">$</span>Temp)</span>
+<span id="cb63-6"><a href="#cb63-6" aria-hidden="true" tabindex="-1"></a>feed<span class="sc">$</span>Temp.n <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="fu">as.character</span>(feed<span class="sc">$</span>Temp))</span>
+<span id="cb63-7"><a href="#cb63-7" aria-hidden="true" tabindex="-1"></a>feed_subset <span class="ot">&lt;-</span> feed[feed<span class="sc">$</span>Temp.n <span class="sc">&lt;=</span> <span class="dv">17</span>,]</span>
+<span id="cb63-8"><a href="#cb63-8" aria-hidden="true" tabindex="-1"></a>feed <span class="ot">&lt;-</span> feed_subset</span>
+<span id="cb63-9"><a href="#cb63-9" aria-hidden="true" tabindex="-1"></a>feed<span class="sc">$</span>feedrate.new <span class="ot">&lt;-</span> feed<span class="sc">$</span>m_filter_300 <span class="sc">-</span> feed<span class="sc">$</span>a_ave</span>
+<span id="cb63-10"><a href="#cb63-10" aria-hidden="true" tabindex="-1"></a>feed<span class="sc">$</span>feedrate <span class="ot">&lt;-</span> feed<span class="sc">$</span>feedrate.new</span>
+<span id="cb63-11"><a href="#cb63-11" aria-hidden="true" tabindex="-1"></a>feed <span class="ot">&lt;-</span> feed[<span class="sc">!</span><span class="fu">is.na</span>(feed<span class="sc">$</span>feedrate.new),]</span>
+<span id="cb63-12"><a href="#cb63-12" aria-hidden="true" tabindex="-1"></a>feed<span class="sc">$</span>ID <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(feed<span class="sc">$</span>ID)</span>
+<span id="cb63-13"><a href="#cb63-13" aria-hidden="true" tabindex="-1"></a>feed<span class="sc">$</span>bin <span class="ot">&lt;-</span> <span class="fu">bin</span>(feed<span class="sc">$</span>OperculumLength, <span class="at">nbins =</span> <span class="dv">3</span>) <span class="co">#(4.02,4.97] (4.97,5.91] (5.91,6.86]</span></span>
+<span id="cb63-14"><a href="#cb63-14" aria-hidden="true" tabindex="-1"></a>feed<span class="sc">$</span>sizeclass <span class="ot">&lt;-</span> <span class="fu">bin</span>(feed<span class="sc">$</span>OperculumLength, <span class="at">nbins =</span> <span class="dv">3</span>, <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"small"</span>, <span class="st">"medium"</span>, <span class="st">"large"</span>))</span>
+<span id="cb63-15"><a href="#cb63-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb63-16"><a href="#cb63-16" aria-hidden="true" tabindex="-1"></a>FR_T <span class="ot">&lt;-</span> <span class="fu">nls</span>(feedrate <span class="sc">~</span> <span class="fu">exp</span>(a<span class="sc">*</span>Temp.n) <span class="sc">*</span> OperculumLength<span class="sc">^</span>(<span class="fl">1.88</span>) <span class="sc">*</span> c,</span>
+<span id="cb63-17"><a href="#cb63-17" aria-hidden="true" tabindex="-1"></a>            <span class="at">data =</span> feed, <span class="at">start =</span> <span class="fu">c</span>(<span class="at">a =</span> .<span class="dv">1</span>, <span class="at">c =</span> .<span class="dv">0004</span>))</span>
+<span id="cb63-18"><a href="#cb63-18" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(FR_T)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Formula: feedrate ~ exp(a * Temp.n) * OperculumLength^(1.88) * c
+
+Parameters:
+   Estimate Std. Error t value Pr(&gt;|t|)  
+a 0.0593597  0.0285303   2.081   0.0520 .
+c 0.0005550  0.0002197   2.527   0.0211 *
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 0.0158 on 18 degrees of freedom
+
+Number of iterations to convergence: 4 
+Achieved convergence tolerance: 4.228e-06</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb65"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a>FR_T_a <span class="ot">&lt;-</span> <span class="fu">coef</span>(FR_T)[<span class="dv">1</span>]</span>
+<span id="cb65-2"><a href="#cb65-2" aria-hidden="true" tabindex="-1"></a>FR_T_c <span class="ot">&lt;-</span> <span class="fu">coef</span>(FR_T)[<span class="dv">2</span>]</span>
+<span id="cb65-3"><a href="#cb65-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb65-4"><a href="#cb65-4" aria-hidden="true" tabindex="-1"></a>FR_T_fun <span class="ot">&lt;-</span> <span class="cf">function</span>(temp, size, <span class="at">a =</span> FR_T_a, <span class="at">c =</span> FR_T_c) {</span>
+<span id="cb65-5"><a href="#cb65-5" aria-hidden="true" tabindex="-1"></a>  out <span class="ot">&lt;-</span> <span class="fu">exp</span>(a <span class="sc">*</span> temp) <span class="sc">*</span> size<span class="sc">^</span>(<span class="fl">1.88</span>) <span class="sc">*</span> c</span>
+<span id="cb65-6"><a href="#cb65-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(out)</span>
+<span id="cb65-7"><a href="#cb65-7" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb65-8"><a href="#cb65-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb65-9"><a href="#cb65-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Previous version:</span></span>
+<span id="cb65-10"><a href="#cb65-10" aria-hidden="true" tabindex="-1"></a><span class="co"># FR_T &lt;- nlme(feedrate ~ exp(a * Temp.n) * OperculumLength^(1.86) * c,</span></span>
+<span id="cb65-11"><a href="#cb65-11" aria-hidden="true" tabindex="-1"></a><span class="co">#              data = feed,</span></span>
+<span id="cb65-12"><a href="#cb65-12" aria-hidden="true" tabindex="-1"></a><span class="co">#              fixed = a + c~ 1,</span></span>
+<span id="cb65-13"><a href="#cb65-13" aria-hidden="true" tabindex="-1"></a><span class="co">#              random = c ~ 1,</span></span>
+<span id="cb65-14"><a href="#cb65-14" aria-hidden="true" tabindex="-1"></a><span class="co">#              groups = ~ ID,</span></span>
+<span id="cb65-15"><a href="#cb65-15" aria-hidden="true" tabindex="-1"></a><span class="co">#              start = c(a = -.007, c = 100))</span></span>
+<span id="cb65-16"><a href="#cb65-16" aria-hidden="true" tabindex="-1"></a><span class="co"># summary(FR_T)</span></span>
+<span id="cb65-17"><a href="#cb65-17" aria-hidden="true" tabindex="-1"></a><span class="co"># FR_T_a &lt;- FR_T$coefficients$fixed[[1]]</span></span>
+<span id="cb65-18"><a href="#cb65-18" aria-hidden="true" tabindex="-1"></a><span class="co"># FR_T_c &lt;- FR_T$coefficients$fixed[[2]]</span></span>
+<span id="cb65-19"><a href="#cb65-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb65-20"><a href="#cb65-20" aria-hidden="true" tabindex="-1"></a><span class="co"># FR_T_fun &lt;- function(temp, size, a = FR_T_a, c = FR_T_c) {</span></span>
+<span id="cb65-21"><a href="#cb65-21" aria-hidden="true" tabindex="-1"></a><span class="co">#   out &lt;- exp(a * temp) * size^(1.86) * c</span></span>
+<span id="cb65-22"><a href="#cb65-22" aria-hidden="true" tabindex="-1"></a><span class="co">#   return(out)</span></span>
+<span id="cb65-23"><a href="#cb65-23" aria-hidden="true" tabindex="-1"></a><span class="co"># }</span></span>
+<span id="cb65-24"><a href="#cb65-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb65-25"><a href="#cb65-25" aria-hidden="true" tabindex="-1"></a>pred.dat.aqua<span class="sc">$</span>feedrate <span class="ot">&lt;-</span> <span class="fu">FR_T_fun</span>(pred.dat.aqua<span class="sc">$</span>Temp.n, pred.dat.aqua<span class="sc">$</span>OperculumLength)</span>
+<span id="cb65-26"><a href="#cb65-26" aria-hidden="true" tabindex="-1"></a>pred.dat<span class="sc">$</span>feedrate <span class="ot">&lt;-</span> <span class="fu">FR_T_fun</span>(<span class="at">temp =</span> pred.dat<span class="sc">$</span>Temp.n, <span class="at">size =</span> pred.dat<span class="sc">$</span>OperculumLength)</span>
+<span id="cb65-27"><a href="#cb65-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb65-28"><a href="#cb65-28" aria-hidden="true" tabindex="-1"></a> gg1 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data =</span> pred.dat.aqua, </span>
+<span id="cb65-29"><a href="#cb65-29" aria-hidden="true" tabindex="-1"></a>       <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">as.numeric</span>(Temp.n), </span>
+<span id="cb65-30"><a href="#cb65-30" aria-hidden="true" tabindex="-1"></a>           <span class="at">y=</span><span class="fu">as.numeric</span>(feedrate), </span>
+<span id="cb65-31"><a href="#cb65-31" aria-hidden="true" tabindex="-1"></a>           <span class="at">color =</span> OperculumLength, <span class="at">group =</span> <span class="fu">as.factor</span>(sizeclass)))<span class="sc">+</span></span>
+<span id="cb65-32"><a href="#cb65-32" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>()<span class="sc">+</span></span>
+<span id="cb65-33"><a href="#cb65-33" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_viridis</span>(<span class="at">option =</span> <span class="st">"D"</span>, <span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">7</span>))<span class="sc">+</span></span>
+<span id="cb65-34"><a href="#cb65-34" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data =</span> feed,<span class="fu">aes</span>(<span class="at">x=</span>Temp.n,<span class="at">y=</span>feedrate,<span class="at">color=</span>OperculumLength))<span class="sc">+</span></span>
+<span id="cb65-35"><a href="#cb65-35" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlim</span>(<span class="dv">5</span>,<span class="dv">34</span>)<span class="sc">+</span></span>
+<span id="cb65-36"><a href="#cb65-36" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylim</span>(<span class="dv">0</span>,.<span class="dv">1</span>)<span class="sc">+</span></span>
+<span id="cb65-37"><a href="#cb65-37" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="fu">expression</span>(<span class="fu">paste</span>(<span class="st">"Seawater temp ("</span>,degree,<span class="st">"C)"</span>)))<span class="sc">+</span></span>
+<span id="cb65-38"><a href="#cb65-38" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">"Prey per minute (min -1)"</span>)</span>
+<span id="cb65-39"><a href="#cb65-39" aria-hidden="true" tabindex="-1"></a>gg1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="model_setup_files/figure-html/unnamed-chunk-20-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="aquatic-respiration-umol-oxygen-per-min-temp-deg-c" class="level2">
+<h2 class="anchored" data-anchor-id="aquatic-respiration-umol-oxygen-per-min-temp-deg-c">Aquatic respiration (umol oxygen per min) ~ Temp (deg C)</h2>
+<p>Upslope to 23 degrees</p>
+<p>Use a subset of the data, up to 23 degrees to interpolate respiration rate upslope,</p>
+<p>Wu and Levings equation with random component, assuming allometric scaling factor</p>
+<p>Previously found:</p>
+<p>setwd(“~/Box/Sarah and Molly’s Box/FHL data/aqua feeding and resp”) setwd(“C:/Users/eroberts/Box/Sarah and Molly’s Box/FHL data/aqua feeding and resp”)</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb66"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a>resp<span class="ot">&lt;-</span> <span class="fu">read.table</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"data/physiology_data/AQtotalresp_FHL.csv"</span>), <span class="at">header =</span> T, <span class="at">sep =</span> <span class="st">","</span>)</span>
+<span id="cb66-2"><a href="#cb66-2" aria-hidden="true" tabindex="-1"></a>resp<span class="sc">$</span>Temp<span class="ot">&lt;-</span> <span class="fu">as.factor</span>(resp<span class="sc">$</span>Temp)</span>
+<span id="cb66-3"><a href="#cb66-3" aria-hidden="true" tabindex="-1"></a>resp<span class="sc">$</span>Operc</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] 5.11 5.11 5.11 5.99 5.99 5.99 5.03 5.03 5.03 5.75 5.75 5.75 5.22 5.22 4.87
+[16] 4.87 4.87 5.86 5.86 5.86 4.63 4.63 4.63 5.77 5.77 5.77 5.46 5.46 5.46 4.50
+[31] 4.50 4.50 5.07 5.07 5.07 5.70 5.70 5.70 4.95 4.95 4.95 5.29 5.29 5.29 4.80
+[46] 4.80 4.80 5.05 5.05 5.05 4.70 4.70 4.70 5.51 5.51 5.51 5.51 5.51 5.51 5.60
+[61] 5.60 5.60</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb68"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a>resp<span class="sc">$</span>ID <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(resp<span class="sc">$</span>Barnacle)</span>
+<span id="cb68-2"><a href="#cb68-2" aria-hidden="true" tabindex="-1"></a>resp<span class="sc">$</span>Temp.n <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="fu">as.character</span>(resp<span class="sc">$</span>Temp))</span>
+<span id="cb68-3"><a href="#cb68-3" aria-hidden="true" tabindex="-1"></a>resp<span class="sc">$</span>sizeclass <span class="ot">&lt;-</span> <span class="fu">bin</span>(resp<span class="sc">$</span>Operc, <span class="at">nbins =</span> <span class="dv">3</span>, <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"small"</span>, <span class="st">"medium"</span>, <span class="st">"large"</span>))</span>
+<span id="cb68-4"><a href="#cb68-4" aria-hidden="true" tabindex="-1"></a>resp<span class="sc">$</span>bin <span class="ot">&lt;-</span> <span class="fu">bin</span>(resp<span class="sc">$</span>Operc, <span class="at">nbins =</span> <span class="dv">3</span>) <span class="co">#(4.02,4.97] (4.97,5.91] (5.91,6.86]</span></span>
+<span id="cb68-5"><a href="#cb68-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-6"><a href="#cb68-6" aria-hidden="true" tabindex="-1"></a>resp_below_23 <span class="ot">&lt;-</span> resp[resp<span class="sc">$</span>Temp.n <span class="sc">&lt;</span> <span class="dv">23</span>,] <span class="co">#Changed 2020 Aug 12</span></span>
+<span id="cb68-7"><a href="#cb68-7" aria-hidden="true" tabindex="-1"></a>resp <span class="ot">&lt;-</span> resp_below_23</span>
+<span id="cb68-8"><a href="#cb68-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-9"><a href="#cb68-9" aria-hidden="true" tabindex="-1"></a>AQR_T <span class="ot">&lt;-</span> <span class="fu">nlme</span>(Respiration.Rate <span class="sc">~</span> c <span class="sc">*</span> <span class="fu">exp</span>(a <span class="sc">*</span> Temp.n) <span class="sc">*</span> Operc<span class="sc">^</span><span class="fl">1.88</span>,</span>
+<span id="cb68-10"><a href="#cb68-10" aria-hidden="true" tabindex="-1"></a>              <span class="at">data =</span> resp,</span>
+<span id="cb68-11"><a href="#cb68-11" aria-hidden="true" tabindex="-1"></a>              <span class="at">fixed =</span> a <span class="sc">+</span> c <span class="sc">~</span> <span class="dv">1</span>,</span>
+<span id="cb68-12"><a href="#cb68-12" aria-hidden="true" tabindex="-1"></a>              <span class="at">random =</span> c <span class="sc">~</span> <span class="dv">1</span>,</span>
+<span id="cb68-13"><a href="#cb68-13" aria-hidden="true" tabindex="-1"></a>              <span class="at">groups =</span> <span class="sc">~</span> ID,</span>
+<span id="cb68-14"><a href="#cb68-14" aria-hidden="true" tabindex="-1"></a>              <span class="at">start =</span> <span class="fu">c</span>(<span class="at">a =</span> <span class="fl">0.0547657</span>, <span class="at">c =</span> <span class="fl">0.0003792</span>))</span>
+<span id="cb68-15"><a href="#cb68-15" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(AQR_T) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Nonlinear mixed-effects model fit by maximum likelihood
+  Model: Respiration.Rate ~ c * exp(a * Temp.n) * Operc^1.88 
+  Data: resp 
+        AIC       BIC   logLik
+  -379.3246 -372.1878 193.6623
+
+Random effects:
+ Formula: c ~ 1 | ID
+                   c    Residual
+StdDev: 9.900921e-09 0.002966555
+
+Fixed effects:  a + c ~ 1 
+       Value  Std.Error DF  t-value p-value
+a 0.08030374 0.04076839 22 1.969755  0.0616
+c 0.00003485 0.00002405 22 1.448886  0.1615
+ Correlation: 
+  a     
+c -0.966
+
+Standardized Within-Group Residuals:
+       Min         Q1        Med         Q3        Max 
+-1.4500145 -0.7135774 -0.2393310  0.4736385  2.2773994 
+
+Number of Observations: 44
+Number of Groups: 21 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb70"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a>AQR_T_a <span class="ot">&lt;-</span> AQR_T<span class="sc">$</span>coefficients<span class="sc">$</span>fixed[[<span class="dv">1</span>]]</span>
+<span id="cb70-2"><a href="#cb70-2" aria-hidden="true" tabindex="-1"></a>AQR_T_c <span class="ot">&lt;-</span> AQR_T<span class="sc">$</span>coefficients<span class="sc">$</span>fixed[[<span class="dv">2</span>]]</span>
+<span id="cb70-3"><a href="#cb70-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb70-4"><a href="#cb70-4" aria-hidden="true" tabindex="-1"></a>AQR_T_fun <span class="ot">&lt;-</span> <span class="cf">function</span>(temp, size, <span class="at">c =</span> AQR_T_c, <span class="at">a =</span> AQR_T_a) {</span>
+<span id="cb70-5"><a href="#cb70-5" aria-hidden="true" tabindex="-1"></a>  out <span class="ot">&lt;-</span> c <span class="sc">*</span> <span class="fu">exp</span>(a <span class="sc">*</span> temp) <span class="sc">*</span> size<span class="sc">^</span><span class="fl">1.88</span></span>
+<span id="cb70-6"><a href="#cb70-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(out)</span>
+<span id="cb70-7"><a href="#cb70-7" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb70-8"><a href="#cb70-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb70-9"><a href="#cb70-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb70-10"><a href="#cb70-10" aria-hidden="true" tabindex="-1"></a>pred.dat.aqua<span class="sc">$</span>aq_resp <span class="ot">&lt;-</span> <span class="fu">AQR_T_fun</span>(<span class="at">temp =</span> pred.dat.aqua<span class="sc">$</span>Temp.n, <span class="at">size =</span> pred.dat.aqua<span class="sc">$</span>OperculumLength)</span>
+<span id="cb70-11"><a href="#cb70-11" aria-hidden="true" tabindex="-1"></a>pred.dat<span class="sc">$</span>aq_resp <span class="ot">&lt;-</span> <span class="fu">AQR_T_fun</span>(<span class="at">temp =</span> pred.dat<span class="sc">$</span>Temp.n, <span class="at">size =</span> pred.dat<span class="sc">$</span>OperculumLength)</span>
+<span id="cb70-12"><a href="#cb70-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb70-13"><a href="#cb70-13" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(figs <span class="sc">==</span> <span class="st">"Y"</span>){</span>
+<span id="cb70-14"><a href="#cb70-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb70-15"><a href="#cb70-15" aria-hidden="true" tabindex="-1"></a>    <span class="co"># ggplot(resp,aes(x=Temp.n,y=Respiration.Rate,color=factor(sizeclass)))+</span></span>
+<span id="cb70-16"><a href="#cb70-16" aria-hidden="true" tabindex="-1"></a>    <span class="co">#   geom_point()+</span></span>
+<span id="cb70-17"><a href="#cb70-17" aria-hidden="true" tabindex="-1"></a>    <span class="co">#   geom_line(data = pred.dat.aqua, </span></span>
+<span id="cb70-18"><a href="#cb70-18" aria-hidden="true" tabindex="-1"></a>    <span class="co">#             aes(x = as.numeric(Temp.n), </span></span>
+<span id="cb70-19"><a href="#cb70-19" aria-hidden="true" tabindex="-1"></a>    <span class="co">#                 y=as.numeric(aq_resp), </span></span>
+<span id="cb70-20"><a href="#cb70-20" aria-hidden="true" tabindex="-1"></a>    <span class="co">#                 color = factor(sizeclass)))+</span></span>
+<span id="cb70-21"><a href="#cb70-21" aria-hidden="true" tabindex="-1"></a>    <span class="co">#   xlim(5,18)+</span></span>
+<span id="cb70-22"><a href="#cb70-22" aria-hidden="true" tabindex="-1"></a>    <span class="co">#   ylim(0,.01)</span></span>
+<span id="cb70-23"><a href="#cb70-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb70-24"><a href="#cb70-24" aria-hidden="true" tabindex="-1"></a>resp_aq <span class="ot">&lt;-</span> resp</span>
+<span id="cb70-25"><a href="#cb70-25" aria-hidden="true" tabindex="-1"></a>gg2 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(resp_aq,<span class="fu">aes</span>(<span class="at">x=</span>Temp.n,<span class="at">y=</span>Respiration.Rate,<span class="at">color=</span>Operc))<span class="sc">+</span></span>
+<span id="cb70-26"><a href="#cb70-26" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>()<span class="sc">+</span></span>
+<span id="cb70-27"><a href="#cb70-27" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_color_viridis</span>(<span class="at">option =</span> <span class="st">"D"</span>, <span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">4</span>,<span class="dv">7</span>))<span class="sc">+</span></span>
+<span id="cb70-28"><a href="#cb70-28" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_line</span>(<span class="at">data =</span> pred.dat.aqua, </span>
+<span id="cb70-29"><a href="#cb70-29" aria-hidden="true" tabindex="-1"></a>              <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">as.numeric</span>(Temp.n), </span>
+<span id="cb70-30"><a href="#cb70-30" aria-hidden="true" tabindex="-1"></a>                  <span class="at">y=</span><span class="fu">as.numeric</span>(aq_resp), </span>
+<span id="cb70-31"><a href="#cb70-31" aria-hidden="true" tabindex="-1"></a>                  <span class="at">color =</span> OperculumLength, <span class="at">group =</span> <span class="fu">as.factor</span>(sizeclass)))<span class="sc">+</span></span>
+<span id="cb70-32"><a href="#cb70-32" aria-hidden="true" tabindex="-1"></a>    <span class="fu">xlim</span>(<span class="dv">5</span>,<span class="dv">34</span>)<span class="sc">+</span></span>
+<span id="cb70-33"><a href="#cb70-33" aria-hidden="true" tabindex="-1"></a>    <span class="co"># ylim(0,.01)+</span></span>
+<span id="cb70-34"><a href="#cb70-34" aria-hidden="true" tabindex="-1"></a>    <span class="fu">xlab</span>(<span class="fu">expression</span>(<span class="fu">paste</span>(<span class="st">"Seawater temp ("</span>,degree,<span class="st">"C)"</span>)))<span class="sc">+</span></span>
+<span id="cb70-35"><a href="#cb70-35" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ylab</span>(<span class="st">"Aquatic repiration (umol min -1)"</span>)</span>
+<span id="cb70-36"><a href="#cb70-36" aria-hidden="true" tabindex="-1"></a>gg2  </span>
+<span id="cb70-37"><a href="#cb70-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb70-38"><a href="#cb70-38" aria-hidden="true" tabindex="-1"></a>    }</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="model_setup_files/figure-html/unnamed-chunk-21-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="aerial-exposure-respiration-umol-oxygen-per-15-min-temp-deg-c" class="level2">
+<h2 class="anchored" data-anchor-id="aerial-exposure-respiration-umol-oxygen-per-15-min-temp-deg-c">Aerial exposure respiration (umol oxygen per 15 min) ~ Temp (deg C)</h2>
+<p>Upslope to 25 deg, 30 deg, and quadratic</p>
+<p>Two hypotheses: Upslope vs.&nbsp;unimodal hypothesis</p>
+<p>Data originally here:</p>
+<p>setwd(“~/Box/Sarah and Molly’s Box/FHL data/aerial resp”) setwd(“C:/Users/eroberts/Box/Sarah and Molly’s Box/FHL data/aerial resp”)</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb71"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a>resp<span class="ot">&lt;-</span> <span class="fu">read.csv</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"data/physiology_data/FHLmean15mins_recovery_forMolly_40deg.csv"</span>), <span class="at">stringsAsFactors =</span> <span class="cn">FALSE</span>, <span class="at">header =</span> T, <span class="at">sep =</span> <span class="st">","</span>)</span>
+<span id="cb71-2"><a href="#cb71-2" aria-hidden="true" tabindex="-1"></a>resp<span class="sc">$</span>Temp<span class="ot">&lt;-</span> <span class="fu">as.factor</span>(resp<span class="sc">$</span>Temp)</span>
+<span id="cb71-3"><a href="#cb71-3" aria-hidden="true" tabindex="-1"></a>resp<span class="sc">$</span>Operc <span class="ot">&lt;-</span> resp<span class="sc">$</span>operculum_length</span>
+<span id="cb71-4"><a href="#cb71-4" aria-hidden="true" tabindex="-1"></a>resp<span class="sc">$</span>Temp.n <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="fu">as.character</span>(resp<span class="sc">$</span>Temp))</span>
+<span id="cb71-5"><a href="#cb71-5" aria-hidden="true" tabindex="-1"></a>resp<span class="sc">$</span>Respiration.Rate <span class="ot">&lt;-</span> resp<span class="sc">$</span>air_15min</span>
+<span id="cb71-6"><a href="#cb71-6" aria-hidden="true" tabindex="-1"></a>resp<span class="sc">$</span>Barnacle <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(resp<span class="sc">$</span>Barnacle)</span>
+<span id="cb71-7"><a href="#cb71-7" aria-hidden="true" tabindex="-1"></a>resp<span class="sc">$</span>sizeclass <span class="ot">&lt;-</span> <span class="fu">bin</span>(resp<span class="sc">$</span>Operc, <span class="at">nbins =</span> <span class="dv">3</span>, <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"small"</span>, <span class="st">"medium"</span>, <span class="st">"large"</span>))</span>
+<span id="cb71-8"><a href="#cb71-8" aria-hidden="true" tabindex="-1"></a>resp<span class="sc">$</span>bin <span class="ot">&lt;-</span> <span class="fu">bin</span>(resp<span class="sc">$</span>Operc, <span class="at">nbins =</span> <span class="dv">3</span>) <span class="co">#(4.02,4.97] (4.97,5.91] (5.91,6.86]</span></span>
+<span id="cb71-9"><a href="#cb71-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb71-10"><a href="#cb71-10" aria-hidden="true" tabindex="-1"></a>resp_below_30 <span class="ot">&lt;-</span> resp[resp<span class="sc">$</span>Temp.n <span class="sc">&lt;=</span> <span class="dv">30</span>,]</span>
+<span id="cb71-11"><a href="#cb71-11" aria-hidden="true" tabindex="-1"></a>resp_below_25 <span class="ot">&lt;-</span> resp[resp<span class="sc">$</span>Temp.n <span class="sc">&lt;=</span> <span class="dv">25</span>,]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb72"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a>AER_EXPOSE_T_25 <span class="ot">&lt;-</span> <span class="fu">nlme</span>(Respiration.Rate <span class="sc">~</span> c <span class="sc">*</span> <span class="fu">exp</span>(a <span class="sc">*</span> Temp.n) <span class="sc">*</span> Operc<span class="sc">^</span><span class="fl">2.32</span>,</span>
+<span id="cb72-2"><a href="#cb72-2" aria-hidden="true" tabindex="-1"></a>                        <span class="at">data =</span> resp_below_25,</span>
+<span id="cb72-3"><a href="#cb72-3" aria-hidden="true" tabindex="-1"></a>                        <span class="at">fixed =</span> a <span class="sc">+</span> c <span class="sc">~</span> <span class="dv">1</span>,</span>
+<span id="cb72-4"><a href="#cb72-4" aria-hidden="true" tabindex="-1"></a>                        <span class="at">random =</span> c <span class="sc">~</span> <span class="dv">1</span>,</span>
+<span id="cb72-5"><a href="#cb72-5" aria-hidden="true" tabindex="-1"></a>                        <span class="at">groups =</span> <span class="sc">~</span> Barnacle,</span>
+<span id="cb72-6"><a href="#cb72-6" aria-hidden="true" tabindex="-1"></a>                        <span class="at">start =</span> <span class="fu">c</span>(<span class="at">a =</span> <span class="fl">0.0547657</span>, <span class="at">c =</span> <span class="fl">0.0003792</span>))</span>
+<span id="cb72-7"><a href="#cb72-7" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(AER_EXPOSE_T_25) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Nonlinear mixed-effects model fit by maximum likelihood
+  Model: Respiration.Rate ~ c * exp(a * Temp.n) * Operc^2.32 
+  Data: resp_below_25 
+        AIC      BIC   logLik
+  -79.53297 -73.1989 43.76649
+
+Random effects:
+ Formula: c ~ 1 | Barnacle
+                   c   Residual
+StdDev: 2.485128e-08 0.07174233
+
+Fixed effects:  a + c ~ 1 
+       Value   Std.Error DF  t-value p-value
+a 0.06727408 0.018785384 14 3.581193  0.0030
+c 0.00072931 0.000296084 14 2.463202  0.0273
+ Correlation: 
+  a     
+c -0.976
+
+Standardized Within-Group Residuals:
+       Min         Q1        Med         Q3        Max 
+-2.0695968 -0.7307817 -0.1549091  0.5659112  2.0172261 
+
+Number of Observations: 36
+Number of Groups: 21 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb74"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a>AER_EXPOSE_T_25_a <span class="ot">&lt;-</span> AER_EXPOSE_T_25<span class="sc">$</span>coefficients<span class="sc">$</span>fixed[[<span class="dv">1</span>]]</span>
+<span id="cb74-2"><a href="#cb74-2" aria-hidden="true" tabindex="-1"></a>AER_EXPOSE_T_25_c <span class="ot">&lt;-</span> AER_EXPOSE_T_25<span class="sc">$</span>coefficients<span class="sc">$</span>fixed[[<span class="dv">2</span>]]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb75"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true" tabindex="-1"></a>AER_EXPOSE_T_30 <span class="ot">&lt;-</span> <span class="fu">nlme</span>(Respiration.Rate <span class="sc">~</span> c <span class="sc">*</span> <span class="fu">exp</span>(a <span class="sc">*</span> Temp.n) <span class="sc">*</span> Operc<span class="sc">^</span><span class="fl">2.32</span>,</span>
+<span id="cb75-2"><a href="#cb75-2" aria-hidden="true" tabindex="-1"></a>                        <span class="at">data =</span> resp_below_30,</span>
+<span id="cb75-3"><a href="#cb75-3" aria-hidden="true" tabindex="-1"></a>                        <span class="at">fixed =</span> a <span class="sc">+</span> c <span class="sc">~</span> <span class="dv">1</span>,</span>
+<span id="cb75-4"><a href="#cb75-4" aria-hidden="true" tabindex="-1"></a>                        <span class="at">random =</span> c <span class="sc">~</span> <span class="dv">1</span>,</span>
+<span id="cb75-5"><a href="#cb75-5" aria-hidden="true" tabindex="-1"></a>                        <span class="at">groups =</span> <span class="sc">~</span> Barnacle,</span>
+<span id="cb75-6"><a href="#cb75-6" aria-hidden="true" tabindex="-1"></a>                        <span class="at">start =</span> <span class="fu">c</span>(<span class="at">a =</span> <span class="fl">0.0547657</span>, <span class="at">c =</span> <span class="fl">0.0003792</span>))</span>
+<span id="cb75-7"><a href="#cb75-7" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(AER_EXPOSE_T_30) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Nonlinear mixed-effects model fit by maximum likelihood
+  Model: Respiration.Rate ~ c * exp(a * Temp.n) * Operc^2.32 
+  Data: resp_below_30 
+        AIC       BIC   logLik
+  -101.7062 -94.47956 54.85311
+
+Random effects:
+ Formula: c ~ 1 | Barnacle
+                   c   Residual
+StdDev: 4.496001e-08 0.07151154
+
+Fixed effects:  a + c ~ 1 
+       Value   Std.Error DF  t-value p-value
+a 0.04562356 0.011564376 23 3.945181  0.0006
+c 0.00105427 0.000304119 23 3.466623  0.0021
+ Correlation: 
+  a     
+c -0.967
+
+Standardized Within-Group Residuals:
+        Min          Q1         Med          Q3         Max 
+-1.96859863 -0.61433906 -0.05521091  0.46918812  1.96195112 
+
+Number of Observations: 45
+Number of Groups: 21 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb77"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb77-1"><a href="#cb77-1" aria-hidden="true" tabindex="-1"></a>AER_EXPOSE_T_30_a <span class="ot">&lt;-</span> AER_EXPOSE_T_30<span class="sc">$</span>coefficients<span class="sc">$</span>fixed[[<span class="dv">1</span>]]</span>
+<span id="cb77-2"><a href="#cb77-2" aria-hidden="true" tabindex="-1"></a>AER_EXPOSE_T_30_c <span class="ot">&lt;-</span> AER_EXPOSE_T_30<span class="sc">$</span>coefficients<span class="sc">$</span>fixed[[<span class="dv">2</span>]]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb78"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb78-1"><a href="#cb78-1" aria-hidden="true" tabindex="-1"></a>AER_EXPOSE_T_all <span class="ot">&lt;-</span> <span class="fu">nlme</span>(Respiration.Rate <span class="sc">~</span> c <span class="sc">*</span> <span class="fu">exp</span>(a1<span class="sc">*</span>Temp.n) <span class="sc">*</span> <span class="fu">exp</span>(a2<span class="sc">*</span>Temp.n<span class="sc">^</span><span class="dv">2</span>) <span class="sc">*</span> Operc<span class="sc">^</span><span class="fl">2.32</span>,</span>
+<span id="cb78-2"><a href="#cb78-2" aria-hidden="true" tabindex="-1"></a>                         <span class="at">data =</span> resp,</span>
+<span id="cb78-3"><a href="#cb78-3" aria-hidden="true" tabindex="-1"></a>                         <span class="at">fixed =</span> a1 <span class="sc">+</span> a2 <span class="sc">+</span> c <span class="sc">~</span> <span class="dv">1</span>,</span>
+<span id="cb78-4"><a href="#cb78-4" aria-hidden="true" tabindex="-1"></a>                         <span class="at">random =</span> c <span class="sc">~</span> <span class="dv">1</span>,</span>
+<span id="cb78-5"><a href="#cb78-5" aria-hidden="true" tabindex="-1"></a>                         <span class="at">groups =</span> <span class="sc">~</span> Barnacle,</span>
+<span id="cb78-6"><a href="#cb78-6" aria-hidden="true" tabindex="-1"></a>                         <span class="at">start =</span> <span class="fu">c</span>(<span class="at">a1 =</span> <span class="fl">2.201e-01</span>, <span class="at">a2 =</span> <span class="sc">-</span><span class="fl">4.623e-03</span>, <span class="at">c =</span> <span class="fl">1.433e-05</span>))</span>
+<span id="cb78-7"><a href="#cb78-7" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(AER_EXPOSE_T_all) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Nonlinear mixed-effects model fit by maximum likelihood
+  Model: Respiration.Rate ~ c * exp(a1 * Temp.n) * exp(a2 * Temp.n^2) *      Operc^2.32 
+  Data: resp 
+        AIC      BIC   logLik
+  -134.7807 -124.065 72.39035
+
+Random effects:
+ Formula: c ~ 1 | Barnacle
+                   c   Residual
+StdDev: 1.957763e-09 0.07668941
+
+Fixed effects:  a1 + a2 + c ~ 1 
+         Value  Std.Error DF   t-value p-value
+a1  0.19135364 0.05626881 40  3.400705  0.0015
+a2 -0.00335510 0.00105078 40 -3.192978  0.0027
+c   0.00025335 0.00018253 40  1.388047  0.1728
+ Correlation: 
+   a1     a2    
+a2 -0.988       
+c  -0.979  0.938
+
+Standardized Within-Group Residuals:
+       Min         Q1        Med         Q3        Max 
+-2.0738357 -0.7486660 -0.2012656  0.4367642  3.4985766 
+
+Number of Observations: 63
+Number of Groups: 21 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb80"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb80-1"><a href="#cb80-1" aria-hidden="true" tabindex="-1"></a>AER_EXPOSE_T_all_a1 <span class="ot">&lt;-</span> AER_EXPOSE_T_all<span class="sc">$</span>coefficients<span class="sc">$</span>fixed[[<span class="dv">1</span>]]</span>
+<span id="cb80-2"><a href="#cb80-2" aria-hidden="true" tabindex="-1"></a>AER_EXPOSE_T_all_a2 <span class="ot">&lt;-</span> AER_EXPOSE_T_all<span class="sc">$</span>coefficients<span class="sc">$</span>fixed[[<span class="dv">2</span>]]</span>
+<span id="cb80-3"><a href="#cb80-3" aria-hidden="true" tabindex="-1"></a>AER_EXPOSE_T_all_c <span class="ot">&lt;-</span> AER_EXPOSE_T_all<span class="sc">$</span>coefficients<span class="sc">$</span>fixed[[<span class="dv">3</span>]]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Set functions</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb81"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb81-1"><a href="#cb81-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Aerial exposure respiration rate</span></span>
+<span id="cb81-2"><a href="#cb81-2" aria-hidden="true" tabindex="-1"></a>AER_EXPOSE_T_25_fcn <span class="ot">&lt;-</span> <span class="cf">function</span>(temp, size, <span class="at">c =</span> AER_EXPOSE_T_25_c, <span class="at">a =</span> AER_EXPOSE_T_25_a) {</span>
+<span id="cb81-3"><a href="#cb81-3" aria-hidden="true" tabindex="-1"></a>  out <span class="ot">&lt;-</span> c <span class="sc">*</span> <span class="fu">exp</span>(a <span class="sc">*</span> temp) <span class="sc">*</span> size<span class="sc">^</span><span class="fl">2.32</span></span>
+<span id="cb81-4"><a href="#cb81-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(out)</span>
+<span id="cb81-5"><a href="#cb81-5" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb81-6"><a href="#cb81-6" aria-hidden="true" tabindex="-1"></a>AER_EXPOSE_T_30_fcn <span class="ot">&lt;-</span> <span class="cf">function</span>(temp, size, <span class="at">c =</span> AER_EXPOSE_T_30_c, <span class="at">a =</span> AER_EXPOSE_T_30_a) {</span>
+<span id="cb81-7"><a href="#cb81-7" aria-hidden="true" tabindex="-1"></a>  out <span class="ot">&lt;-</span> c <span class="sc">*</span> <span class="fu">exp</span>(a <span class="sc">*</span> temp) <span class="sc">*</span> size<span class="sc">^</span><span class="fl">2.32</span></span>
+<span id="cb81-8"><a href="#cb81-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(out)</span>
+<span id="cb81-9"><a href="#cb81-9" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb81-10"><a href="#cb81-10" aria-hidden="true" tabindex="-1"></a>AER_EXPOSE_T_all_fcn <span class="ot">&lt;-</span> <span class="cf">function</span>(temp, size, <span class="at">c =</span> AER_EXPOSE_T_all_c, <span class="at">a1 =</span> AER_EXPOSE_T_all_a1, <span class="at">a2 =</span> AER_EXPOSE_T_all_a2) {</span>
+<span id="cb81-11"><a href="#cb81-11" aria-hidden="true" tabindex="-1"></a>  out <span class="ot">&lt;-</span> c <span class="sc">*</span> <span class="fu">exp</span>(a1 <span class="sc">*</span> temp) <span class="sc">*</span> <span class="fu">exp</span>(a2 <span class="sc">*</span> temp<span class="sc">^</span><span class="dv">2</span>) <span class="sc">*</span> size<span class="sc">^</span><span class="fl">2.32</span></span>
+<span id="cb81-12"><a href="#cb81-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(out)</span>
+<span id="cb81-13"><a href="#cb81-13" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="compare-predicted-respiration-curves-from-aerial-exposure." class="level4">
+<h4 class="anchored" data-anchor-id="compare-predicted-respiration-curves-from-aerial-exposure.">Compare predicted respiration curves from aerial exposure.</h4>
+<p>The dashed line indicates the growth curve when data up to 25C is used.</p>
+<p>The solid line indicates the growth curve when data up to 30C is used.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb82"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb82-1"><a href="#cb82-1" aria-hidden="true" tabindex="-1"></a><span class="co"># predicted values of respiration at a particular size and temp, above and below the graph axis limits won't be included on the graph, and this will produce an unnecessary warning</span></span>
+<span id="cb82-2"><a href="#cb82-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb82-3"><a href="#cb82-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Predicted values based on temp and size and function</span></span>
+<span id="cb82-4"><a href="#cb82-4" aria-hidden="true" tabindex="-1"></a>pred.dat<span class="sc">$</span>pred_25 <span class="ot">&lt;-</span> <span class="fu">AER_EXPOSE_T_25_fcn</span>(pred.dat<span class="sc">$</span>Temp.n, pred.dat<span class="sc">$</span>Operc)</span>
+<span id="cb82-5"><a href="#cb82-5" aria-hidden="true" tabindex="-1"></a>pred.dat<span class="sc">$</span>pred_30 <span class="ot">&lt;-</span> <span class="fu">AER_EXPOSE_T_30_fcn</span>(pred.dat<span class="sc">$</span>Temp.n, pred.dat<span class="sc">$</span>Operc)</span>
+<span id="cb82-6"><a href="#cb82-6" aria-hidden="true" tabindex="-1"></a>pred.dat<span class="sc">$</span>pred_all <span class="ot">&lt;-</span> <span class="fu">AER_EXPOSE_T_all_fcn</span>(pred.dat<span class="sc">$</span>Temp.n, pred.dat<span class="sc">$</span>Operc)</span>
+<span id="cb82-7"><a href="#cb82-7" aria-hidden="true" tabindex="-1"></a>pred.dat.air<span class="sc">$</span>pred_25 <span class="ot">&lt;-</span> <span class="fu">AER_EXPOSE_T_25_fcn</span>(pred.dat.air<span class="sc">$</span>Temp.n, pred.dat.air<span class="sc">$</span>Operc)</span>
+<span id="cb82-8"><a href="#cb82-8" aria-hidden="true" tabindex="-1"></a>pred.dat.air<span class="sc">$</span>pred_30 <span class="ot">&lt;-</span> <span class="fu">AER_EXPOSE_T_30_fcn</span>(pred.dat.air<span class="sc">$</span>Temp.n, pred.dat.air<span class="sc">$</span>Operc)</span>
+<span id="cb82-9"><a href="#cb82-9" aria-hidden="true" tabindex="-1"></a>pred.dat.air<span class="sc">$</span>pred_all <span class="ot">&lt;-</span> <span class="fu">AER_EXPOSE_T_all_fcn</span>(pred.dat.air<span class="sc">$</span>Temp.n, pred.dat.air<span class="sc">$</span>Operc)</span>
+<span id="cb82-10"><a href="#cb82-10" aria-hidden="true" tabindex="-1"></a>pred.dat.air<span class="sc">$</span>air_resp_exposure_25 <span class="ot">&lt;-</span> <span class="fu">AER_EXPOSE_T_25_fcn</span>(<span class="at">temp =</span> pred.dat.air<span class="sc">$</span>Temp.n, <span class="at">size =</span> pred.dat.air<span class="sc">$</span>OperculumLength)</span>
+<span id="cb82-11"><a href="#cb82-11" aria-hidden="true" tabindex="-1"></a>pred.dat.air<span class="sc">$</span>air_resp_exposure_30 <span class="ot">&lt;-</span> <span class="fu">AER_EXPOSE_T_30_fcn</span>(<span class="at">temp =</span> pred.dat.air<span class="sc">$</span>Temp.n, <span class="at">size =</span> pred.dat.air<span class="sc">$</span>OperculumLength)</span>
+<span id="cb82-12"><a href="#cb82-12" aria-hidden="true" tabindex="-1"></a>pred.dat.air<span class="sc">$</span>air_resp_exposure_all <span class="ot">&lt;-</span> <span class="fu">AER_EXPOSE_T_all_fcn</span>(<span class="at">temp =</span> pred.dat.air<span class="sc">$</span>Temp.n, <span class="at">size =</span> pred.dat.air<span class="sc">$</span>OperculumLength)</span>
+<span id="cb82-13"><a href="#cb82-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb82-14"><a href="#cb82-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb82-15"><a href="#cb82-15" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(figs <span class="sc">==</span> <span class="st">"Y"</span>){</span>
+<span id="cb82-16"><a href="#cb82-16" aria-hidden="true" tabindex="-1"></a>  <span class="co"># ggplot(resp,aes(x=Temp.n,y=Respiration.Rate,color=factor(sizeclass)))+</span></span>
+<span id="cb82-17"><a href="#cb82-17" aria-hidden="true" tabindex="-1"></a>  <span class="co">#   geom_point()+</span></span>
+<span id="cb82-18"><a href="#cb82-18" aria-hidden="true" tabindex="-1"></a>  <span class="co">#   ylab("Aerial Respiration (umol per 15 min)") +</span></span>
+<span id="cb82-19"><a href="#cb82-19" aria-hidden="true" tabindex="-1"></a>  <span class="co">#   xlab("Temp (deg C)")+</span></span>
+<span id="cb82-20"><a href="#cb82-20" aria-hidden="true" tabindex="-1"></a>  <span class="co">#   geom_line(data = pred.dat, aes(x = as.numeric(Temp.n),</span></span>
+<span id="cb82-21"><a href="#cb82-21" aria-hidden="true" tabindex="-1"></a>  <span class="co">#                                  y=as.numeric(pred_30), color = factor(sizeclass)), linetype = "dashed")+</span></span>
+<span id="cb82-22"><a href="#cb82-22" aria-hidden="true" tabindex="-1"></a>  <span class="co">#   geom_line(data = pred.dat, aes(x = as.numeric(Temp.n),</span></span>
+<span id="cb82-23"><a href="#cb82-23" aria-hidden="true" tabindex="-1"></a>  <span class="co">#                                  y=as.numeric(pred_all), color = factor(sizeclass)), linetype = "dotted")+</span></span>
+<span id="cb82-24"><a href="#cb82-24" aria-hidden="true" tabindex="-1"></a>  <span class="co">#   geom_line(data = pred.dat, aes(x = as.numeric(Temp.n),</span></span>
+<span id="cb82-25"><a href="#cb82-25" aria-hidden="true" tabindex="-1"></a>  <span class="co">#                                  y=as.numeric(pred_25), color = factor(sizeclass)), linetype = "solid")</span></span>
+<span id="cb82-26"><a href="#cb82-26" aria-hidden="true" tabindex="-1"></a>  resp_exp <span class="ot">&lt;-</span> resp</span>
+<span id="cb82-27"><a href="#cb82-27" aria-hidden="true" tabindex="-1"></a>  gg3 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(resp_exp,<span class="fu">aes</span>(<span class="at">x=</span>Temp.n,<span class="at">y=</span>Respiration.Rate<span class="sc">/</span><span class="dv">15</span>,<span class="at">color=</span>Operc))<span class="sc">+</span></span>
+<span id="cb82-28"><a href="#cb82-28" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>()<span class="sc">+</span></span>
+<span id="cb82-29"><a href="#cb82-29" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_color_viridis</span>(<span class="at">option =</span> <span class="st">"D"</span>, <span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">4</span>,<span class="dv">7</span>))<span class="sc">+</span></span>
+<span id="cb82-30"><a href="#cb82-30" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_line</span>(<span class="at">data =</span> pred.dat.air, </span>
+<span id="cb82-31"><a href="#cb82-31" aria-hidden="true" tabindex="-1"></a>              <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">as.numeric</span>(Temp.n), </span>
+<span id="cb82-32"><a href="#cb82-32" aria-hidden="true" tabindex="-1"></a>                  <span class="at">y=</span><span class="fu">as.numeric</span>(pred_25)<span class="sc">/</span><span class="dv">15</span>, </span>
+<span id="cb82-33"><a href="#cb82-33" aria-hidden="true" tabindex="-1"></a>                  <span class="at">color =</span> OperculumLength, <span class="at">group =</span> <span class="fu">as.factor</span>(sizeclass)), <span class="at">linetype =</span> <span class="st">"dashed"</span>)<span class="sc">+</span></span>
+<span id="cb82-34"><a href="#cb82-34" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_line</span>(<span class="at">data =</span> pred.dat.air, </span>
+<span id="cb82-35"><a href="#cb82-35" aria-hidden="true" tabindex="-1"></a>              <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">as.numeric</span>(Temp.n), </span>
+<span id="cb82-36"><a href="#cb82-36" aria-hidden="true" tabindex="-1"></a>                  <span class="at">y=</span><span class="fu">as.numeric</span>(pred_30)<span class="sc">/</span><span class="dv">15</span>, </span>
+<span id="cb82-37"><a href="#cb82-37" aria-hidden="true" tabindex="-1"></a>                  <span class="at">color =</span> OperculumLength, <span class="at">group =</span> <span class="fu">as.factor</span>(sizeclass)))<span class="sc">+</span></span>
+<span id="cb82-38"><a href="#cb82-38" aria-hidden="true" tabindex="-1"></a>    <span class="fu">xlim</span>(<span class="dv">5</span>,<span class="dv">34</span>)<span class="sc">+</span></span>
+<span id="cb82-39"><a href="#cb82-39" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ylim</span>(<span class="dv">0</span>,.<span class="dv">03</span>)<span class="sc">+</span></span>
+<span id="cb82-40"><a href="#cb82-40" aria-hidden="true" tabindex="-1"></a>    <span class="fu">xlab</span>(<span class="fu">expression</span>(<span class="fu">paste</span>(<span class="st">"Low tide temp ("</span>,degree,<span class="st">"C)"</span>)))<span class="sc">+</span></span>
+<span id="cb82-41"><a href="#cb82-41" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ylab</span>(<span class="st">"Aerial repiration during exposure </span><span class="sc">\n</span><span class="st"> (umol per min)"</span>)</span>
+<span id="cb82-42"><a href="#cb82-42" aria-hidden="true" tabindex="-1"></a>  gg3  </span>
+<span id="cb82-43"><a href="#cb82-43" aria-hidden="true" tabindex="-1"></a>  }</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="model_setup_files/figure-html/unnamed-chunk-27-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+</section>
+<section id="aerial-recovery-respiration-temp" class="level2">
+<h2 class="anchored" data-anchor-id="aerial-recovery-respiration-temp">Aerial recovery respiration ~ Temp</h2>
+<p>We start with umol oxygen total, but then calculate umol oxygen per 15 min exposure # Upslope to 30 deg C</p>
+<p>Two hypotheses: Upslope vs.&nbsp;unimodal hypothesis</p>
+<p>Original file location:</p>
+<p>setwd(“~/Box/Sarah and Molly’s Box/FHL data/aerial resp”) setwd(“C:/Users/eroberts/Box/Sarah and Molly’s Box/FHL data/aerial resp”)</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb83"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb83-1"><a href="#cb83-1" aria-hidden="true" tabindex="-1"></a><span class="co">#setwd("~/Documents/GitHub/Bglandula_FHL_energetics/data/physiology_data")</span></span>
+<span id="cb83-2"><a href="#cb83-2" aria-hidden="true" tabindex="-1"></a>resp<span class="ot">&lt;-</span> <span class="fu">read.csv</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"data/physiology_data/FHLmean15mins_recovery_forMolly_40deg.csv"</span>), <span class="at">stringsAsFactors =</span> <span class="cn">FALSE</span>, <span class="at">header =</span> T, <span class="at">sep =</span> <span class="st">","</span>)</span>
+<span id="cb83-3"><a href="#cb83-3" aria-hidden="true" tabindex="-1"></a>resp<span class="sc">$</span>Temp<span class="ot">&lt;-</span> <span class="fu">as.factor</span>(resp<span class="sc">$</span>Temp)</span>
+<span id="cb83-4"><a href="#cb83-4" aria-hidden="true" tabindex="-1"></a>resp<span class="sc">$</span>Operc <span class="ot">&lt;-</span> resp<span class="sc">$</span>operculum_length</span>
+<span id="cb83-5"><a href="#cb83-5" aria-hidden="true" tabindex="-1"></a>resp<span class="sc">$</span>Temp.n <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="fu">as.character</span>(resp<span class="sc">$</span>Temp))</span>
+<span id="cb83-6"><a href="#cb83-6" aria-hidden="true" tabindex="-1"></a>resp<span class="sc">$</span>Barnacle <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(resp<span class="sc">$</span>Barnacle)</span>
+<span id="cb83-7"><a href="#cb83-7" aria-hidden="true" tabindex="-1"></a>resp<span class="sc">$</span>Respiration.Rate <span class="ot">&lt;-</span> resp<span class="sc">$</span>total_aquat</span>
+<span id="cb83-8"><a href="#cb83-8" aria-hidden="true" tabindex="-1"></a>resp<span class="sc">$</span>sizeclass <span class="ot">&lt;-</span> <span class="fu">bin</span>(resp<span class="sc">$</span>Operc, <span class="at">nbins =</span> <span class="dv">3</span>, <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"small"</span>, <span class="st">"medium"</span>, <span class="st">"large"</span>))</span>
+<span id="cb83-9"><a href="#cb83-9" aria-hidden="true" tabindex="-1"></a>resp<span class="sc">$</span>bin <span class="ot">&lt;-</span> <span class="fu">bin</span>(resp<span class="sc">$</span>Operc, <span class="at">nbins =</span> <span class="dv">3</span>) <span class="co">#(4.02,4.97] (4.97,5.91] (5.91,6.86]</span></span>
+<span id="cb83-10"><a href="#cb83-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb83-11"><a href="#cb83-11" aria-hidden="true" tabindex="-1"></a><span class="co"># ramp.time &lt;- (resp$Temp.n-10)/10 * 1</span></span>
+<span id="cb83-12"><a href="#cb83-12" aria-hidden="true" tabindex="-1"></a><span class="co"># time.at.temp &lt;- 5 - ramp.time</span></span>
+<span id="cb83-13"><a href="#cb83-13" aria-hidden="true" tabindex="-1"></a><span class="co"># plot(resp$Temp.n, time.at.temp*60)</span></span>
+<span id="cb83-14"><a href="#cb83-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb83-15"><a href="#cb83-15" aria-hidden="true" tabindex="-1"></a>resp_below_30 <span class="ot">&lt;-</span> resp[resp<span class="sc">$</span>Temp.n <span class="sc">&lt;=</span> <span class="dv">30</span>,]</span>
+<span id="cb83-16"><a href="#cb83-16" aria-hidden="true" tabindex="-1"></a>AER_RECOVER_T_30 <span class="ot">&lt;-</span> <span class="fu">nlme</span>(Respiration.Rate <span class="sc">~</span> c <span class="sc">*</span> <span class="fu">exp</span>(a <span class="sc">*</span> Temp.n) <span class="sc">*</span> Operc<span class="sc">^</span><span class="fl">2.32</span>,</span>
+<span id="cb83-17"><a href="#cb83-17" aria-hidden="true" tabindex="-1"></a>                         <span class="at">data =</span> resp_below_30,</span>
+<span id="cb83-18"><a href="#cb83-18" aria-hidden="true" tabindex="-1"></a>                         <span class="at">fixed =</span> a <span class="sc">+</span> c <span class="sc">~</span> <span class="dv">1</span>,</span>
+<span id="cb83-19"><a href="#cb83-19" aria-hidden="true" tabindex="-1"></a>                         <span class="at">random =</span> c <span class="sc">~</span> <span class="dv">1</span>,</span>
+<span id="cb83-20"><a href="#cb83-20" aria-hidden="true" tabindex="-1"></a>                         <span class="at">groups =</span> <span class="sc">~</span> Barnacle,</span>
+<span id="cb83-21"><a href="#cb83-21" aria-hidden="true" tabindex="-1"></a>                         <span class="at">start =</span> <span class="fu">c</span>(<span class="at">a =</span> <span class="fl">0.0547657</span>, <span class="at">c =</span> <span class="fl">0.0003792</span>))</span>
+<span id="cb83-22"><a href="#cb83-22" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(AER_RECOVER_T_30)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Nonlinear mixed-effects model fit by maximum likelihood
+  Model: Respiration.Rate ~ c * exp(a * Temp.n) * Operc^2.32 
+  Data: resp_below_30 
+       AIC      BIC    logLik
+  123.8877 131.1143 -57.94383
+
+Random effects:
+ Formula: c ~ 1 | Barnacle
+                  c Residual
+StdDev: 0.005496651 0.760159
+
+Fixed effects:  a + c ~ 1 
+       Value   Std.Error DF  t-value p-value
+a 0.02533049 0.007438323 23 3.405404  0.0024
+c 0.02677801 0.004731447 23 5.659582  0.0000
+ Correlation: 
+  a     
+c -0.922
+
+Standardized Within-Group Residuals:
+        Min          Q1         Med          Q3         Max 
+-1.57906670 -0.55250688  0.04581657  0.59614924  2.87270686 
+
+Number of Observations: 45
+Number of Groups: 21 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb85"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb85-1"><a href="#cb85-1" aria-hidden="true" tabindex="-1"></a>AER_RECOVER_T_30_a <span class="ot">&lt;-</span> AER_RECOVER_T_30<span class="sc">$</span>coefficients<span class="sc">$</span>fixed[[<span class="dv">1</span>]]</span>
+<span id="cb85-2"><a href="#cb85-2" aria-hidden="true" tabindex="-1"></a>AER_RECOVER_T_30_c <span class="ot">&lt;-</span> AER_RECOVER_T_30<span class="sc">$</span>coefficients<span class="sc">$</span>fixed[[<span class="dv">2</span>]]</span>
+<span id="cb85-3"><a href="#cb85-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb85-4"><a href="#cb85-4" aria-hidden="true" tabindex="-1"></a>resp_below_25 <span class="ot">&lt;-</span> resp[resp<span class="sc">$</span>Temp.n <span class="sc">&lt;=</span> <span class="dv">25</span>,]</span>
+<span id="cb85-5"><a href="#cb85-5" aria-hidden="true" tabindex="-1"></a>AER_RECOVER_T_25 <span class="ot">&lt;-</span> <span class="fu">nlme</span>(Respiration.Rate <span class="sc">~</span> c <span class="sc">*</span> <span class="fu">exp</span>(a <span class="sc">*</span> Temp.n) <span class="sc">*</span> Operc<span class="sc">^</span><span class="fl">2.32</span>,</span>
+<span id="cb85-6"><a href="#cb85-6" aria-hidden="true" tabindex="-1"></a>                         <span class="at">data =</span> resp_below_25,</span>
+<span id="cb85-7"><a href="#cb85-7" aria-hidden="true" tabindex="-1"></a>                         <span class="at">fixed =</span> a <span class="sc">+</span> c <span class="sc">~</span> <span class="dv">1</span>,</span>
+<span id="cb85-8"><a href="#cb85-8" aria-hidden="true" tabindex="-1"></a>                         <span class="at">random =</span> c <span class="sc">~</span> <span class="dv">1</span>,</span>
+<span id="cb85-9"><a href="#cb85-9" aria-hidden="true" tabindex="-1"></a>                         <span class="at">groups =</span> <span class="sc">~</span> Barnacle,</span>
+<span id="cb85-10"><a href="#cb85-10" aria-hidden="true" tabindex="-1"></a>                         <span class="at">start =</span> <span class="fu">c</span>(<span class="at">a =</span> <span class="fl">0.0547657</span>, <span class="at">c =</span> <span class="fl">0.0003792</span>))</span>
+<span id="cb85-11"><a href="#cb85-11" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(AER_RECOVER_T_25)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Nonlinear mixed-effects model fit by maximum likelihood
+  Model: Respiration.Rate ~ c * exp(a * Temp.n) * Operc^2.32 
+  Data: resp_below_25 
+       AIC      BIC    logLik
+  104.9978 111.3319 -48.49889
+
+Random effects:
+ Formula: c ~ 1 | Barnacle
+                   c  Residual
+StdDev: 1.339203e-06 0.9307663
+
+Fixed effects:  a + c ~ 1 
+       Value   Std.Error DF  t-value p-value
+a 0.02540683 0.012634883 14 2.010848  0.0640
+c 0.02825925 0.007015643 14 4.028034  0.0012
+ Correlation: 
+  a     
+c -0.961
+
+Standardized Within-Group Residuals:
+        Min          Q1         Med          Q3         Max 
+-1.90738673 -0.54799397 -0.03808919  0.85642994  2.64246833 
+
+Number of Observations: 36
+Number of Groups: 21 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb87"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb87-1"><a href="#cb87-1" aria-hidden="true" tabindex="-1"></a>AER_RECOVER_T_25_a <span class="ot">&lt;-</span> AER_RECOVER_T_25<span class="sc">$</span>coefficients<span class="sc">$</span>fixed[[<span class="dv">1</span>]]</span>
+<span id="cb87-2"><a href="#cb87-2" aria-hidden="true" tabindex="-1"></a>AER_RECOVER_T_25_c <span class="ot">&lt;-</span> AER_RECOVER_T_25<span class="sc">$</span>coefficients<span class="sc">$</span>fixed[[<span class="dv">2</span>]]</span>
+<span id="cb87-3"><a href="#cb87-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb87-4"><a href="#cb87-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb87-5"><a href="#cb87-5" aria-hidden="true" tabindex="-1"></a>AER_RECOVER_T_all <span class="ot">&lt;-</span> <span class="fu">nlme</span>(Respiration.Rate <span class="sc">~</span> c <span class="sc">*</span> <span class="fu">exp</span>(a1<span class="sc">*</span>Temp.n) <span class="sc">*</span> <span class="fu">exp</span>(a2<span class="sc">*</span>Temp.n<span class="sc">^</span><span class="dv">2</span>) <span class="sc">*</span> Operc<span class="sc">^</span><span class="fl">2.32</span>,</span>
+<span id="cb87-6"><a href="#cb87-6" aria-hidden="true" tabindex="-1"></a>                         <span class="at">data =</span> resp,</span>
+<span id="cb87-7"><a href="#cb87-7" aria-hidden="true" tabindex="-1"></a>                         <span class="at">fixed =</span> a1 <span class="sc">+</span> a2 <span class="sc">+</span> c <span class="sc">~</span> <span class="dv">1</span>,</span>
+<span id="cb87-8"><a href="#cb87-8" aria-hidden="true" tabindex="-1"></a>                         <span class="at">random =</span> c <span class="sc">~</span> <span class="dv">1</span>,</span>
+<span id="cb87-9"><a href="#cb87-9" aria-hidden="true" tabindex="-1"></a>                         <span class="at">groups =</span> <span class="sc">~</span> Barnacle,</span>
+<span id="cb87-10"><a href="#cb87-10" aria-hidden="true" tabindex="-1"></a>                         <span class="at">start =</span> <span class="fu">c</span>(<span class="at">a1 =</span> <span class="fl">2.201e-01</span>, <span class="at">a2 =</span> <span class="sc">-</span><span class="fl">4.623e-03</span>, <span class="at">c =</span> <span class="fl">1.433e-05</span>))</span>
+<span id="cb87-11"><a href="#cb87-11" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(AER_RECOVER_T_all)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Nonlinear mixed-effects model fit by maximum likelihood
+  Model: Respiration.Rate ~ c * exp(a1 * Temp.n) * exp(a2 * Temp.n^2) *      Operc^2.32 
+  Data: resp 
+       AIC      BIC    logLik
+  167.9247 178.6404 -78.96236
+
+Random effects:
+ Formula: c ~ 1 | Barnacle
+                   c  Residual
+StdDev: 5.448401e-08 0.8474125
+
+Fixed effects:  a1 + a2 + c ~ 1 
+         Value  Std.Error DF   t-value p-value
+a1  0.14562776 0.03741116 40  3.892628  0.0004
+a2 -0.00320358 0.00077597 40 -4.128459  0.0002
+c   0.01013594 0.00428170 40  2.367269  0.0228
+ Correlation: 
+   a1     a2    
+a2 -0.984       
+c  -0.973  0.923
+
+Standardized Within-Group Residuals:
+        Min          Q1         Med          Q3         Max 
+-2.18659017 -0.71761141 -0.03861931  0.66984195  2.61181772 
+
+Number of Observations: 63
+Number of Groups: 21 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb89"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb89-1"><a href="#cb89-1" aria-hidden="true" tabindex="-1"></a>AER_RECOVER_T_all_a1 <span class="ot">&lt;-</span> AER_RECOVER_T_all<span class="sc">$</span>coefficients<span class="sc">$</span>fixed[[<span class="dv">1</span>]]</span>
+<span id="cb89-2"><a href="#cb89-2" aria-hidden="true" tabindex="-1"></a>AER_RECOVER_T_all_a2 <span class="ot">&lt;-</span> AER_RECOVER_T_all<span class="sc">$</span>coefficients<span class="sc">$</span>fixed[[<span class="dv">2</span>]]</span>
+<span id="cb89-3"><a href="#cb89-3" aria-hidden="true" tabindex="-1"></a>AER_RECOVER_T_all_c <span class="ot">&lt;-</span> AER_RECOVER_T_all<span class="sc">$</span>coefficients<span class="sc">$</span>fixed[[<span class="dv">3</span>]]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb90"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb90-1"><a href="#cb90-1" aria-hidden="true" tabindex="-1"></a>AER_RECOVER_T_25_fcn <span class="ot">&lt;-</span> <span class="cf">function</span>(temp, size, <span class="at">c =</span> AER_RECOVER_T_25_c, <span class="at">a =</span> AER_RECOVER_T_25_a) {</span>
+<span id="cb90-2"><a href="#cb90-2" aria-hidden="true" tabindex="-1"></a>  out <span class="ot">&lt;-</span> c <span class="sc">*</span> <span class="fu">exp</span>(a <span class="sc">*</span> temp) <span class="sc">*</span> size<span class="sc">^</span><span class="fl">2.32</span></span>
+<span id="cb90-3"><a href="#cb90-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(out)</span>
+<span id="cb90-4"><a href="#cb90-4" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb90-5"><a href="#cb90-5" aria-hidden="true" tabindex="-1"></a>AER_RECOVER_T_30_fcn <span class="ot">&lt;-</span> <span class="cf">function</span>(temp, size, <span class="at">c =</span> AER_RECOVER_T_30_c, <span class="at">a =</span> AER_RECOVER_T_30_a) {</span>
+<span id="cb90-6"><a href="#cb90-6" aria-hidden="true" tabindex="-1"></a>  out <span class="ot">&lt;-</span> c <span class="sc">*</span> <span class="fu">exp</span>(a <span class="sc">*</span> temp) <span class="sc">*</span> size<span class="sc">^</span><span class="fl">2.32</span></span>
+<span id="cb90-7"><a href="#cb90-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(out)</span>
+<span id="cb90-8"><a href="#cb90-8" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb90-9"><a href="#cb90-9" aria-hidden="true" tabindex="-1"></a>AER_RECOVER_T_all_fcn <span class="ot">&lt;-</span> <span class="cf">function</span>(temp, size, <span class="at">c =</span> AER_RECOVER_T_all_c, <span class="at">a1 =</span> AER_RECOVER_T_all_a1, <span class="at">a2 =</span> AER_RECOVER_T_all_a2) {</span>
+<span id="cb90-10"><a href="#cb90-10" aria-hidden="true" tabindex="-1"></a>  out <span class="ot">&lt;-</span> c <span class="sc">*</span> <span class="fu">exp</span>(a1 <span class="sc">*</span> temp) <span class="sc">*</span> <span class="fu">exp</span>(a2 <span class="sc">*</span> temp<span class="sc">^</span><span class="dv">2</span>) <span class="sc">*</span> size<span class="sc">^</span><span class="fl">2.32</span></span>
+<span id="cb90-11"><a href="#cb90-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(out)</span>
+<span id="cb90-12"><a href="#cb90-12" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb90-13"><a href="#cb90-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb90-14"><a href="#cb90-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Here I need to add the weirdness bit to account for time... but after I calc this is OK... </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Again the dashed line represents the fit if data up to 25C is used.</p>
+<p>The solid line represents the fit if data up to 30C is used.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb91"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb91-1"><a href="#cb91-1" aria-hidden="true" tabindex="-1"></a>pred.dat<span class="sc">$</span>pred_25 <span class="ot">&lt;-</span> <span class="fu">AER_RECOVER_T_25_fcn</span>(pred.dat<span class="sc">$</span>Temp.n, pred.dat<span class="sc">$</span>Operc)</span>
+<span id="cb91-2"><a href="#cb91-2" aria-hidden="true" tabindex="-1"></a>pred.dat<span class="sc">$</span>pred_30 <span class="ot">&lt;-</span> <span class="fu">AER_RECOVER_T_30_fcn</span>(pred.dat<span class="sc">$</span>Temp.n, pred.dat<span class="sc">$</span>Operc)</span>
+<span id="cb91-3"><a href="#cb91-3" aria-hidden="true" tabindex="-1"></a>pred.dat<span class="sc">$</span>pred_all <span class="ot">&lt;-</span> <span class="fu">AER_RECOVER_T_all_fcn</span>(pred.dat<span class="sc">$</span>Temp.n, pred.dat<span class="sc">$</span>Operc)</span>
+<span id="cb91-4"><a href="#cb91-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb91-5"><a href="#cb91-5" aria-hidden="true" tabindex="-1"></a>pred.dat.air<span class="sc">$</span>pred_25 <span class="ot">&lt;-</span> <span class="fu">AER_RECOVER_T_25_fcn</span>(pred.dat.air<span class="sc">$</span>Temp.n, pred.dat.air<span class="sc">$</span>Operc)</span>
+<span id="cb91-6"><a href="#cb91-6" aria-hidden="true" tabindex="-1"></a>pred.dat.air<span class="sc">$</span>pred_30 <span class="ot">&lt;-</span> <span class="fu">AER_RECOVER_T_30_fcn</span>(pred.dat.air<span class="sc">$</span>Temp.n, pred.dat.air<span class="sc">$</span>Operc)</span>
+<span id="cb91-7"><a href="#cb91-7" aria-hidden="true" tabindex="-1"></a>pred.dat.air<span class="sc">$</span>pred_all <span class="ot">&lt;-</span> <span class="fu">AER_RECOVER_T_all_fcn</span>(pred.dat.air<span class="sc">$</span>Temp.n, pred.dat.air<span class="sc">$</span>Operc)</span>
+<span id="cb91-8"><a href="#cb91-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb91-9"><a href="#cb91-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb91-10"><a href="#cb91-10" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(figs <span class="sc">==</span> <span class="st">"Y"</span>){</span>
+<span id="cb91-11"><a href="#cb91-11" aria-hidden="true" tabindex="-1"></a>  <span class="co"># ggplot(resp,aes(x=Temp.n,y=Respiration.Rate,color=factor(sizeclass)))+</span></span>
+<span id="cb91-12"><a href="#cb91-12" aria-hidden="true" tabindex="-1"></a>  <span class="co">#   geom_point()+</span></span>
+<span id="cb91-13"><a href="#cb91-13" aria-hidden="true" tabindex="-1"></a>  <span class="co">#   ylab("Aerial recover respiration (total umol)") +</span></span>
+<span id="cb91-14"><a href="#cb91-14" aria-hidden="true" tabindex="-1"></a>  <span class="co">#   xlab("Temp (deg C)")+</span></span>
+<span id="cb91-15"><a href="#cb91-15" aria-hidden="true" tabindex="-1"></a>  <span class="co">#   # geom_line(data = pred.dat, aes(x = as.numeric(Temp.n),</span></span>
+<span id="cb91-16"><a href="#cb91-16" aria-hidden="true" tabindex="-1"></a>  <span class="co">#   #                                y=as.numeric(pred_all), color = factor(sizeclass)), linetype = "dashed")+</span></span>
+<span id="cb91-17"><a href="#cb91-17" aria-hidden="true" tabindex="-1"></a>  <span class="co">#   geom_line(data = pred.dat, aes(x = as.numeric(Temp.n),</span></span>
+<span id="cb91-18"><a href="#cb91-18" aria-hidden="true" tabindex="-1"></a>  <span class="co">#                                  y=as.numeric(pred_30), color = factor(sizeclass)), linetype = "dotted")+</span></span>
+<span id="cb91-19"><a href="#cb91-19" aria-hidden="true" tabindex="-1"></a>  <span class="co">#   geom_line(data = pred.dat, aes(x = as.numeric(Temp.n),</span></span>
+<span id="cb91-20"><a href="#cb91-20" aria-hidden="true" tabindex="-1"></a>  <span class="co">#                                  y=as.numeric(pred_25), color = factor(sizeclass)), linetype = "solid")</span></span>
+<span id="cb91-21"><a href="#cb91-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb91-22"><a href="#cb91-22" aria-hidden="true" tabindex="-1"></a>  resp_recov <span class="ot">&lt;-</span> resp</span>
+<span id="cb91-23"><a href="#cb91-23" aria-hidden="true" tabindex="-1"></a>  gg4 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(resp_recov,<span class="fu">aes</span>(<span class="at">x=</span>Temp.n,<span class="at">y=</span>Respiration.Rate,<span class="at">color=</span>Operc))<span class="sc">+</span></span>
+<span id="cb91-24"><a href="#cb91-24" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>()<span class="sc">+</span></span>
+<span id="cb91-25"><a href="#cb91-25" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_color_viridis</span>(<span class="at">option =</span> <span class="st">"D"</span>, <span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">4</span>,<span class="dv">7</span>))<span class="sc">+</span></span>
+<span id="cb91-26"><a href="#cb91-26" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_line</span>(<span class="at">data =</span> pred.dat.air, </span>
+<span id="cb91-27"><a href="#cb91-27" aria-hidden="true" tabindex="-1"></a>              <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">as.numeric</span>(Temp.n), </span>
+<span id="cb91-28"><a href="#cb91-28" aria-hidden="true" tabindex="-1"></a>                  <span class="at">y=</span><span class="fu">as.numeric</span>(pred_25), </span>
+<span id="cb91-29"><a href="#cb91-29" aria-hidden="true" tabindex="-1"></a>                  <span class="at">color =</span> OperculumLength, <span class="at">group =</span> <span class="fu">as.factor</span>(sizeclass)), <span class="at">linetype =</span> <span class="st">"dashed"</span>)<span class="sc">+</span></span>
+<span id="cb91-30"><a href="#cb91-30" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_line</span>(<span class="at">data =</span> pred.dat.air, </span>
+<span id="cb91-31"><a href="#cb91-31" aria-hidden="true" tabindex="-1"></a>              <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">as.numeric</span>(Temp.n), </span>
+<span id="cb91-32"><a href="#cb91-32" aria-hidden="true" tabindex="-1"></a>                  <span class="at">y=</span><span class="fu">as.numeric</span>(pred_30), </span>
+<span id="cb91-33"><a href="#cb91-33" aria-hidden="true" tabindex="-1"></a>                  <span class="at">color =</span> OperculumLength, <span class="at">group =</span> <span class="fu">as.factor</span>(sizeclass)))<span class="sc">+</span></span>
+<span id="cb91-34"><a href="#cb91-34" aria-hidden="true" tabindex="-1"></a>    <span class="fu">xlim</span>(<span class="dv">5</span>,<span class="dv">34</span>)<span class="sc">+</span></span>
+<span id="cb91-35"><a href="#cb91-35" aria-hidden="true" tabindex="-1"></a>    <span class="co">#ylim(0,.01)+</span></span>
+<span id="cb91-36"><a href="#cb91-36" aria-hidden="true" tabindex="-1"></a>    <span class="fu">xlab</span>(<span class="fu">expression</span>(<span class="fu">paste</span>(<span class="st">"Low tide temp ("</span>,degree,<span class="st">"C)"</span>)))<span class="sc">+</span></span>
+<span id="cb91-37"><a href="#cb91-37" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ylab</span>(<span class="st">"Aerial recovery total respiration </span><span class="sc">\n</span><span class="st"> (total umol)"</span>)</span>
+<span id="cb91-38"><a href="#cb91-38" aria-hidden="true" tabindex="-1"></a>  gg4   </span>
+<span id="cb91-39"><a href="#cb91-39" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb91-40"><a href="#cb91-40" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="model_setup_files/figure-html/unnamed-chunk-30-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb92"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb92-1"><a href="#cb92-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggarrange</span>(gg1,gg3,gg2,gg4, <span class="at">ncol=</span><span class="dv">2</span>, <span class="at">nrow=</span><span class="dv">2</span>, <span class="at">common.legend =</span> <span class="cn">TRUE</span>, <span class="at">legend=</span><span class="st">"bottom"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="model_setup_files/figure-html/unnamed-chunk-31-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="section" class="level2">
+<h2 class="anchored" data-anchor-id="section"></h2>
+</section>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>
